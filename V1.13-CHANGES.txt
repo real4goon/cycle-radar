@@ -1,0 +1,9 @@
+v1.13 Extended-hours 강화
+
+- GitHub Actions: KST 20:00 ~ 익일 09:00까지 갱신
+- 프리/애프터마켓 움직임을 정규장 점수와 분리
+- Extended-hours 보정: 최대 ±4점
+- SPY 대비 장외 상대강도도 보정에 반영
+- 산업 상세창에 프리/애프터 변동률 및 점수 보정 표시
+- Telegram 신호 발생 시 프리/애프터 변동률과 보정점수 표시
+- Yahoo extended-hours 데이터 특성상 지연/누락 가능성 안내 유지
