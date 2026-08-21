@@ -298,7 +298,44 @@ def market_session(now_et):
     return "closed", "미국장 외 시간의 마지막 데이터 관점"
 
 
-def calc_sector(primary, spy_df, spy_ext_price=None, ten_y_change=0, vix=20):
+def market_breadth_score(spy_df, spy_ext_price=None):
+    """Free breadth proxy: equal-weight vs cap-weight participation in S&P 500 and Nasdaq-100."""
+    spy = spy_df["Close"].dropna().astype(float).copy()
+    if spy_ext_price is not None and len(spy):
+        spy.iloc[-1] = float(spy_ext_price)
+
+    pairs = [("RSP", "SPY"), ("QQQE", "QQQ")]
+    components = []
+    raw = {}
+    for equal_ticker, cap_ticker in pairs:
+        try:
+            eq = daily_history(equal_ticker, "6mo")["Close"].dropna().astype(float).copy()
+            cap = spy.copy() if cap_ticker == "SPY" else daily_history(cap_ticker, "6mo")["Close"].dropna().astype(float).copy()
+            eq_ext, _, _ = latest_extended(equal_ticker)
+            cap_ext = spy_ext_price if cap_ticker == "SPY" else latest_extended(cap_ticker)[0]
+            if eq_ext is not None and len(eq):
+                eq.iloc[-1] = float(eq_ext)
+            if cap_ext is not None and len(cap):
+                cap.iloc[-1] = float(cap_ext)
+            if len(eq) > 21 and len(cap) > 21:
+                eq5 = (float(eq.iloc[-1]) / float(eq.iloc[-6]) - 1) * 100
+                cap5 = (float(cap.iloc[-1]) / float(cap.iloc[-6]) - 1) * 100
+                eq20 = (float(eq.iloc[-1]) / float(eq.iloc[-21]) - 1) * 100
+                cap20 = (float(cap.iloc[-1]) / float(cap.iloc[-21]) - 1) * 100
+                rs5 = eq5 - cap5
+                rs20 = eq20 - cap20
+                # Positive values mean participation is broadening beyond mega-cap leadership.
+                score = clamp(50 + rs5 * 6 + rs20 * 3)
+                components.append(score)
+                raw[f"{equal_ticker}_vs_{cap_ticker}_5d"] = round(rs5, 2)
+                raw[f"{equal_ticker}_vs_{cap_ticker}_20d"] = round(rs20, 2)
+        except Exception as e:
+            print(f"breadth {equal_ticker}/{cap_ticker} warning: {e}")
+    score = round(sum(components) / len(components), 1) if components else 50.0
+    return score, raw
+
+
+def calc_sector(primary, spy_df, spy_ext_price=None, ten_y_change=0, vix=20, breadth_score=50):
     df = daily_history(primary, "6mo")
     close = df["Close"].dropna().copy()
     vol = df["Volume"].fillna(0)
@@ -311,15 +348,26 @@ def calc_sector(primary, spy_df, spy_ext_price=None, ten_y_change=0, vix=20):
 
     r5 = (close.iloc[-1] / close.iloc[-6] - 1) * 100 if len(close) > 6 else 0
     r20 = (close.iloc[-1] / close.iloc[-21] - 1) * 100 if len(close) > 21 else 0
+    spy5 = (spy.iloc[-1] / spy.iloc[-6] - 1) * 100 if len(spy) > 6 else 0
     spy20 = (spy.iloc[-1] / spy.iloc[-21] - 1) * 100 if len(spy) > 21 else 0
-    rs = r20 - spy20
-    v5 = vol.tail(5).mean()
-    v20 = vol.tail(20).mean() if len(vol) >= 20 else max(v5, 1)
-    vr = v5 / v20 if v20 else 1
+    rs5 = r5 - spy5
+    rs20 = r20 - spy20
+    rs_accel = rs5 - rs20
+
+    # Compare recent volume with the preceding window, not with an overlapping 20d average.
+    v_recent = vol.tail(5).mean()
+    prior = vol.iloc[-25:-5] if len(vol) >= 25 else vol.head(max(0, len(vol)-5))
+    v_base = prior.mean() if len(prior) else max(v_recent, 1)
+    vr = v_recent / v_base if v_base else 1
 
     mom = clamp(50 + r5 * 3 + r20 * 1.3)
-    rel = clamp(50 + rs * 5)
-    volume = clamp(50 + (vr - 1) * 70)
+    # Reward both absolute relative strength and improvement in relative strength.
+    rel = clamp(50 + rs20 * 4 + rs_accel * 3)
+    # Rising price with expanding volume gets confirmation; falling price with volume expansion is penalized.
+    direction_bonus = 10 if r5 > 0 else (-10 if r5 < -2 else 0)
+    volume = clamp(50 + (vr - 1) * 70 + direction_bonus)
+    breadth = clamp(float(breadth_score))
+
     macro = 55
     if primary in {"QQQM", "SMH", "SOXX", "XBI", "IBB", "VNQ"}:
         macro += -10 if ten_y_change > 0.05 else (7 if ten_y_change < -0.05 else 0)
@@ -329,7 +377,8 @@ def calc_sector(primary, spy_df, spy_ext_price=None, ten_y_change=0, vix=20):
         macro += 5
     macro = clamp(macro)
 
-    total = round_int(mom * .35 + rel * .30 + volume * .20 + macro * .15)
+    # v1.12: breadth and relative-strength acceleration are now part of the actual score.
+    total = round_int(mom * .30 + rel * .30 + volume * .15 + breadth * .10 + macro * .15)
     status = "상승 사이클" if total >= 75 else "초기 관심" if total >= 60 else "중립" if total >= 45 else "약화"
     if status == "상승 사이클" and r5 > 5:
         action = "추격주의 · 조정 대기"
@@ -346,7 +395,8 @@ def calc_sector(primary, spy_df, spy_ext_price=None, ten_y_change=0, vix=20):
 
     reason = (
         f"프리/정규 최신가 반영 · 당일 {extchg:+.1f}% · 5일 {r5:+.1f}% · "
-        f"20일 {r20:+.1f}% · SPY 대비 20일 {rs:+.1f}%p · 5/20일 거래량 {vr:.2f}배"
+        f"20일 {r20:+.1f}% · SPY 대비 5일 {rs5:+.1f}%p / 20일 {rs20:+.1f}%p · "
+        f"상대강도 변화 {rs_accel:+.1f}%p · 최근/이전 거래량 {vr:.2f}배 · Breadth {breadth:.0f}점"
     )
     return {
         "status": status,
@@ -357,7 +407,17 @@ def calc_sector(primary, spy_df, spy_ext_price=None, ten_y_change=0, vix=20):
             "momentum": round_int(mom),
             "relative_strength": round_int(rel),
             "volume": round_int(volume),
+            "breadth": round_int(breadth),
             "macro": round_int(macro),
+        },
+        "metrics": {
+            "return_5d_pct": round(r5, 2),
+            "return_20d_pct": round(r20, 2),
+            "rs_vs_spy_5d_pctp": round(rs5, 2),
+            "rs_vs_spy_20d_pctp": round(rs20, 2),
+            "rs_acceleration_pctp": round(rs_accel, 2),
+            "volume_expansion_ratio": round(float(vr), 2),
+            "breadth_score": round(float(breadth), 1),
         },
     }
 
@@ -1074,12 +1134,13 @@ def main():
 
     spy = daily_history(BASE, "1y"); spy_ext, _, _ = latest_extended(BASE)
     timing = market_timing_signals(spy, spy_ext, vix, env.get("score", 55))
+    breadth_score, breadth_metrics = market_breadth_score(spy, spy_ext)
     sectors = []
     for name, etfs in SECTORS:
         try:
-            calc = calc_sector(etfs[0], spy, spy_ext_price=spy_ext, ten_y_change=ten_bp/100, vix=vix)
+            calc = calc_sector(etfs[0], spy, spy_ext_price=spy_ext, ten_y_change=ten_bp/100, vix=vix, breadth_score=breadth_score)
         except Exception as e:
-            calc = {"status":"중립","score":50,"action":"데이터 확인","reason":str(e),"factors":{"momentum":50,"relative_strength":50,"volume":50,"macro":50}}
+            calc = {"status":"중립","score":50,"action":"데이터 확인","reason":str(e),"factors":{"momentum":50,"relative_strength":50,"volume":50,"breadth":50,"macro":50}}
         sectors.append({"name": name, "etfs": etfs, "quote_sources": etf_sources(etfs[0]), **calc})
 
     history = load_history(); today = now_kst.strftime("%Y-%m-%d")
@@ -1111,6 +1172,7 @@ def main():
                 "CNN Fear & Greed는 CNN 페이지가 사용하는 공개 JSON 데이터를 읽습니다. 구조 변경·차단 시 일시적으로 미표시될 수 있습니다.",
                 "저점매수 매력도는 싸다는 보장이 아니라 공포·낙폭·과매도 정도를 정량화한 역발상 보조 지표입니다.",
                 "반전 확인도는 바닥 확정 신호가 아니라 모멘텀·20일선·VIX·시장 폭·거래량 회복 정도를 보는 보조 지표입니다.",
+                "시장 Breadth는 RSP/SPY·QQQE/QQQ 상대강도를 이용한 무료 프록시이며 전체 종목 상승/하락 종목수를 직접 집계한 값은 아닙니다.",
                 "현재 버전은 뉴스·기업 실적·가이던스의 의미를 자동 점수에 완전히 반영하지 않습니다.",
             ],
         },
@@ -1118,6 +1180,7 @@ def main():
         "regime": {"name": phase, "environment": env, "reasons": reasons},
         "macro": macro,
         "timing": timing,
+        "breadth": {"score": round(float(breadth_score), 1), "metrics": breadth_metrics, "note": "RSP/SPY + QQQE/QQQ 동일가중 대비 시총가중 상대강도 프록시"},
         "sectors": sectors,
         "changes": changes,
         "events": events,
