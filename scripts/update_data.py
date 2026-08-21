@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import math
+import os
 import re
 from pathlib import Path
 from datetime import datetime, timedelta
@@ -47,6 +48,127 @@ SECTORS = [
 BASE = "SPY"
 
 HEADERS = {"User-Agent": "Mozilla/5.0 (compatible; cycle-radar/1.9; +https://github.com/)"}
+
+
+def load_previous_dashboard():
+    if not OUT.exists():
+        return {}
+    try:
+        return json.loads(OUT.read_text(encoding="utf-8"))
+    except Exception as e:
+        print(f"previous dashboard warning: {e}")
+        return {}
+
+
+def telegram_send(text):
+    token = os.getenv("TELEGRAM_BOT_TOKEN", "").strip()
+    chat_id = os.getenv("TELEGRAM_CHAT_ID", "").strip()
+    if not token or not chat_id:
+        print("telegram: secrets not configured; skip")
+        return False
+    url = f"https://api.telegram.org/bot{token}/sendMessage"
+    payload = {
+        "chat_id": chat_id,
+        "text": text,
+        "disable_web_page_preview": True,
+    }
+    try:
+        r = requests.post(url, json=payload, timeout=20)
+        r.raise_for_status()
+        data = r.json()
+        if not data.get("ok"):
+            raise RuntimeError(data)
+        print("telegram: message sent")
+        return True
+    except Exception as e:
+        print(f"telegram warning: {e}")
+        return False
+
+
+def telegram_test_message(now_kst):
+    if os.getenv("TELEGRAM_TEST", "false").lower() not in {"1", "true", "yes", "on"}:
+        return False
+    dashboard_url = os.getenv("DASHBOARD_URL", "").strip()
+    lines = [
+        "✅ 미국 산업 사이클 레이더 알림 테스트",
+        "",
+        "Telegram 연결이 정상적으로 설정되었습니다.",
+        f"확인 시각: {now_kst.strftime('%Y-%m-%d %H:%M')} KST",
+    ]
+    if dashboard_url:
+        lines += ["", f"대시보드: {dashboard_url}"]
+    return telegram_send("\n".join(lines))
+
+
+def notify_new_signals(previous, sectors, timing, now_kst):
+    """Send only on a newly-entered target action, not every scheduled run."""
+    if os.getenv("TELEGRAM_TEST", "false").lower() in {"1", "true", "yes", "on"}:
+        return
+
+    prev_sectors = {
+        s.get("name"): s for s in (previous.get("sectors") or []) if isinstance(s, dict)
+    }
+    alerts = []
+
+    for s in sectors:
+        current_action = s.get("action")
+        prev_action = (prev_sectors.get(s.get("name")) or {}).get("action")
+        if current_action == "분할 접근" and prev_action != "분할 접근":
+            alerts.append({
+                "kind": "sector",
+                "name": s.get("name", "산업"),
+                "etfs": " / ".join(s.get("etfs") or []),
+                "action": current_action,
+                "score": s.get("score"),
+                "status": s.get("status"),
+                "previous": prev_action or "이전 기록 없음",
+                "reason": s.get("reason", ""),
+            })
+
+    current_timing = timing.get("action") if isinstance(timing, dict) else None
+    prev_timing = ((previous.get("timing") or {}).get("action") if isinstance(previous, dict) else None)
+    if current_timing == "분할 접근 검토" and prev_timing != "분할 접근 검토":
+        alerts.append({
+            "kind": "timing",
+            "action": current_timing,
+            "previous": prev_timing or "이전 기록 없음",
+            "low_buy": (timing.get("low_buy") or {}).get("score"),
+            "reversal": (timing.get("reversal") or {}).get("score"),
+            "summary": timing.get("summary", ""),
+        })
+
+    if not alerts:
+        print("telegram: no new target signal")
+        return
+
+    dashboard_url = os.getenv("DASHBOARD_URL", "").strip()
+    for a in alerts:
+        if a["kind"] == "sector":
+            lines = [
+                "🚨 미국 산업 사이클 레이더",
+                "",
+                f"🟢 {a['name']}  {a['etfs']}",
+                f"오늘의 판단: {a['action']}",
+                f"사이클: {a['status']} · 레이더 {a['score']}점",
+                f"이전 판단: {a['previous']}",
+            ]
+            if a.get("reason"):
+                lines += ["", a["reason"]]
+        else:
+            lines = [
+                "🚨 미국 시장 타이밍 신호",
+                "",
+                f"판단: {a['action']}",
+                f"저점매수 매력도: {a['low_buy']}점",
+                f"반전 확인도: {a['reversal']}점",
+                f"이전 판단: {a['previous']}",
+            ]
+            if a.get("summary"):
+                lines += ["", a["summary"]]
+        lines += ["", f"{now_kst.strftime('%Y-%m-%d %H:%M')} KST"]
+        if dashboard_url:
+            lines += [f"대시보드: {dashboard_url}"]
+        telegram_send("\n".join(lines))
 
 
 def clamp(x, lo=0, hi=100):
@@ -859,6 +981,7 @@ def save_history(history, today, sectors):
 
 
 def main():
+    previous_dashboard = load_previous_dashboard()
     now_utc = datetime.now(UTC)
     now_kst = now_utc.astimezone(KST)
     now_et = now_utc.astimezone(ET)
@@ -984,6 +1107,11 @@ def main():
         "changes": changes,
         "events": events,
     }
+    if telegram_test_message(now_kst):
+        print("telegram: test completed")
+    else:
+        notify_new_signals(previous_dashboard, sectors, timing, now_kst)
+
     OUT.write_text(json.dumps(out, ensure_ascii=False, indent=2), encoding="utf-8")
     print(f"Wrote {OUT}")
     print(f"Wrote {HISTORY}")
