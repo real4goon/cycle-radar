@@ -9,8 +9,10 @@ on:
         default: false
         type: boolean
   schedule:
-    # 평일 20:00~23:30 KST, 30분 간격 (UTC 11:00~14:30)
-    - cron: "0,30 11-14 * * 1-5"
+    # 미국 거래일 기준 KST 20:00~익일 08:30, 30분 간격 (UTC 11:00~23:30)
+    - cron: "0,30 11-23 * * 1-5"
+    # 애프터마켓 종료 시점 KST 09:00 한 번 더 갱신 (UTC 00:00, 화~토)
+    - cron: "0 0 * * 2-6"
 
 permissions:
   contents: write
