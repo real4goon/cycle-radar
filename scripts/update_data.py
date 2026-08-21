@@ -84,6 +84,9 @@ def format_market(name,latest,prev,chg):
     value=f'{latest:,.2f}' if name in {'WTI 원유','DXY'} else f'{latest:,.1f}' if name=='달러/원' else f'{latest:,.0f}' if name=='비트코인' else f'{latest:,.2f}'
     return value,f'{chg:+.2f}%',chg
 
+def grade_score(grade):
+    return {'우호':80,'중립':55,'주의':35,'위험':15}.get(grade,55)
+
 def investment_environment(macro):
     score_map={'우호':80,'중립':55,'주의':35,'위험':15}
     vals=[score_map.get(x.get('investment_grade','중립'),55) for x in macro];score=round(sum(vals)/len(vals)) if vals else 50
@@ -114,12 +117,12 @@ def main():
     dxy=quotes.get('DXY',(None,None,0))[2] or 0;liq_state='개선' if dxy<-.3 else '부담' if dxy>.3 else '중립';liq_summary=f'DXY 당일 {dxy:+.2f}%';liq_grade='우호' if liq_state=='개선' else '주의' if liq_state=='부담' else '중립';liq_hint='달러 약세는 글로벌 위험자산·원자재 유동성에 상대적으로 우호.' if liq_grade=='우호' else '달러 강세는 글로벌 유동성과 원자재·신흥 위험자산에 부담.' if liq_grade=='주의' else '달러 흐름이 중립 범위.'
     vix=quotes.get('VIX',(20,None,0))[0] or 20;risk_state='위험회피' if vix>=25 else '주의' if vix>=20 else '강함';risk_summary=f'VIX {vix:.1f}';risk_grade='위험' if vix>=30 else '주의' if vix>=25 else '중립' if vix>=18 else '우호';risk_hint='VIX가 낮을수록 위험선호에 우호. 급등 시 고베타·레버리지 자산 변동성 확대에 주의.'
     macro=[
-      {'name':'고용','state':emp_state,'summary':emp_summary,'investment_grade':emp_grade,'investment_hint':emp_hint,'sources':[{'label':'FRED · UNRATE','note':'미국 실업률 공식 시계열','url':fred_url('UNRATE')},{'label':'BLS','note':'미 노동통계국 고용 원문','url':'https://www.bls.gov/cps/'}]},
-      {'name':'물가','state':inf_state,'summary':inf_summary,'investment_grade':inf_grade,'investment_hint':inf_hint,'sources':[{'label':'FRED · CPIAUCSL','note':'CPI 공식 시계열','url':fred_url('CPIAUCSL')},{'label':'BLS CPI','note':'CPI 원문','url':'https://www.bls.gov/cpi/'}]},
-      {'name':'금리','state':rate_state,'summary':rate_summary,'investment_grade':rate_grade,'investment_hint':rate_hint,'sources':[{'label':'FRED · DGS10','note':'미국 10년 국채금리','url':fred_url('DGS10')},{'label':'U.S. Treasury','note':'미 재무부 금리 자료','url':'https://home.treasury.gov/resource-center/data-chart-center/interest-rates'}]},
-      {'name':'경기','state':econ_state,'summary':econ_summary,'investment_grade':econ_grade,'investment_hint':econ_hint,'sources':[{'label':'FRED · ICSA','note':'신규 실업수당','url':fred_url('ICSA')},{'label':'U.S. DOL','note':'실업보험 통계','url':'https://www.dol.gov/ui/data.pdf'}]},
-      {'name':'유동성','state':liq_state,'summary':liq_summary,'investment_grade':liq_grade,'investment_hint':liq_hint,'sources':[{'label':'ICE','note':'U.S. Dollar Index 공식 시장','url':'https://www.ice.com/products/194/US-Dollar-Index-Futures'},{'label':'Yahoo Finance','note':'DXY 시세','url':yahoo_url('DX-Y.NYB')}]},
-      {'name':'위험선호','state':risk_state,'summary':risk_summary,'investment_grade':risk_grade,'investment_hint':risk_hint,'sources':[{'label':'Cboe VIX','note':'VIX 공식 자료','url':'https://www.cboe.com/tradable_products/vix/'},{'label':'Yahoo Finance','note':'VIX 시세','url':yahoo_url('^VIX')}]}
+      {'name':'고용','state':emp_state,'summary':emp_summary,'investment_grade':emp_grade,'investment_score':grade_score(emp_grade),'investment_hint':emp_hint,'sources':[{'label':'FRED · UNRATE','note':'미국 실업률 공식 시계열','url':fred_url('UNRATE')},{'label':'BLS','note':'미 노동통계국 고용 원문','url':'https://www.bls.gov/cps/'}]},
+      {'name':'물가','state':inf_state,'summary':inf_summary,'investment_grade':inf_grade,'investment_score':grade_score(inf_grade),'investment_hint':inf_hint,'sources':[{'label':'FRED · CPIAUCSL','note':'CPI 공식 시계열','url':fred_url('CPIAUCSL')},{'label':'BLS CPI','note':'CPI 원문','url':'https://www.bls.gov/cpi/'}]},
+      {'name':'금리','state':rate_state,'summary':rate_summary,'investment_grade':rate_grade,'investment_score':grade_score(rate_grade),'investment_hint':rate_hint,'sources':[{'label':'FRED · DGS10','note':'미국 10년 국채금리','url':fred_url('DGS10')},{'label':'U.S. Treasury','note':'미 재무부 금리 자료','url':'https://home.treasury.gov/resource-center/data-chart-center/interest-rates'}]},
+      {'name':'경기','state':econ_state,'summary':econ_summary,'investment_grade':econ_grade,'investment_score':grade_score(econ_grade),'investment_hint':econ_hint,'sources':[{'label':'FRED · ICSA','note':'신규 실업수당','url':fred_url('ICSA')},{'label':'U.S. DOL','note':'실업보험 통계','url':'https://www.dol.gov/ui/data.pdf'}]},
+      {'name':'유동성','state':liq_state,'summary':liq_summary,'investment_grade':liq_grade,'investment_score':grade_score(liq_grade),'investment_hint':liq_hint,'sources':[{'label':'ICE','note':'U.S. Dollar Index 공식 시장','url':'https://www.ice.com/products/194/US-Dollar-Index-Futures'},{'label':'Yahoo Finance','note':'DXY 시세','url':yahoo_url('DX-Y.NYB')}]},
+      {'name':'위험선호','state':risk_state,'summary':risk_summary,'investment_grade':risk_grade,'investment_score':grade_score(risk_grade),'investment_hint':risk_hint,'sources':[{'label':'Cboe VIX','note':'VIX 공식 자료','url':'https://www.cboe.com/tradable_products/vix/'},{'label':'Yahoo Finance','note':'VIX 시세','url':yahoo_url('^VIX')}]}
     ]
     env=investment_environment(macro)
     spy=daily_history(BASE);spy_ext,_,_=latest_extended(BASE);ten_signal=ten_bp/100;sectors=[]
