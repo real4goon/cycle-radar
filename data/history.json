@@ -5,7 +5,7 @@
         {
           "name": "반도체/AI 하드웨어",
           "status": "약화",
-          "score": 33,
+          "score": 34,
           "etfs": [
             "SMH",
             "SOXX"
@@ -39,7 +39,7 @@
         {
           "name": "에너지",
           "status": "초기 관심",
-          "score": 64,
+          "score": 62,
           "etfs": [
             "XLE"
           ]
@@ -55,7 +55,7 @@
         {
           "name": "금/금광",
           "status": "상승 사이클",
-          "score": 81,
+          "score": 82,
           "etfs": [
             "GLD",
             "GDX"
@@ -72,7 +72,7 @@
         {
           "name": "필수소비재",
           "status": "중립",
-          "score": 49,
+          "score": 48,
           "etfs": [
             "XLP"
           ]
