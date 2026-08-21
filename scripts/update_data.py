@@ -90,9 +90,16 @@ def telegram_test_message(now_kst):
         return False
     dashboard_url = os.getenv("DASHBOARD_URL", "").strip()
     lines = [
-        "✅ 미국 산업 사이클 레이더 알림 테스트",
+        "✅ 미국 산업 사이클 레이더 알림 설정 완료",
         "",
-        "Telegram 연결이 정상적으로 설정되었습니다.",
+        "🔔 현재 알림 조건",
+        "1) 산업별 판단이 새로 ‘분할 접근’으로 변경될 때",
+        "2) 시장 타이밍 판단이 새로 ‘분할 접근 검토’로 변경될 때",
+        "",
+        "• 동일 상태 유지 시 중복 알림 없음",
+        "• 상태 이탈 후 다시 진입하면 재알림",
+        "• 소액 진입 검토 / 관찰 / 조정 대기는 현재 알림 대상 아님",
+        "",
         f"확인 시각: {now_kst.strftime('%Y-%m-%d %H:%M')} KST",
     ]
     if dashboard_url:
@@ -165,7 +172,11 @@ def notify_new_signals(previous, sectors, timing, now_kst):
             ]
             if a.get("summary"):
                 lines += ["", a["summary"]]
-        lines += ["", f"{now_kst.strftime('%Y-%m-%d %H:%M')} KST"]
+        lines += [
+            "",
+            f"{now_kst.strftime('%Y-%m-%d %H:%M')} KST",
+            "알림 기준: 신규 ‘분할 접근’ / 신규 ‘분할 접근 검토’",
+        ]
         if dashboard_url:
             lines += [f"대시보드: {dashboard_url}"]
         telegram_send("\n".join(lines))
