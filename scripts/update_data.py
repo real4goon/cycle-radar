@@ -130,12 +130,23 @@ def main():
         try:calc=calc_sector(etfs[0],spy,spy_ext_price=spy_ext,ten_y_change=ten_signal,vix=vix)
         except Exception as e:calc={'status':'중립','score':50,'action':'데이터 확인','reason':str(e),'factors':{'momentum':50,'relative_strength':50,'volume':50,'macro':50}}
         sectors.append({'name':name,'etfs':etfs,**calc})
+    # 관심 ETF는 중립 신호를 제외합니다. 기회 신호(상승/초기)를 우선하고,
+    # 필요하면 약화 신호 1개를 '주의 대상'으로 포함합니다.
+    active=[s for s in sectors if s['status']!='중립']
+    opportunities=sorted([s for s in active if s['status'] in {'상승 사이클','초기 관심'}],key=lambda x:x['score'],reverse=True)
+    warnings=sorted([s for s in active if s['status']=='약화'],key=lambda x:x['score'])
+    picked=opportunities[:3]+warnings[:1]
+    used={s['name'] for s in picked}
+    for s in active:
+        if len(picked)>=4: break
+        if s['name'] not in used:
+            picked.append(s);used.add(s['name'])
     watch=[]
-    for s in sorted(sectors,key=lambda x:x['score'],reverse=True)[:4]:
+    for s in picked[:4]:
         sym=s['etfs'][0]
         try:latest,prev,chg=latest_extended(sym)
         except Exception:latest,prev,chg=None,None,0.0
-        watch.append({'symbol':sym,'name':s['name'],'status':s['status'],'action':s['action'],'as_of_kst':now_kst.strftime('%Y-%m-%d %H:%M'),'as_of_et':now_et.strftime('%Y-%m-%d %H:%M'),'sources':etf_sources(sym)})
+        watch.append({'symbol':sym,'name':s['name'],'status':s['status'],'action':s['action'],'score':s['score'],'reason':s['reason'],'as_of_kst':now_kst.strftime('%Y-%m-%d %H:%M'),'as_of_et':now_et.strftime('%Y-%m-%d %H:%M'),'sources':etf_sources(sym)})
     slowing=(emp_state=='냉각')+(econ_state=='냉각');phase='둔화 관찰' if slowing>=1 else '확장/중립';reasons=[f'고용: {emp_summary} → 투자환경 {emp_grade}',f'금리: {rate_summary} → 투자환경 {rate_grade}',f'위험선호: {risk_summary} → 투자환경 {risk_grade}']
     out={'updated_at_kst':now_kst.strftime('%Y-%m-%d %H:%M'),'meta':{'updated_at_iso':now_kst.isoformat(timespec='seconds'),'updated_at_utc_iso':now_utc.isoformat(timespec='seconds'),'updated_at_kst':now_kst.strftime('%Y-%m-%d %H:%M'),'updated_at_et':now_et.strftime('%Y-%m-%d %H:%M'),'market_session':session,'perspective':perspective,'update_policy':'서버: 평일 20:00~23:30 KST 30분 간격 · 화면: 5분마다 새 데이터 자동 확인 · GitHub Actions는 지연 가능','cautions':['수집 시점과 미국장 세션을 먼저 확인하세요.','Yahoo Finance extended-hours는 무료 비공식 데이터로 지연·누락이 있을 수 있습니다.','투자환경 등급과 산업 점수는 미래 수익률 확률이 아닌 규칙 기반 보조 신호입니다.','FRED 거시지표는 각 지표의 최신 공식 발표값이며 장중 실시간 수치가 아닙니다.','외부 원자료·시세 사이트와 대시보드의 수집 시점이 달라 값이 다를 수 있습니다.','현재 버전은 뉴스·기업 실적·가이던스의 의미를 자동 점수에 완전히 반영하지 않습니다.']},'market':market,'regime':{'name':phase,'environment':env,'reasons':reasons},'macro':macro,'sectors':sectors,'watchlist':watch,'events':[{'name':'CPI','when':'발표 일정 자동화는 다음 단계'},{'name':'NFP','when':'발표 일정 자동화는 다음 단계'},{'name':'실업률','when':'NFP와 동시 발표'},{'name':'소매판매','when':'발표 일정 자동화는 다음 단계'},{'name':'FOMC','when':'일정 자동화는 다음 단계'},{'name':'실업수당','when':'매주 목요일'}]}
     OUT.write_text(json.dumps(out,ensure_ascii=False,indent=2),encoding='utf-8');print(f'Wrote {OUT}');print(f'Perspective: {perspective}')
