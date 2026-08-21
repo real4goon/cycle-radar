@@ -133,6 +133,7 @@ def notify_new_signals(previous, sectors, timing, now_kst):
                 "status": s.get("status"),
                 "previous": prev_action or "이전 기록 없음",
                 "reason": s.get("reason", ""),
+                "metrics": s.get("metrics") or {},
             })
 
     current_timing = timing.get("action") if isinstance(timing, dict) else None
@@ -163,6 +164,14 @@ def notify_new_signals(previous, sectors, timing, now_kst):
                 f"사이클: {a['status']} · 레이더 {a['score']}점",
                 f"이전 판단: {a['previous']}",
             ]
+            m = a.get("metrics") or {}
+            if m.get("session") in {"premarket", "afterhours"}:
+                label = "프리마켓" if m.get("session") == "premarket" else "애프터마켓"
+                lines += [
+                    "",
+                    f"🌙 {label}: {float(m.get('extended_change_pct') or 0):+.2f}%",
+                    f"SPY 대비: {float(m.get('extended_vs_spy_pctp') or 0):+.2f}%p · 레이더 보정 {float(m.get('extended_score_adjustment') or 0):+.1f}점",
+                ]
             if a.get("reason"):
                 lines += ["", a["reason"]]
         else:
@@ -257,6 +266,48 @@ def latest_extended(symbol):
     return latest, prev, chg
 
 
+def extended_snapshot(symbol, session):
+    """Return the latest quote plus the move specifically outside the regular session.
+
+    In pre/after-hours, regular_close is the most recent official daily close.
+    During the regular session, extended_change_pct is 0 and the live price is used
+    directly by the normal momentum calculation.
+    """
+    t = yf.Ticker(symbol)
+    intr = t.history(period="1d", interval="5m", prepost=True, auto_adjust=True)
+    daily = t.history(period="5d", interval="1d", auto_adjust=True)
+    if daily is None or daily.empty:
+        return {
+            "latest": None,
+            "regular_close": None,
+            "prev_close": None,
+            "day_change_pct": 0.0,
+            "extended_change_pct": 0.0,
+        }
+
+    closes = daily["Close"].dropna()
+    regular_close = float(closes.iloc[-1])
+    prev_close = float(closes.iloc[-2] if len(closes) >= 2 else closes.iloc[-1])
+    latest = (
+        float(intr["Close"].dropna().iloc[-1])
+        if intr is not None and not intr.empty and not intr["Close"].dropna().empty
+        else regular_close
+    )
+    day_change = (latest / prev_close - 1) * 100 if prev_close else 0.0
+    ext_change = (
+        (latest / regular_close - 1) * 100
+        if session in {"premarket", "afterhours"} and regular_close
+        else 0.0
+    )
+    return {
+        "latest": latest,
+        "regular_close": regular_close,
+        "prev_close": prev_close,
+        "day_change_pct": day_change,
+        "extended_change_pct": ext_change,
+    }
+
+
 def spark_values(symbol, max_points=28):
     df = intraday_history(symbol)
     if df.empty or "Close" not in df:
@@ -335,15 +386,25 @@ def market_breadth_score(spy_df, spy_ext_price=None):
     return score, raw
 
 
-def calc_sector(primary, spy_df, spy_ext_price=None, ten_y_change=0, vix=20, breadth_score=50):
+def calc_sector(primary, spy_df, spy_ext_price=None, ten_y_change=0, vix=20, breadth_score=50, session="closed"):
     df = daily_history(primary, "6mo")
     close = df["Close"].dropna().copy()
     vol = df["Volume"].fillna(0)
-    ext, _, extchg = latest_extended(primary)
-    if ext is not None and len(close):
+
+    sector_snap = extended_snapshot(primary, session)
+    ext = sector_snap.get("latest")
+    extchg = sector_snap.get("day_change_pct", 0.0)
+    ext_session_chg = sector_snap.get("extended_change_pct", 0.0)
+
+    # During the regular session we keep using the live quote in momentum.
+    # In pre/after-hours the official regular close remains the base, and the
+    # extended-hours move is added separately as a bounded confirmation adjustment.
+    if session == "regular" and ext is not None and len(close):
         close.iloc[-1] = ext
+
     spy = spy_df["Close"].dropna().copy()
-    if spy_ext_price is not None and len(spy):
+    spy_snap = extended_snapshot(BASE, session)
+    if session == "regular" and spy_ext_price is not None and len(spy):
         spy.iloc[-1] = spy_ext_price
 
     r5 = (close.iloc[-1] / close.iloc[-6] - 1) * 100 if len(close) > 6 else 0
@@ -361,9 +422,7 @@ def calc_sector(primary, spy_df, spy_ext_price=None, ten_y_change=0, vix=20, bre
     vr = v_recent / v_base if v_base else 1
 
     mom = clamp(50 + r5 * 3 + r20 * 1.3)
-    # Reward both absolute relative strength and improvement in relative strength.
     rel = clamp(50 + rs20 * 4 + rs_accel * 3)
-    # Rising price with expanding volume gets confirmation; falling price with volume expansion is penalized.
     direction_bonus = 10 if r5 > 0 else (-10 if r5 < -2 else 0)
     volume = clamp(50 + (vr - 1) * 70 + direction_bonus)
     breadth = clamp(float(breadth_score))
@@ -377,8 +436,19 @@ def calc_sector(primary, spy_df, spy_ext_price=None, ten_y_change=0, vix=20, bre
         macro += 5
     macro = clamp(macro)
 
-    # v1.12: breadth and relative-strength acceleration are now part of the actual score.
-    total = round_int(mom * .30 + rel * .30 + volume * .15 + breadth * .10 + macro * .15)
+    base_total = mom * .30 + rel * .30 + volume * .15 + breadth * .10 + macro * .15
+
+    spy_ext_chg = float(spy_snap.get("extended_change_pct") or 0.0)
+    ext_relative = ext_session_chg - spy_ext_chg
+    if session in {"premarket", "afterhours"}:
+        # Extended hours are thinner and noisier, so they can only move the radar
+        # by a maximum of ±4 points. Sector-specific strength vs SPY gets extra weight.
+        ext_adjustment = max(-4.0, min(4.0, ext_session_chg * 0.7 + ext_relative * 0.8))
+    else:
+        ext_adjustment = 0.0
+
+    total = round_int(clamp(base_total + ext_adjustment))
+    base_score = round_int(clamp(base_total))
     status = "상승 사이클" if total >= 75 else "초기 관심" if total >= 60 else "중립" if total >= 45 else "약화"
     if status == "상승 사이클" and r5 > 5:
         action = "추격주의 · 조정 대기"
@@ -393,14 +463,31 @@ def calc_sector(primary, spy_df, spy_ext_price=None, ten_y_change=0, vix=20, bre
     else:
         action = "관찰"
 
+    session_label = {
+        "premarket": "프리마켓",
+        "regular": "정규장",
+        "afterhours": "애프터마켓",
+        "closed": "장외 마지막",
+    }.get(session, session)
+
+    ext_text = ""
+    if session in {"premarket", "afterhours"}:
+        ext_text = (
+            f" · {session_label} {ext_session_chg:+.2f}%"
+            f" · SPY 대비 {ext_relative:+.2f}%p"
+            f" · 보정 {ext_adjustment:+.1f}점"
+        )
+
     reason = (
-        f"프리/정규 최신가 반영 · 당일 {extchg:+.1f}% · 5일 {r5:+.1f}% · "
+        f"{session_label} 최신가 확인 · 당일 {extchg:+.1f}% · 5일 {r5:+.1f}% · "
         f"20일 {r20:+.1f}% · SPY 대비 5일 {rs5:+.1f}%p / 20일 {rs20:+.1f}%p · "
         f"상대강도 변화 {rs_accel:+.1f}%p · 최근/이전 거래량 {vr:.2f}배 · Breadth {breadth:.0f}점"
+        f"{ext_text}"
     )
     return {
         "status": status,
         "score": total,
+        "base_score": base_score,
         "action": action,
         "reason": reason,
         "factors": {
@@ -418,6 +505,11 @@ def calc_sector(primary, spy_df, spy_ext_price=None, ten_y_change=0, vix=20, bre
             "rs_acceleration_pctp": round(rs_accel, 2),
             "volume_expansion_ratio": round(float(vr), 2),
             "breadth_score": round(float(breadth), 1),
+            "session": session,
+            "extended_change_pct": round(float(ext_session_chg), 2),
+            "extended_vs_spy_pctp": round(float(ext_relative), 2),
+            "extended_score_adjustment": round(float(ext_adjustment), 1),
+            "regular_base_score": base_score,
         },
     }
 
@@ -1138,7 +1230,7 @@ def main():
     sectors = []
     for name, etfs in SECTORS:
         try:
-            calc = calc_sector(etfs[0], spy, spy_ext_price=spy_ext, ten_y_change=ten_bp/100, vix=vix, breadth_score=breadth_score)
+            calc = calc_sector(etfs[0], spy, spy_ext_price=spy_ext, ten_y_change=ten_bp/100, vix=vix, breadth_score=breadth_score, session=session)
         except Exception as e:
             calc = {"status":"중립","score":50,"action":"데이터 확인","reason":str(e),"factors":{"momentum":50,"relative_strength":50,"volume":50,"breadth":50,"macro":50}}
         sectors.append({"name": name, "etfs": etfs, "quote_sources": etf_sources(etfs[0]), **calc})
@@ -1162,10 +1254,11 @@ def main():
             "updated_at_et": now_et.strftime("%Y-%m-%d %H:%M"),
             "market_session": session,
             "perspective": perspective,
-            "update_policy": "서버: 평일 20:00~23:30 KST 30분 간격 · 화면: 5분마다 새 데이터 자동 확인 · GitHub Actions는 지연 가능",
+            "update_policy": "서버: 미국 거래일 기준 KST 20:00~익일 09:00, 30분 간격 · 정규장 종료 후 애프터마켓까지 수집 · 화면: 5분마다 새 데이터 자동 확인 · GitHub Actions는 지연 가능",
             "cautions": [
                 "수집 시점과 미국장 세션을 먼저 확인하세요.",
                 "Yahoo Finance extended-hours는 무료 비공식 데이터로 지연·누락이 있을 수 있습니다.",
+                "프리/애프터마켓은 거래량이 얇아 왜곡될 수 있어 산업 레이더 보정폭을 최대 ±4점으로 제한합니다.",
                 "투자환경 등급과 산업 점수는 미래 수익률 확률이 아닌 규칙 기반 보조 신호입니다.",
                 "FRED·BLS·Census·Federal Reserve 일정은 공식 공개자료를 사용하지만 기관의 일정 변경이 있을 수 있습니다.",
                 "외부 원자료·시세 사이트와 대시보드의 수집 시점이 달라 값이 다를 수 있습니다.",
