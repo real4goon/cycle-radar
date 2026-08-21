@@ -3,12 +3,14 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <meta name="color-scheme" content="dark"/>
   <title>미국 산업 사이클 레이더</title>
   <link rel="stylesheet" href="styles.css"/>
 </head>
 <body>
   <main class="app">
     <section id="marketStrip" class="market-strip"></section>
+
     <section class="hero-grid">
       <div class="hero panel">
         <div>
@@ -16,35 +18,87 @@
           <h1>미국 산업 사이클 레이더</h1>
           <p>장 시작 전 체크 · 거시지표 · 섹터 로테이션 · 대표 ETF</p>
         </div>
-        <div id="updatedAt" class="updated"></div>
+        <div class="data-status">
+          <div class="status-row"><span class="status-dot" id="freshDot"></span><b id="freshLabel">데이터 확인 중</b></div>
+          <div id="updatedAt" class="updated">수집 시점 -</div>
+          <div id="marketViewpoint" class="viewpoint">관점 -</div>
+          <div id="dataAge" class="updated">-</div>
+          <div class="refresh-row">
+            <span id="refreshCountdown">5분마다 자동 확인</span>
+            <button id="manualRefresh" class="mini-btn" type="button">지금 확인</button>
+          </div>
+        </div>
       </div>
+
       <div class="panel regime">
         <div class="section-label">오늘의 Macro Regime</div>
         <div id="regimeName" class="regime-name">-</div>
         <div id="regimeReasons" class="reasons"></div>
+        <div class="regime-foot" id="updatePolicy">서버 데이터 업데이트 정책 확인 중</div>
       </div>
     </section>
+
     <section id="macroCards" class="macro-grid"></section>
+
     <section class="content-grid">
       <div class="panel">
         <div class="panel-head">
           <div><div class="section-label">SECTOR ROTATION</div><h2>산업 사이클 레이더</h2></div>
-          <div class="legend"><span class="chip upcycle">상승</span><span class="chip early">초기 관심</span><span class="chip neutral">중립</span><span class="chip weak">약화</span></div>
+          <div class="legend">
+            <span class="chip upcycle">상승</span><span class="chip early">초기 관심</span><span class="chip neutral">중립</span><span class="chip weak">약화</span>
+          </div>
         </div>
-        <div class="desktop-table"><table><thead><tr><th>산업</th><th>상태</th><th>점수</th><th>대표 ETF</th><th>오늘 판단</th></tr></thead><tbody id="sectorTable"></tbody></table></div>
+        <div class="desktop-table">
+          <table>
+            <thead><tr><th>산업</th><th>상태</th><th>점수</th><th>대표 ETF</th><th>오늘 판단</th></tr></thead>
+            <tbody id="sectorTable"></tbody>
+          </table>
+        </div>
         <div id="sectorCards" class="mobile-sector-list"></div>
       </div>
+
       <aside class="panel">
         <div class="panel-head"><div><div class="section-label">WATCHLIST</div><h2>오늘의 관심 ETF</h2></div></div>
         <div id="watchList" class="watch-list"></div>
       </aside>
     </section>
+
     <section class="detail-grid">
-      <div class="panel"><div class="panel-head"><div><div class="section-label">WHY?</div><h2 id="detailTitle">판정 근거</h2></div></div><div id="factorBars" class="factor-grid"></div></div>
-      <div class="panel summary"><div class="section-label">TOTAL SCORE</div><div id="detailScore" class="big-score">-</div><div id="detailConclusion" class="conclusion">관심 ETF를 선택하세요.</div><div id="detailNote" class="note"></div></div>
+      <div class="panel">
+        <div class="panel-head"><div><div class="section-label">WHY?</div><h2 id="detailTitle">판정 근거</h2></div></div>
+        <div id="factorBars" class="factor-grid"></div>
+      </div>
+      <div class="panel summary">
+        <div class="section-label">TOTAL SCORE</div>
+        <div id="detailScore" class="big-score">-</div>
+        <div id="detailConclusion" class="conclusion">관심 ETF를 선택하세요.</div>
+        <div id="detailNote" class="note"></div>
+      </div>
     </section>
-    <section class="panel"><div class="panel-head"><div><div class="section-label">MACRO CALENDAR</div><h2>주요 거시 일정</h2></div></div><div id="events" class="event-grid"></div></section>
-    <footer><div>무료 v1 · GitHub Pages + GitHub Actions · Yahoo Finance 비공식 시세 + FRED 공식 거시데이터</div><div>투자판단 보조용. 실시간 체결/기관 수급/뉴스 원문은 별도 데이터 공급자가 필요할 수 있습니다.</div></footer>
+
+    <section class="panel">
+      <div class="panel-head"><div><div class="section-label">MACRO CALENDAR</div><h2>주요 거시 일정</h2></div></div>
+      <div id="events" class="event-grid"></div>
+    </section>
+
+    <section class="notice panel">
+      <div class="section-label">NOTICE</div>
+      <h2>데이터 시점과 이용 시 주의사항</h2>
+      <ul id="cautionList">
+        <li>화면에 표시된 ‘수집 시점’을 반드시 확인하세요.</li>
+        <li>무료 프리마켓 시세는 실시간 체결가와 다를 수 있습니다.</li>
+        <li>산업 점수는 미래 수익률 확률이 아니라 가격·상대강도·거래량·거시환경을 규칙으로 합산한 신호입니다.</li>
+        <li>GitHub Actions 예약 실행은 서버 사정에 따라 수 분 이상 늦어질 수 있습니다.</li>
+      </ul>
+    </section>
+
+    <footer>
+      <div>
+        <b>미국 산업 사이클 레이더</b><br/>
+        무료 GitHub Pages + GitHub Actions · FRED 공식 거시데이터 · Yahoo Finance 비공식 시세
+      </div>
+      <div class="copyright">© 2026 real4goon. All rights reserved.</div>
+    </footer>
   </main>
   <script src="app.js"></script>
 </body>
