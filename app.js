@@ -6,7 +6,7 @@ let selectedSector = null;
 let selectedWatch = null;
 let nextBrowserRefreshAt = Date.now() + AUTO_REFRESH_MS;
 let uiFontScale = Number(localStorage.getItem('radarFontScale') || '1');
-let uiTheme = localStorage.getItem('radarTheme') || 'day';
+let uiTheme = localStorage.getItem('radarThemeV15') || 'night';
 
 function applyUiSettings(){
   document.documentElement.dataset.theme = uiTheme;
@@ -121,8 +121,20 @@ async function load({manual=false}={}){
     $('#sectorTable').innerHTML=(d.sectors||[]).map(s=>`<tr><td class="sector-name">${escapeHtml(s.name)}</td><td><span class="chip ${chipClass(s.status)}">${escapeHtml(s.status)}</span></td><td class="score-cell">${s.score}</td><td><b>${s.etfs.map(escapeHtml).join(' / ')}</b></td><td class="action">${escapeHtml(s.action)}</td></tr>`).join('');
     $('#sectorCards').innerHTML=(d.sectors||[]).map(s=>`<div class="sector-card"><div class="sector-card-top"><div class="sector-name">${escapeHtml(s.name)}</div><span class="chip ${chipClass(s.status)}">${escapeHtml(s.status)}</span></div><div style="margin-top:8px"><b>${s.score}점</b> · ${s.etfs.map(escapeHtml).join(' / ')}</div><small>${escapeHtml(s.action)}</small></div>`).join('');
 
-    const top=d.watchlist||d.sectors.slice().sort((a,b)=>b.score-a.score).slice(0,4);const watchBySymbol=Object.fromEntries(top.map(w=>[w.symbol||w.etfs?.[0]||'',w]));
-    $('#watchList').innerHTML=top.map((w,i)=>{const sym=w.symbol||w.etfs?.[0]||'';const selected=(selectedSymbol?selectedSymbol===sym:i===0)?'selected':'';return `<div class="watch-card ${selected}" data-symbol="${escapeHtml(sym)}"><div class="watch-head"><div><div class="symbol">${escapeHtml(sym)}</div><div class="watch-meta">${escapeHtml(w.name||'')}</div></div><span class="chip ${chipClass(w.status)}">${escapeHtml(w.status)}</span></div><div class="watch-date">판정 기준 ${escapeHtml(w.as_of_kst||kst)} KST</div><div class="watch-action">${escapeHtml(w.action)}</div><button class="source-trigger watch-source-trigger" type="button" data-watch-source="${escapeHtml(sym)}">시세·차트 보기</button></div>`;}).join('');
+    const sectorBySymbol={};(d.sectors||[]).forEach(s=>s.etfs.forEach(e=>sectorBySymbol[e]=s));
+    let top=(d.watchlist||[]).filter(w=>String(w.status||'')!=='중립');
+    if(!top.length){
+      const active=(d.sectors||[]).filter(s=>String(s.status||'')!=='중립');
+      const opportunities=active.filter(s=>s.status==='상승 사이클'||s.status==='초기 관심').sort((a,b)=>b.score-a.score);
+      const warnings=active.filter(s=>s.status==='약화').sort((a,b)=>a.score-b.score);
+      const picked=[...opportunities.slice(0,3),...warnings.slice(0,1)];
+      const used=new Set(picked.map(s=>s.name));
+      for(const s of active){if(picked.length>=4)break;if(!used.has(s.name)){picked.push(s);used.add(s.name);}}
+      top=picked.map(s=>({symbol:s.etfs[0],name:s.name,status:s.status,action:s.action,score:s.score,reason:s.reason,as_of_kst:kst}));
+    }
+    top=top.slice(0,4);
+    const watchBySymbol=Object.fromEntries(top.map(w=>[w.symbol||w.etfs?.[0]||'',w]));
+    $('#watchList').innerHTML=top.length?top.map((w,i)=>{const sym=w.symbol||w.etfs?.[0]||'';const sector=sectorBySymbol[sym]||{};const score=w.score??sector.score??'-';const reason=w.reason||sector.reason||'';const selected=(selectedSymbol?selectedSymbol===sym:i===0)?'selected':'';return `<div class="watch-card ${selected}" data-symbol="${escapeHtml(sym)}"><div class="watch-head"><div><div class="symbol">${escapeHtml(sym)}</div><div class="watch-meta">${escapeHtml(w.name||'')}</div></div><span class="chip ${chipClass(w.status)}">${escapeHtml(w.status)}</span></div><div class="watch-date">판정 기준 ${escapeHtml(w.as_of_kst||kst)} KST</div><div class="watch-action">${escapeHtml(w.action)}</div><div class="watch-score-row"><span class="watch-score">레이더 ${escapeHtml(score)}점</span><span class="watch-meta">중립 신호 제외</span></div>${reason?`<div class="watch-reason">${escapeHtml(reason)}</div>`:''}<button class="source-trigger watch-source-trigger" type="button" data-watch-source="${escapeHtml(sym)}">시세·차트 보기</button></div>`;}).join(''):'<div class="watch-empty">오늘은 중립을 제외하면 뚜렷한 관심 신호가 없습니다.<br>억지로 종목을 채우지 않고 비워두는 것이 정상입니다.</div>';
     const details={};(d.sectors||[]).forEach(s=>s.etfs.forEach(e=>details[e]=s));
     document.querySelectorAll('.watch-card').forEach(card=>{card.onclick=(e)=>{if(e.target.closest('[data-watch-source]'))return;selectedSymbol=card.dataset.symbol;selectedSector=details[selectedSymbol]||d.sectors[0];selectedWatch=watchBySymbol[selectedSymbol]||{symbol:selectedSymbol};document.querySelectorAll('.watch-card').forEach(x=>x.classList.remove('selected'));card.classList.add('selected');renderDetail(selectedSector,selectedWatch);};});
     document.querySelectorAll('[data-watch-source]').forEach(btn=>btn.onclick=(e)=>{e.stopPropagation();const sym=btn.dataset.watchSource;const w=watchBySymbol[sym]||{symbol:sym};openSourceModal(`${sym} · 시세/차트`,`오늘의 관심 ETF · 판정 기준 ${w.as_of_kst||kst} KST`,w.sources?.length?w.sources:genericQuoteSources(sym));});
@@ -135,7 +147,7 @@ function renderDetail(s,w={}){if(!s)return;const symbol=w.symbol||s.etfs[0];$('#
 $('#detailQuoteBtn').addEventListener('click',()=>{if(!selectedSymbol)return;openSourceModal(`${selectedSymbol} · 시세/차트`,`판정과 실제 시세를 분리해서 확인합니다.`,selectedWatch?.sources?.length?selectedWatch.sources:genericQuoteSources(selectedSymbol));});
 function updateCountdown(){const sec=Math.max(0,Math.ceil((nextBrowserRefreshAt-Date.now())/1000)),m=Math.floor(sec/60),s=sec%60;$('#refreshCountdown').textContent=`화면 자동 확인 ${m}:${String(s).padStart(2,'0')} 후`;if(lastData)updateFreshness(lastData.meta||{},lastData);}
 applyUiSettings();
-$('#themeToggle').addEventListener('click',()=>{uiTheme=uiTheme==='day'?'night':'day';localStorage.setItem('radarTheme',uiTheme);applyUiSettings();});
+$('#themeToggle').addEventListener('click',()=>{uiTheme=uiTheme==='day'?'night':'day';localStorage.setItem('radarThemeV15',uiTheme);applyUiSettings();});
 $('#fontSmaller').addEventListener('click',()=>setFontScale(.9));
 $('#fontReset').addEventListener('click',()=>setFontScale(1));
 $('#fontLarger').addEventListener('click',()=>setFontScale(1.1));

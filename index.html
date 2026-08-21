@@ -20,7 +20,7 @@
 
     <section class="hero-grid">
       <div class="hero panel">
-        <div>
+        <div class="hero-copy">
           <div class="eyebrow">US MARKET / SECTOR CYCLE</div>
           <h1>미국 산업 사이클 레이더</h1>
           <p>장 시작 전 체크 · 거시지표 · 섹터 로테이션 · 대표 ETF</p>
@@ -35,21 +35,25 @@
       </div>
 
       <div class="panel regime">
-        <div class="section-label">오늘의 투자 환경</div>
-        <div class="environment-row">
-          <div id="environmentGrade" class="environment-grade">-</div>
-          <div id="environmentScore" class="environment-score">-</div>
+        <div class="regime-main">
+          <div class="section-label">오늘의 투자 환경</div>
+          <div class="environment-row">
+            <div id="environmentGrade" class="environment-grade">-</div>
+            <div id="environmentScore" class="environment-score">-</div>
+          </div>
+          <div id="environmentGuidance" class="environment-guidance">시장 데이터를 해석 중입니다.</div>
+          <div class="environment-scale" id="environmentScale" aria-label="투자환경 점수 단계">
+            <span data-range="favorable"><b>70~100</b> 우호</span>
+            <span data-range="selective"><b>55~69</b> 중립~우호</span>
+            <span data-range="caution"><b>40~54</b> 중립~주의</span>
+            <span data-range="risk"><b>0~39</b> 위험</span>
+          </div>
         </div>
-        <div id="environmentGuidance" class="environment-guidance">시장 데이터를 해석 중입니다.</div>
-        <div class="environment-scale" id="environmentScale" aria-label="투자환경 점수 단계">
-          <span data-range="favorable"><b>70~100</b> 우호</span>
-          <span data-range="selective"><b>55~69</b> 중립~우호</span>
-          <span data-range="caution"><b>40~54</b> 중립~주의</span>
-          <span data-range="risk"><b>0~39</b> 위험</span>
+        <div class="regime-side">
+          <div class="phase-row"><span>경기 국면 참고 <small>(매수·매도 지시 아님)</small></span><b id="regimeName">-</b></div>
+          <div id="regimeReasons" class="reasons"></div>
+          <div class="regime-foot" id="updatePolicy">서버 데이터 업데이트 정책 확인 중</div>
         </div>
-        <div class="phase-row"><span>경기 국면 참고 <small>(매수·매도 지시 아님)</small></span><b id="regimeName">-</b></div>
-        <div id="regimeReasons" class="reasons"></div>
-        <div class="regime-foot" id="updatePolicy">서버 데이터 업데이트 정책 확인 중</div>
       </div>
     </section>
 
@@ -66,7 +70,7 @@
       </div>
 
       <aside class="panel">
-        <div class="panel-head watch-headline"><div><div class="section-label">WATCHLIST</div><h2>오늘의 관심 ETF</h2><div id="watchAsOf" class="watch-date">판정 기준 시점 -</div></div></div>
+        <div class="panel-head watch-headline"><div><div class="section-label">WATCHLIST</div><h2>오늘의 관심 ETF</h2><div class="watch-subtitle">중립 제외 · 기회/주의 신호만 표시</div><div id="watchAsOf" class="watch-date">판정 기준 시점 -</div></div></div>
         <div id="watchList" class="watch-list"></div>
       </aside>
     </section>

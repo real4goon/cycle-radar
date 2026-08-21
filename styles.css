@@ -35,3 +35,54 @@ html[data-theme="day"] .investment-warning{background:linear-gradient(90deg,rgba
 html[data-theme="day"] .bar{background:#ccd8df}
 
 @media(max-width:760px){.display-toolbar{position:static;margin:7px 9px 0 auto}.environment-scale{grid-template-columns:repeat(2,1fr)}body{zoom:1!important}html[data-theme="day"] .display-toolbar{background:#e9eef2}}
+
+/* v1.5: night-first, balanced hero, muted slate day theme, compact watchlist */
+.hero-grid{grid-template-columns:1.08fr 1fr;align-items:stretch}
+.hero{display:grid;grid-template-columns:minmax(0,1fr) minmax(270px,320px);align-items:center;gap:26px;padding:22px 24px;min-height:0}
+.hero-copy{align-self:center}
+.data-status{align-self:center}
+.regime{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(220px,.85fr);gap:14px;align-items:center;padding:16px 18px}
+.regime-main,.regime-side{min-width:0}
+.regime-side{border-left:1px solid #1c3142;padding-left:14px}
+.phase-row{margin-top:0;padding-top:0;border-top:0;display:block}
+.phase-row b{display:block;margin-top:5px;font-size:13px;color:var(--text)}
+.reasons{margin-top:8px;font-size:11px;line-height:1.55}
+.regime-foot{margin-top:8px;padding-top:7px}
+.environment-guidance{padding:9px 10px}
+.environment-scale{margin-top:8px}
+.content-grid{align-items:start}
+.content-grid>aside.panel{align-self:start;height:auto}
+.watch-subtitle{font-size:10px;color:var(--muted);margin-top:4px}
+.watch-card{padding:13px 12px}
+.watch-score-row{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:9px;padding-top:8px;border-top:1px solid #1d3142}
+.watch-score{font-size:11px;font-weight:900;color:var(--cyan)}
+.watch-reason{font-size:10px;color:var(--muted);line-height:1.45;margin-top:6px}
+.watch-empty{padding:14px;border:1px dashed var(--line);border-radius:10px;color:var(--muted);font-size:11px;line-height:1.55}
+
+/* Day theme v1.5: darker desaturated slate to reduce glare */
+html[data-theme="day"]{--bg:#c5ced5;--panel:#d8e0e5;--line:#aab9c3;--text:#20303a;--muted:#5d7180;--green:#1d7653;--red:#b44b4b;--amber:#87661f;--blue:#326c96;--cyan:#24777b;--purple:#725795;background:var(--bg)}
+html[data-theme="day"] body{background:radial-gradient(circle at 15% 0%,#dde4e8 0,transparent 32%),linear-gradient(180deg,#c2ccd3,#d0d8dd 45%,#c5cfd5);color:var(--text)}
+html[data-theme="day"] .panel{background:linear-gradient(180deg,#dbe2e6,#d1d9de);box-shadow:0 1px 3px rgba(35,55,68,.08)}
+html[data-theme="day"] .market-item,html[data-theme="day"] .sector-card,html[data-theme="day"] .watch-card,html[data-theme="day"] .factor,html[data-theme="day"] .event{background:#cfd9df}
+html[data-theme="day"] th{background:#cbd5db;color:#4d6575}html[data-theme="day"] th,html[data-theme="day"] td{border-color:#afbdc6}
+html[data-theme="day"] .environment-guidance{background:#cbd7de;border-color:#aabcc8;color:#2e4351}
+html[data-theme="day"] .regime-side{border-color:#b1bec7}
+html[data-theme="day"] .regime-foot,html[data-theme="day"] .macro-invest,html[data-theme="day"] .score-label,html[data-theme="day"] .watch-score-row{border-color:#b2c0c9}
+html[data-theme="day"] .display-toolbar{background:rgba(211,220,225,.95);box-shadow:0 5px 18px rgba(50,70,84,.12)}
+html[data-theme="day"] .mini-btn,html[data-theme="day"] .quote-btn{background:#c5d2da;color:#29485c;border-color:#9eb1be}
+html[data-theme="day"] .source-modal .source-dialog{background:#d7e0e5;color:var(--text);border-color:#a5b6c1}
+html[data-theme="day"] .source-button{background:#cbd6dd;border-color:#aebdc6;color:var(--text)}
+html[data-theme="day"] .bar{background:#afbec8}
+html[data-theme="day"] .investment-warning{background:linear-gradient(90deg,rgba(180,75,75,.12),rgba(135,102,31,.10));color:#5d3434;border-color:rgba(180,75,75,.55)}
+
+@media(max-width:1180px){
+  .hero-grid{grid-template-columns:1fr}
+  .hero{grid-template-columns:minmax(0,1fr) minmax(260px,320px)}
+  .regime{grid-template-columns:1.1fr .9fr}
+}
+@media(max-width:760px){
+  .hero{display:flex;align-items:flex-start;flex-direction:column;gap:14px}
+  .regime{display:block}
+  .regime-side{border-left:0;border-top:1px solid var(--line);padding-left:0;padding-top:11px;margin-top:11px}
+  html[data-theme="day"] .regime-side{border-color:#b1bec7}
+}
