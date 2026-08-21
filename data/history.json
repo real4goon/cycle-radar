@@ -31,7 +31,7 @@
         {
           "name": "소재/원자재",
           "status": "중립",
-          "score": 55,
+          "score": 53,
           "etfs": [
             "XLB"
           ]
@@ -39,7 +39,7 @@
         {
           "name": "에너지",
           "status": "초기 관심",
-          "score": 63,
+          "score": 64,
           "etfs": [
             "XLE"
           ]
@@ -55,7 +55,7 @@
         {
           "name": "금/금광",
           "status": "상승 사이클",
-          "score": 80,
+          "score": 81,
           "etfs": [
             "GLD",
             "GDX"
@@ -80,7 +80,7 @@
         {
           "name": "리츠",
           "status": "약화",
-          "score": 43,
+          "score": 42,
           "etfs": [
             "VNQ"
           ]
