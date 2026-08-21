@@ -3,124 +3,121 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <meta name="color-scheme" content="light dark"/>
+  <meta name="color-scheme" content="dark light"/>
   <title>미국 산업 사이클 레이더</title>
   <link rel="stylesheet" href="styles.css"/>
 </head>
 <body>
   <div class="display-toolbar" aria-label="화면 설정">
-    <button id="themeToggle" class="display-btn" type="button" title="데이/나이트 전환">☀ 데이</button>
+    <button id="themeToggle" class="display-btn" type="button">☀ 데이</button>
     <span class="toolbar-divider"></span>
-    <button id="fontSmaller" class="display-btn font-btn" type="button" title="글씨 10% 작게">A−</button>
-    <button id="fontReset" class="display-btn font-btn" type="button" title="글씨 기본 크기">A</button>
-    <button id="fontLarger" class="display-btn font-btn" type="button" title="글씨 10% 크게">A+</button>
+    <button id="fontSmaller" class="display-btn font-btn" type="button">A−</button>
+    <button id="fontReset" class="display-btn font-btn" type="button">A</button>
+    <button id="fontLarger" class="display-btn font-btn" type="button">A+</button>
   </div>
+
   <main class="app">
+    <section class="hero panel">
+      <div class="hero-copy">
+        <div class="eyebrow">US MARKET / SECTOR CYCLE</div>
+        <h1>미국 산업 사이클 레이더</h1>
+        <p>장 시작 전 체크 · 거시지표 · 섹터 로테이션 · 대표 ETF</p>
+      </div>
+      <div class="data-status">
+        <div class="status-row"><span class="status-dot" id="freshDot"></span><b id="freshLabel">데이터 확인 중</b></div>
+        <div id="updatedAt" class="updated">수집 시점 -</div>
+        <div id="marketViewpoint" class="viewpoint">관점 -</div>
+        <div id="dataAge" class="updated">-</div>
+        <div class="refresh-row"><span id="refreshCountdown">5분마다 자동 확인</span><button id="manualRefresh" class="mini-btn" type="button">새로고침 ↻</button></div>
+      </div>
+    </section>
+
     <section id="marketStrip" class="market-strip"></section>
 
-    <section class="hero-grid">
-      <div class="hero panel">
-        <div class="hero-copy">
-          <div class="eyebrow">US MARKET / SECTOR CYCLE</div>
-          <h1>미국 산업 사이클 레이더</h1>
-          <p>장 시작 전 체크 · 거시지표 · 섹터 로테이션 · 대표 ETF</p>
+    <section class="main-grid">
+      <div class="panel radar-panel">
+        <div class="panel-head radar-head">
+          <div><div class="section-label">SECTOR ROTATION</div><h2>산업 사이클 레이더</h2></div>
+          <div id="sectorFilters" class="filter-row">
+            <button class="filter-btn active" data-filter="all">전체</button>
+            <button class="filter-btn upcycle" data-filter="상승 사이클">상승</button>
+            <button class="filter-btn early" data-filter="초기 관심">초기 관심</button>
+            <button class="filter-btn neutral" data-filter="중립">중립</button>
+            <button class="filter-btn weak" data-filter="약화">약화</button>
+          </div>
         </div>
-        <div class="data-status">
-          <div class="status-row"><span class="status-dot" id="freshDot"></span><b id="freshLabel">데이터 확인 중</b></div>
-          <div id="updatedAt" class="updated">수집 시점 -</div>
-          <div id="marketViewpoint" class="viewpoint">관점 -</div>
-          <div id="dataAge" class="updated">-</div>
-          <div class="refresh-row"><span id="refreshCountdown">5분마다 자동 확인</span><button id="manualRefresh" class="mini-btn" type="button">지금 확인</button></div>
+        <div class="desktop-table">
+          <table>
+            <thead><tr><th>산업 (대표 ETF)</th><th>상태</th><th>레이더 점수</th><th>오늘 판단</th><th>핵심 근거 (요약)</th><th></th></tr></thead>
+            <tbody id="sectorTable"></tbody>
+          </table>
         </div>
+        <div id="sectorCards" class="mobile-sector-list"></div>
+        <div class="radar-formula">ⓘ 레이더 점수 = 가격 모멘텀 35% + SPY 대비 상대강도 30% + 거래량/수급 20% + 거시환경 15%</div>
       </div>
 
-      <div class="panel regime">
-        <div class="regime-main">
-          <div class="section-label">오늘의 투자 환경</div>
-          <div class="environment-row">
-            <div id="environmentGrade" class="environment-grade">-</div>
-            <div id="environmentScore" class="environment-score">-</div>
-          </div>
+      <aside class="right-stack">
+        <section class="panel environment-panel">
+          <div class="panel-head"><div><div class="section-label">MARKET ENVIRONMENT</div><h2>오늘의 투자 환경</h2></div></div>
+          <div class="environment-row"><div id="environmentScore" class="environment-score-big">-</div><div id="environmentGrade" class="environment-grade">-</div></div>
           <div id="environmentGuidance" class="environment-guidance">시장 데이터를 해석 중입니다.</div>
-          <div class="environment-scale" id="environmentScale" aria-label="투자환경 점수 단계">
-            <span data-range="favorable"><b>70~100</b> 우호</span>
-            <span data-range="selective"><b>55~69</b> 중립~우호</span>
-            <span data-range="caution"><b>40~54</b> 중립~주의</span>
-            <span data-range="risk"><b>0~39</b> 위험</span>
+          <div class="environment-scale" id="environmentScale">
+            <span data-range="favorable"><b>70~100</b>우호</span>
+            <span data-range="selective"><b>55~69</b>중립~우호</span>
+            <span data-range="caution"><b>40~54</b>중립~주의</span>
+            <span data-range="risk"><b>0~39</b>위험</span>
           </div>
-        </div>
-        <div class="regime-side">
-          <div class="phase-row"><span>경기 국면 참고 <small>(매수·매도 지시 아님)</small></span><b id="regimeName">-</b></div>
-          <div id="regimeReasons" class="reasons"></div>
-          <div class="regime-foot" id="updatePolicy">서버 데이터 업데이트 정책 확인 중</div>
-        </div>
-      </div>
+          <div id="environmentReasons" class="environment-reasons"></div>
+          <button id="environmentDetailBtn" class="soft-btn" type="button">자세한 설명 보기</button>
+        </section>
+
+        <section class="panel changes-panel">
+          <div class="panel-head"><div><div class="section-label">DAY-OVER-DAY</div><h2>오늘의 핵심 변화 <small>(전일 대비)</small></h2></div></div>
+          <div id="changesGrid" class="changes-grid"></div>
+          <div id="unchangedSummary" class="unchanged-summary"></div>
+        </section>
+
+        <section class="panel calendar-panel">
+          <div class="panel-head"><div><div class="section-label">MACRO CALENDAR</div><h2>주요 거시 일정</h2></div><div class="calendar-auto">공식 일정 자동 수집</div></div>
+          <div id="events" class="event-grid"></div>
+        </section>
+      </aside>
     </section>
 
     <section id="macroCards" class="macro-grid"></section>
 
-    <section class="content-grid">
-      <div class="panel">
-        <div class="panel-head">
-          <div><div class="section-label">SECTOR ROTATION</div><h2>산업 사이클 레이더</h2></div>
-          <div class="legend"><span class="chip upcycle">상승</span><span class="chip early">초기 관심</span><span class="chip neutral">중립</span><span class="chip weak">약화</span></div>
-        </div>
-        <div class="desktop-table"><table><thead><tr><th>산업</th><th>상태</th><th>점수</th><th>대표 ETF</th><th>오늘 판단</th></tr></thead><tbody id="sectorTable"></tbody></table></div>
-        <div id="sectorCards" class="mobile-sector-list"></div>
-      </div>
-
-      <aside class="panel">
-        <div class="panel-head watch-headline"><div><div class="section-label">WATCHLIST</div><h2>오늘의 관심 ETF</h2><div class="watch-subtitle">중립 제외 · 기회/주의 신호만 표시</div><div id="watchAsOf" class="watch-date">판정 기준 시점 -</div></div></div>
-        <div id="watchList" class="watch-list"></div>
-      </aside>
-    </section>
-
-    <section class="detail-grid">
-      <div class="panel">
-        <div class="panel-head"><div><div class="section-label">WHY?</div><h2 id="detailTitle">판정 근거</h2></div></div>
-        <div id="factorBars" class="factor-grid"></div>
-      </div>
-      <div class="panel summary">
-        <div class="section-label">SELECTED ETF</div>
-        <div id="detailSymbol" class="detail-symbol">-</div>
-        <div id="detailAsOf" class="detail-asof">판정 기준 시점 -</div>
-        <button id="detailQuoteBtn" class="quote-btn" type="button">시세·차트 사이트 열기</button>
-        <div class="section-label score-label">TOTAL SCORE</div>
-        <div id="detailScore" class="big-score">-</div>
-        <div id="detailConclusion" class="conclusion">관심 ETF를 선택하세요.</div>
-        <div id="detailNote" class="note"></div>
-      </div>
-    </section>
-
-    <section class="panel">
-      <div class="panel-head"><div><div class="section-label">MACRO CALENDAR</div><h2>주요 거시 일정</h2></div></div>
-      <div id="events" class="event-grid"></div>
-    </section>
-
     <section class="notice panel">
-      <div class="section-label">NOTICE</div>
-      <h2>데이터 시점과 이용 시 주의사항</h2>
       <div class="investment-warning">투자의 책임은 반드시 본인에게 있습니다. 참고 데이터로만 사용하세요.</div>
-      <ul id="cautionList">
-        <li>화면에 표시된 ‘수집 시점’을 반드시 확인하세요.</li>
-        <li>무료 프리마켓 시세는 실시간 체결가와 다를 수 있습니다.</li>
-        <li>산업 점수와 투자환경 등급은 미래 수익률 확률이 아니라 규칙 기반 보조 신호입니다.</li>
-        <li>외부 시세·원자료 사이트의 값과 수집 시점이 다를 수 있습니다.</li>
-      </ul>
+      <div class="notice-grid">
+        <div><div class="section-label">DATA NOTICE</div><ul id="cautionList"></ul></div>
+        <div class="copyright-block"><b>미국 산업 사이클 레이더</b><br/>무료 GitHub Pages + GitHub Actions<br/><span>© 2026 real4goon. All rights reserved.</span></div>
+      </div>
     </section>
-
-    <footer><div><b>미국 산업 사이클 레이더</b><br/>무료 GitHub Pages + GitHub Actions · FRED 공식 거시데이터 · Yahoo Finance 비공식 시세</div><div class="copyright">© 2026 real4goon. All rights reserved.</div></footer>
   </main>
 
   <div id="sourceModal" class="source-modal" aria-hidden="true">
     <div class="source-backdrop" data-close-modal="1"></div>
-    <div class="source-dialog" role="dialog" aria-modal="true" aria-labelledby="sourceModalTitle">
+    <div class="source-dialog" role="dialog" aria-modal="true">
       <button class="modal-close" type="button" data-close-modal="1">×</button>
       <div class="section-label">SOURCE / QUOTE</div>
       <h2 id="sourceModalTitle">출처·시세 확인</h2>
       <div id="sourceModalSubtitle" class="source-subtitle"></div>
       <div id="sourceButtons" class="source-buttons"></div>
       <div class="source-note">외부 사이트는 새 탭으로 열립니다. 일부 사이트는 지역·로그인·쿠키 정책에 따라 접근이 제한될 수 있습니다.</div>
+    </div>
+  </div>
+
+  <div id="sectorModal" class="source-modal" aria-hidden="true">
+    <div class="source-backdrop" data-close-sector="1"></div>
+    <div class="source-dialog sector-dialog" role="dialog" aria-modal="true">
+      <button class="modal-close" type="button" data-close-sector="1">×</button>
+      <div class="section-label">RADAR DETAIL</div>
+      <h2 id="sectorModalTitle">섹터 판정 근거</h2>
+      <div id="sectorModalMeta" class="source-subtitle"></div>
+      <div id="factorBars" class="factor-grid"></div>
+      <div id="sectorDetailReason" class="detail-reason"></div>
+      <div id="sectorDetailAction" class="detail-action"></div>
+      <button id="sectorQuoteBtn" class="quote-btn" type="button">대표 ETF 시세·차트 보기</button>
     </div>
   </div>
 
