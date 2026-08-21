@@ -101,7 +101,7 @@
         {
           "name": "바이오/헬스케어",
           "status": "초기 관심",
-          "score": 74,
+          "score": 73,
           "etfs": [
             "XBI",
             "IBB"
@@ -117,8 +117,8 @@
         },
         {
           "name": "소재/원자재",
-          "status": "초기 관심",
-          "score": 60,
+          "status": "중립",
+          "score": 59,
           "etfs": [
             "XLB"
           ]
