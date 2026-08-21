@@ -5,7 +5,7 @@
         {
           "name": "반도체/AI 하드웨어",
           "status": "약화",
-          "score": 37,
+          "score": 36,
           "etfs": [
             "SMH",
             "SOXX"
@@ -13,8 +13,8 @@
         },
         {
           "name": "바이오/헬스케어",
-          "status": "초기 관심",
-          "score": 70,
+          "status": "상승 사이클",
+          "score": 76,
           "etfs": [
             "XBI",
             "IBB"
@@ -31,7 +31,7 @@
         {
           "name": "소재/원자재",
           "status": "중립",
-          "score": 51,
+          "score": 53,
           "etfs": [
             "XLB"
           ]
@@ -39,7 +39,7 @@
         {
           "name": "에너지",
           "status": "초기 관심",
-          "score": 61,
+          "score": 62,
           "etfs": [
             "XLE"
           ]
@@ -47,7 +47,7 @@
         {
           "name": "금융",
           "status": "중립",
-          "score": 48,
+          "score": 49,
           "etfs": [
             "XLF"
           ]
@@ -55,7 +55,7 @@
         {
           "name": "금/금광",
           "status": "상승 사이클",
-          "score": 79,
+          "score": 80,
           "etfs": [
             "GLD",
             "GDX"
@@ -72,7 +72,7 @@
         {
           "name": "필수소비재",
           "status": "중립",
-          "score": 46,
+          "score": 47,
           "etfs": [
             "XLP"
           ]
