@@ -17,7 +17,7 @@ function applyUiSettings(){
 function setFontScale(v){uiFontScale=Math.max(.9,Math.min(1.1,Number(v.toFixed(1))));localStorage.setItem('radarFontScale',String(uiFontScale));applyUiSettings();}
 function clsForStatus(s=''){if(s.includes('상승')||s.includes('강함')||s.includes('개선'))return 'state-good';if(s.includes('약화')||s.includes('부담')||s.includes('위험'))return 'state-bad';if(s.includes('초기')||s.includes('주의')||s.includes('냉각'))return 'state-warn';return 'state-mid';}
 function chipClass(s=''){return s.includes('상승')?'upcycle':s.includes('초기')?'early':s.includes('약화')?'weak':'neutral';}
-function actionClass(action=''){if(action.includes('분할'))return 'good';if(action.includes('보류'))return 'bad';if(action.includes('대기')||action.includes('주의'))return 'warn';return '';}
+function actionClass(action=''){if(action==='분할 접근')return 'good signal-buy';if(action==='소액 진입 검토')return 'entry signal-entry';if(action.includes('보류'))return 'bad';if(action.includes('추격주의'))return 'warn chase';if(action.includes('대기')||action.includes('주의'))return 'warn';return 'watch';}
 function scoreFillClass(status=''){return status.includes('상승')?'fill-good':status.includes('초기')?'fill-early':status.includes('약화')?'fill-weak':'fill-neutral';}
 function parseTimestamp(meta={},d={}){const raw=meta.updated_at_iso||meta.updated_at_kst||d.updated_at_kst;if(!raw)return null;let text=String(raw).trim();if(/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}$/.test(text))text=text.replace(' ','T')+':00+09:00';const t=Date.parse(text);return Number.isFinite(t)?t:null;}
 function minutesSince(meta={},d={}){const t=parseTimestamp(meta,d);return t===null?null:Math.max(0,Math.floor((Date.now()-t)/60000));}
