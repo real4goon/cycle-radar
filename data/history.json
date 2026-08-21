@@ -1,0 +1,91 @@
+{
+  "days": {
+    "2026-08-21": {
+      "sectors": [
+        {
+          "name": "반도체/AI 하드웨어",
+          "status": "약화",
+          "score": 31,
+          "etfs": [
+            "SMH",
+            "SOXX"
+          ]
+        },
+        {
+          "name": "바이오/헬스케어",
+          "status": "초기 관심",
+          "score": 68,
+          "etfs": [
+            "XBI",
+            "IBB"
+          ]
+        },
+        {
+          "name": "산업재",
+          "status": "약화",
+          "score": 40,
+          "etfs": [
+            "XLI"
+          ]
+        },
+        {
+          "name": "소재/원자재",
+          "status": "중립",
+          "score": 52,
+          "etfs": [
+            "XLB"
+          ]
+        },
+        {
+          "name": "에너지",
+          "status": "초기 관심",
+          "score": 65,
+          "etfs": [
+            "XLE"
+          ]
+        },
+        {
+          "name": "금융",
+          "status": "중립",
+          "score": 49,
+          "etfs": [
+            "XLF"
+          ]
+        },
+        {
+          "name": "금/금광",
+          "status": "상승 사이클",
+          "score": 77,
+          "etfs": [
+            "GLD",
+            "GDX"
+          ]
+        },
+        {
+          "name": "빅테크",
+          "status": "중립",
+          "score": 45,
+          "etfs": [
+            "QQQM"
+          ]
+        },
+        {
+          "name": "필수소비재",
+          "status": "중립",
+          "score": 49,
+          "etfs": [
+            "XLP"
+          ]
+        },
+        {
+          "name": "리츠",
+          "status": "약화",
+          "score": 44,
+          "etfs": [
+            "VNQ"
+          ]
+        }
+      ]
+    }
+  }
+}

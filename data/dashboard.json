@@ -1,18 +1,18 @@
 {
-  "updated_at_kst": "2026-08-21 15:46",
+  "updated_at_kst": "2026-08-21 16:07",
   "meta": {
-    "updated_at_iso": "2026-08-21T15:46:31+09:00",
-    "updated_at_utc_iso": "2026-08-21T06:46:31+00:00",
-    "updated_at_kst": "2026-08-21 15:46",
-    "updated_at_et": "2026-08-21 02:46",
-    "market_session": "장 외 시간",
+    "updated_at_iso": "2026-08-21T16:07:30+09:00",
+    "updated_at_utc_iso": "2026-08-21T07:07:30+00:00",
+    "updated_at_kst": "2026-08-21 16:07",
+    "updated_at_et": "2026-08-21 03:07",
+    "market_session": "closed",
     "perspective": "미국장 외 시간의 마지막 데이터 관점",
     "update_policy": "서버: 평일 20:00~23:30 KST 30분 간격 · 화면: 5분마다 새 데이터 자동 확인 · GitHub Actions는 지연 가능",
     "cautions": [
       "수집 시점과 미국장 세션을 먼저 확인하세요.",
       "Yahoo Finance extended-hours는 무료 비공식 데이터로 지연·누락이 있을 수 있습니다.",
       "투자환경 등급과 산업 점수는 미래 수익률 확률이 아닌 규칙 기반 보조 신호입니다.",
-      "FRED 거시지표는 각 지표의 최신 공식 발표값이며 장중 실시간 수치가 아닙니다.",
+      "FRED·BLS·Census·Federal Reserve 일정은 공식 공개자료를 사용하지만 기관의 일정 변경이 있을 수 있습니다.",
       "외부 원자료·시세 사이트와 대시보드의 수집 시점이 달라 값이 다를 수 있습니다.",
       "현재 버전은 뉴스·기업 실적·가이던스의 의미를 자동 점수에 완전히 반영하지 않습니다."
     ]
@@ -21,66 +21,108 @@
     {
       "name": "나스닥 선물",
       "symbol": "NQ=F",
-      "value": "29,388.25",
-      "change_pct": 0.3,
-      "change_text": "+0.30%",
-      "change_direction": 0.2995,
-      "source_label": "Yahoo Finance",
-      "source_url": "https://finance.yahoo.com/quote/NQ%3DF/",
+      "value": "29,381.75",
+      "change_pct": 0.28,
+      "change_text": "+0.28%",
+      "change_direction": 0.2773,
+      "spark": [
+        29367.75,
+        29330.5,
+        29334.75,
+        29356.25,
+        29367.0,
+        29353.5,
+        29360.75,
+        29366.25,
+        29374.0,
+        29376.25,
+        29372.75,
+        29381.75
+      ],
       "sources": [
         {
           "label": "CME Group",
-          "note": "E-mini Nasdaq-100 선물 공식 시장",
+          "note": "E-mini Nasdaq-100 Futures",
           "url": "https://www.cmegroup.com/markets/equities/nasdaq/e-mini-nasdaq-100.html"
         },
         {
           "label": "Yahoo Finance",
-          "note": "대시보드 무료 시세 수집 계열",
-          "url": "https://finance.yahoo.com/quote/NQ%3DF/"
-        },
-        {
-          "label": "Investing.com",
-          "note": "대체 시세·차트 검색",
-          "url": "https://www.investing.com/search/?q=%EB%82%98%EC%8A%A4%EB%8B%A5%20%EC%84%A0%EB%AC%BC"
+          "note": "수집에 사용한 무료 시세 (NQ=F)",
+          "url": "https://finance.yahoo.com/quote/NQ%3DF"
         }
       ]
     },
     {
       "name": "S&P500 선물",
       "symbol": "ES=F",
-      "value": "7,673.00",
-      "change_pct": 0.14,
-      "change_text": "+0.14%",
-      "change_direction": 0.137,
-      "source_label": "Yahoo Finance",
-      "source_url": "https://finance.yahoo.com/quote/ES%3DF/",
+      "value": "7,672.50",
+      "change_pct": 0.13,
+      "change_text": "+0.13%",
+      "change_direction": 0.1305,
+      "spark": [
+        7669.75,
+        7666.0,
+        7665.5,
+        7668.75,
+        7669.75,
+        7667.25,
+        7668.5,
+        7668.5,
+        7669.75,
+        7670.25,
+        7670.25,
+        7672.5
+      ],
       "sources": [
         {
           "label": "CME Group",
-          "note": "E-mini S&P 500 선물 공식 시장",
+          "note": "E-mini S&P 500 Futures",
           "url": "https://www.cmegroup.com/markets/equities/sp/e-mini-sandp500.html"
         },
         {
           "label": "Yahoo Finance",
-          "note": "대시보드 무료 시세 수집 계열",
-          "url": "https://finance.yahoo.com/quote/ES%3DF/"
-        },
-        {
-          "label": "Investing.com",
-          "note": "대체 시세·차트 검색",
-          "url": "https://www.investing.com/search/?q=S%26P500%20%EC%84%A0%EB%AC%BC"
+          "note": "수집에 사용한 무료 시세 (ES=F)",
+          "url": "https://finance.yahoo.com/quote/ES%3DF"
         }
       ]
     },
     {
-      "name": "SOX",
+      "name": "SOX 지수",
       "symbol": "^SOX",
       "value": "11,800.02",
       "change_pct": 0.53,
       "change_text": "+0.53%",
       "change_direction": 0.5264,
-      "source_label": "Yahoo Finance",
-      "source_url": "https://finance.yahoo.com/quote/%5ESOX/",
+      "spark": [
+        11847.895508,
+        11819.253906,
+        11801.901367,
+        11774.554688,
+        11716.080078,
+        11759.077148,
+        11744.027344,
+        11761.802734,
+        11761.40918,
+        11784.563477,
+        11773.768555,
+        11746.310547,
+        11746.953125,
+        11755.916016,
+        11723.895508,
+        11727.137695,
+        11712.90918,
+        11742.65918,
+        11763.924805,
+        11793.501953,
+        11785.910156,
+        11801.003906,
+        11800.019,
+        11800.019,
+        11800.019,
+        11800.019,
+        11800.019,
+        11800.019
+      ],
       "sources": [
         {
           "label": "Nasdaq",
@@ -89,40 +131,42 @@
         },
         {
           "label": "Yahoo Finance",
-          "note": "대시보드 무료 시세 수집 계열",
-          "url": "https://finance.yahoo.com/quote/%5ESOX/"
-        },
-        {
-          "label": "Investing.com",
-          "note": "대체 시세·차트 검색",
-          "url": "https://www.investing.com/search/?q=SOX"
+          "note": "수집에 사용한 무료 시세 (^SOX)",
+          "url": "https://finance.yahoo.com/quote/%5ESOX"
         }
       ]
     },
     {
       "name": "WTI 원유",
       "symbol": "CL=F",
-      "value": "86.34",
-      "change_pct": -1.7,
-      "change_text": "-1.70%",
-      "change_direction": -1.6965,
-      "source_label": "Yahoo Finance",
-      "source_url": "https://finance.yahoo.com/quote/CL%3DF/",
+      "value": "86.32",
+      "change_pct": -1.72,
+      "change_text": "-1.72%",
+      "change_direction": -1.7192,
+      "spark": [
+        86.459999,
+        86.519997,
+        86.449997,
+        86.239998,
+        86.220001,
+        86.449997,
+        86.449997,
+        86.169998,
+        86.190002,
+        86.379997,
+        86.400002,
+        86.32
+      ],
       "sources": [
         {
           "label": "CME Group",
-          "note": "WTI Crude Oil 선물 공식 시장",
+          "note": "WTI Crude Oil Futures",
           "url": "https://www.cmegroup.com/markets/energy/crude-oil/light-sweet-crude.html"
         },
         {
           "label": "Yahoo Finance",
-          "note": "대시보드 무료 시세 수집 계열",
-          "url": "https://finance.yahoo.com/quote/CL%3DF/"
-        },
-        {
-          "label": "Investing.com",
-          "note": "대체 시세·차트 검색",
-          "url": "https://www.investing.com/search/?q=WTI%20%EC%9B%90%EC%9C%A0"
+          "note": "수집에 사용한 무료 시세 (CL=F)",
+          "url": "https://finance.yahoo.com/quote/CL%3DF"
         }
       ]
     },
@@ -133,23 +177,45 @@
       "change_pct": 0.92,
       "change_text": "+4.3bp",
       "change_direction": 4.3,
-      "source_label": "Yahoo Finance",
-      "source_url": "https://finance.yahoo.com/quote/%5ETNX/",
+      "spark": [
+        4.712,
+        4.692,
+        4.696,
+        4.7,
+        4.704,
+        4.696,
+        4.7,
+        4.692,
+        4.69,
+        4.69,
+        4.678,
+        4.692,
+        4.708,
+        4.706,
+        4.7,
+        4.7,
+        4.702,
+        4.7,
+        4.698,
+        4.7,
+        4.704,
+        4.704,
+        4.696,
+        4.7,
+        4.698,
+        4.7,
+        4.696
+      ],
       "sources": [
         {
           "label": "FRED",
-          "note": "미국 10년 국채금리 DGS10",
+          "note": "10-Year Treasury Rate",
           "url": "https://fred.stlouisfed.org/series/DGS10"
         },
         {
           "label": "Yahoo Finance",
-          "note": "대시보드 무료 시세 수집 계열",
-          "url": "https://finance.yahoo.com/quote/%5ETNX/"
-        },
-        {
-          "label": "Investing.com",
-          "note": "대체 시세·차트 검색",
-          "url": "https://www.investing.com/search/?q=%EB%AF%B8%2010%EB%85%84%EB%AC%BC"
+          "note": "수집에 사용한 무료 시세 (^TNX)",
+          "url": "https://finance.yahoo.com/quote/%5ETNX"
         }
       ]
     },
@@ -159,78 +225,131 @@
       "value": "98.73",
       "change_pct": -0.17,
       "change_text": "-0.17%",
-      "change_direction": -0.1729,
-      "source_label": "Yahoo Finance",
-      "source_url": "https://finance.yahoo.com/quote/DX-Y.NYB/",
+      "change_direction": -0.1749,
+      "spark": [
+        98.745003,
+        98.758003,
+        98.764999,
+        98.755997,
+        98.761002,
+        98.768997,
+        98.717003,
+        98.698997,
+        98.746002,
+        98.754997,
+        98.739998,
+        98.726997
+      ],
       "sources": [
         {
           "label": "ICE",
-          "note": "U.S. Dollar Index 공식 시장",
+          "note": "U.S. Dollar Index Futures",
           "url": "https://www.ice.com/products/194/US-Dollar-Index-Futures"
         },
         {
           "label": "Yahoo Finance",
-          "note": "대시보드 무료 시세 수집 계열",
-          "url": "https://finance.yahoo.com/quote/DX-Y.NYB/"
-        },
-        {
-          "label": "Investing.com",
-          "note": "대체 시세·차트 검색",
-          "url": "https://www.investing.com/search/?q=DXY"
+          "note": "수집에 사용한 무료 시세 (DX-Y.NYB)",
+          "url": "https://finance.yahoo.com/quote/DX-Y.NYB"
         }
       ]
     },
     {
       "name": "비트코인",
       "symbol": "BTC-USD",
-      "value": "75,281",
-      "change_pct": 8.68,
-      "change_text": "+8.68%",
-      "change_direction": 8.6837,
-      "source_label": "Yahoo Finance",
-      "source_url": "https://finance.yahoo.com/quote/BTC-USD/",
+      "value": "75,783",
+      "change_pct": 3.77,
+      "change_text": "+3.77%",
+      "change_direction": 3.7658,
+      "spark": [
+        73699.429688,
+        73685.023438,
+        73692.40625,
+        73943.03125,
+        74708.890625,
+        74716.5,
+        75107.890625,
+        74852.382812,
+        74949.9375,
+        74678.96875,
+        74409.710938,
+        74402.398438,
+        74576.390625,
+        74673.359375,
+        74478.273438,
+        74845.929688,
+        74792.179688,
+        74928.992188,
+        74999.992188,
+        75292.242188,
+        75174.953125,
+        75244.546875,
+        75438.078125,
+        75257.273438,
+        75298.742188,
+        75365.0,
+        75615.789062,
+        75780.492188
+      ],
       "sources": [
         {
           "label": "Coinbase",
-          "note": "Bitcoin 가격",
+          "note": "BTC-USD 시장",
           "url": "https://www.coinbase.com/price/bitcoin"
         },
         {
           "label": "Yahoo Finance",
-          "note": "대시보드 무료 시세 수집 계열",
-          "url": "https://finance.yahoo.com/quote/BTC-USD/"
-        },
-        {
-          "label": "Investing.com",
-          "note": "대체 시세·차트 검색",
-          "url": "https://www.investing.com/search/?q=%EB%B9%84%ED%8A%B8%EC%BD%94%EC%9D%B8"
+          "note": "수집에 사용한 무료 시세 (BTC-USD)",
+          "url": "https://finance.yahoo.com/quote/BTC-USD"
         }
       ]
     },
     {
       "name": "달러/원",
       "symbol": "KRW=X",
-      "value": "1,386.0",
-      "change_pct": -0.25,
-      "change_text": "-0.25%",
-      "change_direction": -0.2476,
-      "source_label": "Yahoo Finance",
-      "source_url": "https://finance.yahoo.com/quote/KRW%3DX/",
+      "value": "1,385.7",
+      "change_pct": -0.26,
+      "change_text": "-0.26%",
+      "change_direction": -0.2641,
+      "spark": [
+        1385.780029,
+        1384.97998,
+        1387.579956,
+        1384.880005,
+        1381.47998,
+        1380.680054,
+        1382.47998,
+        1380.280029,
+        1380.949951,
+        1380.47998,
+        1380.880005,
+        1380.719971,
+        1381.079956,
+        1382.680054,
+        1382.380005,
+        1381.579956,
+        1382.180054,
+        1381.380005,
+        1380.97998,
+        1381.75,
+        1382.079956,
+        1382.47998,
+        1383.780029,
+        1384.660034,
+        1386.079956,
+        1385.849976,
+        1385.47998,
+        1385.72998
+      ],
       "sources": [
         {
-          "label": "한국은행 ECOS",
-          "note": "공식 경제통계 시스템",
-          "url": "https://ecos.bok.or.kr/"
+          "label": "Investing.com",
+          "note": "USD/KRW 시세",
+          "url": "https://www.investing.com/currencies/usd-krw"
         },
         {
           "label": "Yahoo Finance",
-          "note": "대시보드 무료 시세 수집 계열",
-          "url": "https://finance.yahoo.com/quote/KRW%3DX/"
-        },
-        {
-          "label": "Investing.com",
-          "note": "대체 시세·차트 검색",
-          "url": "https://www.investing.com/search/?q=%EB%8B%AC%EB%9F%AC%2F%EC%9B%90"
+          "note": "수집에 사용한 무료 시세 (KRW=X)",
+          "url": "https://finance.yahoo.com/quote/KRW%3DX"
         }
       ]
     }
@@ -238,14 +357,15 @@
   "regime": {
     "name": "둔화 관찰",
     "environment": {
-      "score": 60,
+      "score": 58,
       "label": "🔵 중립~우호",
       "guidance": "선별 매수 환경입니다. 지수 전체보다 상대강도가 개선되는 섹터를 우선 관찰하세요."
     },
     "reasons": [
-      "고용: 실업률 4.1% · 3개월 -0.2%p → 투자환경 중립",
-      "금리: 10년물 4.696% · 당일 +4.3bp → 투자환경 주의",
-      "위험선호: VIX 16.0 → 투자환경 우호"
+      "고용 · 실업률 4.1% · 3개월 -0.2%p",
+      "물가 · CPI YoY 3.54% · 이전 3.73%",
+      "금리 · 10년물 4.696% · 당일 +4.3bp",
+      "위험선호 · VIX 16.0"
     ]
   },
   "macro": [
@@ -315,7 +435,7 @@
       "summary": "신규 실업수당 206K · 4주전 대비 +9.0%",
       "investment_grade": "중립",
       "investment_score": 55,
-      "investment_hint": "실업수당 급증은 경기민감·소비 관련 자산에 부담. 현재는 단일 지표라 보조 신호로만 사용.",
+      "investment_hint": "실업수당 급증은 경기민감·소비 관련 자산에 부담. 단일 지표이므로 보조 신호로 사용.",
       "sources": [
         {
           "label": "FRED · ICSA",
@@ -345,7 +465,7 @@
         {
           "label": "Yahoo Finance",
           "note": "DXY 시세",
-          "url": "https://finance.yahoo.com/quote/DX-Y.NYB/"
+          "url": "https://finance.yahoo.com/quote/DX-Y.NYB"
         }
       ]
     },
@@ -365,7 +485,7 @@
         {
           "label": "Yahoo Finance",
           "note": "VIX 시세",
-          "url": "https://finance.yahoo.com/quote/%5EVIX/"
+          "url": "https://finance.yahoo.com/quote/%5EVIX"
         }
       ]
     }
@@ -377,13 +497,35 @@
         "SMH",
         "SOXX"
       ],
+      "quote_sources": [
+        {
+          "label": "Yahoo Finance",
+          "note": "SMH 시세·차트",
+          "url": "https://finance.yahoo.com/quote/SMH"
+        },
+        {
+          "label": "Nasdaq",
+          "note": "SMH ETF/시세 검색",
+          "url": "https://www.nasdaq.com/market-activity/etf/smh"
+        },
+        {
+          "label": "Investing.com",
+          "note": "SMH 검색",
+          "url": "https://www.investing.com/search/?q=SMH"
+        },
+        {
+          "label": "Bloomberg",
+          "note": "SMH:US 시세",
+          "url": "https://www.bloomberg.com/quote/SMH:US"
+        }
+      ],
       "status": "약화",
-      "score": 38,
+      "score": 31,
       "action": "추가매수 보류",
-      "reason": "프리/정규 최신가 반영 · 당일 +0.3% · 5일 -4.3% · 20일 +0.3% · SPY 대비 20일 -3.0%p · 5/20일 거래량 0.70배",
+      "reason": "프리/정규 최신가 반영 · 당일 +0.3% · 5일 -4.5% · 20일 -3.0% · SPY 대비 20일 -6.4%p · 5/20일 거래량 0.70배",
       "factors": {
-        "momentum": 38,
-        "relative_strength": 35,
+        "momentum": 33,
+        "relative_strength": 18,
         "volume": 29,
         "macro": 55
       }
@@ -394,13 +536,35 @@
         "XBI",
         "IBB"
       ],
+      "quote_sources": [
+        {
+          "label": "Yahoo Finance",
+          "note": "XBI 시세·차트",
+          "url": "https://finance.yahoo.com/quote/XBI"
+        },
+        {
+          "label": "Nasdaq",
+          "note": "XBI ETF/시세 검색",
+          "url": "https://www.nasdaq.com/market-activity/etf/xbi"
+        },
+        {
+          "label": "Investing.com",
+          "note": "XBI 검색",
+          "url": "https://www.investing.com/search/?q=XBI"
+        },
+        {
+          "label": "Bloomberg",
+          "note": "XBI:US 시세",
+          "url": "https://www.bloomberg.com/quote/XBI:US"
+        }
+      ],
       "status": "초기 관심",
-      "score": 70,
+      "score": 68,
       "action": "관찰 · 조정 대기",
-      "reason": "프리/정규 최신가 반영 · 당일 -3.4% · 5일 +4.1% · 20일 +8.8% · SPY 대비 20일 +5.6%p · 5/20일 거래량 1.17배",
+      "reason": "프리/정규 최신가 반영 · 당일 -3.4% · 5일 +4.4% · 20일 +7.6% · SPY 대비 20일 +4.2%p · 5/20일 거래량 1.17배",
       "factors": {
-        "momentum": 74,
-        "relative_strength": 78,
+        "momentum": 73,
+        "relative_strength": 71,
         "volume": 62,
         "macro": 55
       }
@@ -410,13 +574,35 @@
       "etfs": [
         "XLI"
       ],
+      "quote_sources": [
+        {
+          "label": "Yahoo Finance",
+          "note": "XLI 시세·차트",
+          "url": "https://finance.yahoo.com/quote/XLI"
+        },
+        {
+          "label": "Nasdaq",
+          "note": "XLI ETF/시세 검색",
+          "url": "https://www.nasdaq.com/market-activity/etf/xli"
+        },
+        {
+          "label": "Investing.com",
+          "note": "XLI 검색",
+          "url": "https://www.investing.com/search/?q=XLI"
+        },
+        {
+          "label": "Bloomberg",
+          "note": "XLI:US 시세",
+          "url": "https://www.bloomberg.com/quote/XLI:US"
+        }
+      ],
       "status": "약화",
-      "score": 39,
+      "score": 40,
       "action": "추가매수 보류",
-      "reason": "프리/정규 최신가 반영 · 당일 -1.0% · 5일 -3.5% · 20일 -1.4% · SPY 대비 20일 -4.7%p · 5/20일 거래량 0.92배",
+      "reason": "프리/정규 최신가 반영 · 당일 -1.0% · 5일 -3.1% · 20일 -1.0% · SPY 대비 20일 -4.4%p · 5/20일 거래량 0.92배",
       "factors": {
-        "momentum": 38,
-        "relative_strength": 27,
+        "momentum": 39,
+        "relative_strength": 28,
         "volume": 44,
         "macro": 60
       }
@@ -426,13 +612,35 @@
       "etfs": [
         "XLB"
       ],
+      "quote_sources": [
+        {
+          "label": "Yahoo Finance",
+          "note": "XLB 시세·차트",
+          "url": "https://finance.yahoo.com/quote/XLB"
+        },
+        {
+          "label": "Nasdaq",
+          "note": "XLB ETF/시세 검색",
+          "url": "https://www.nasdaq.com/market-activity/etf/xlb"
+        },
+        {
+          "label": "Investing.com",
+          "note": "XLB 검색",
+          "url": "https://www.investing.com/search/?q=XLB"
+        },
+        {
+          "label": "Bloomberg",
+          "note": "XLB:US 시세",
+          "url": "https://www.bloomberg.com/quote/XLB:US"
+        }
+      ],
       "status": "중립",
-      "score": 48,
+      "score": 52,
       "action": "관찰",
-      "reason": "프리/정규 최신가 반영 · 당일 -0.0% · 5일 -0.1% · 20일 +2.4% · SPY 대비 20일 -0.8%p · 5/20일 거래량 0.77배",
+      "reason": "프리/정규 최신가 반영 · 당일 -0.0% · 5일 +0.4% · 20일 +4.4% · SPY 대비 20일 +1.1%p · 5/20일 거래량 0.77배",
       "factors": {
-        "momentum": 53,
-        "relative_strength": 46,
+        "momentum": 57,
+        "relative_strength": 55,
         "volume": 34,
         "macro": 60
       }
@@ -442,13 +650,35 @@
       "etfs": [
         "XLE"
       ],
+      "quote_sources": [
+        {
+          "label": "Yahoo Finance",
+          "note": "XLE 시세·차트",
+          "url": "https://finance.yahoo.com/quote/XLE"
+        },
+        {
+          "label": "Nasdaq",
+          "note": "XLE ETF/시세 검색",
+          "url": "https://www.nasdaq.com/market-activity/etf/xle"
+        },
+        {
+          "label": "Investing.com",
+          "note": "XLE 검색",
+          "url": "https://www.investing.com/search/?q=XLE"
+        },
+        {
+          "label": "Bloomberg",
+          "note": "XLE:US 시세",
+          "url": "https://www.bloomberg.com/quote/XLE:US"
+        }
+      ],
       "status": "초기 관심",
-      "score": 63,
+      "score": 65,
       "action": "관찰 · 조정 대기",
-      "reason": "프리/정규 최신가 반영 · 당일 +0.4% · 5일 +3.1% · 20일 +7.1% · SPY 대비 20일 +3.8%p · 5/20일 거래량 0.91배",
+      "reason": "프리/정규 최신가 반영 · 당일 +0.4% · 5일 +4.6% · 20일 +7.5% · SPY 대비 20일 +4.2%p · 5/20일 거래량 0.91배",
       "factors": {
-        "momentum": 69,
-        "relative_strength": 69,
+        "momentum": 73,
+        "relative_strength": 71,
         "volume": 44,
         "macro": 60
       }
@@ -458,13 +688,35 @@
       "etfs": [
         "XLF"
       ],
+      "quote_sources": [
+        {
+          "label": "Yahoo Finance",
+          "note": "XLF 시세·차트",
+          "url": "https://finance.yahoo.com/quote/XLF"
+        },
+        {
+          "label": "Nasdaq",
+          "note": "XLF ETF/시세 검색",
+          "url": "https://www.nasdaq.com/market-activity/etf/xlf"
+        },
+        {
+          "label": "Investing.com",
+          "note": "XLF 검색",
+          "url": "https://www.investing.com/search/?q=XLF"
+        },
+        {
+          "label": "Bloomberg",
+          "note": "XLF:US 시세",
+          "url": "https://www.bloomberg.com/quote/XLF:US"
+        }
+      ],
       "status": "중립",
-      "score": 48,
+      "score": 49,
       "action": "관찰",
-      "reason": "프리/정규 최신가 반영 · 당일 -0.9% · 5일 -2.0% · 20일 +1.2% · SPY 대비 20일 -2.0%p · 5/20일 거래량 1.09배",
+      "reason": "프리/정규 최신가 반영 · 당일 -0.9% · 5일 -2.2% · 20일 +2.1% · SPY 대비 20일 -1.3%p · 5/20일 거래량 1.09배",
       "factors": {
         "momentum": 46,
-        "relative_strength": 40,
+        "relative_strength": 44,
         "volume": 56,
         "macro": 60
       }
@@ -475,12 +727,34 @@
         "GLD",
         "GDX"
       ],
+      "quote_sources": [
+        {
+          "label": "Yahoo Finance",
+          "note": "GLD 시세·차트",
+          "url": "https://finance.yahoo.com/quote/GLD"
+        },
+        {
+          "label": "Nasdaq",
+          "note": "GLD ETF/시세 검색",
+          "url": "https://www.nasdaq.com/market-activity/etf/gld"
+        },
+        {
+          "label": "Investing.com",
+          "note": "GLD 검색",
+          "url": "https://www.investing.com/search/?q=GLD"
+        },
+        {
+          "label": "Bloomberg",
+          "note": "GLD:US 시세",
+          "url": "https://www.bloomberg.com/quote/GLD:US"
+        }
+      ],
       "status": "상승 사이클",
-      "score": 76,
+      "score": 77,
       "action": "분할 접근",
-      "reason": "프리/정규 최신가 반영 · 당일 +0.3% · 5일 +3.4% · 20일 +11.6% · SPY 대비 20일 +8.4%p · 5/20일 거래량 1.28배",
+      "reason": "프리/정규 최신가 반영 · 당일 +0.3% · 5일 +4.1% · 20일 +11.7% · SPY 대비 20일 +8.4%p · 5/20일 거래량 1.28배",
       "factors": {
-        "momentum": 75,
+        "momentum": 77,
         "relative_strength": 92,
         "volume": 69,
         "macro": 55
@@ -491,13 +765,35 @@
       "etfs": [
         "QQQM"
       ],
+      "quote_sources": [
+        {
+          "label": "Yahoo Finance",
+          "note": "QQQM 시세·차트",
+          "url": "https://finance.yahoo.com/quote/QQQM"
+        },
+        {
+          "label": "Nasdaq",
+          "note": "QQQM ETF/시세 검색",
+          "url": "https://www.nasdaq.com/market-activity/etf/qqqm"
+        },
+        {
+          "label": "Investing.com",
+          "note": "QQQM 검색",
+          "url": "https://www.investing.com/search/?q=QQQM"
+        },
+        {
+          "label": "Bloomberg",
+          "note": "QQQM:US 시세",
+          "url": "https://www.bloomberg.com/quote/QQQM:US"
+        }
+      ],
       "status": "중립",
-      "score": 48,
+      "score": 45,
       "action": "관찰",
-      "reason": "프리/정규 최신가 반영 · 당일 -0.7% · 5일 -2.8% · 20일 +3.9% · SPY 대비 20일 +0.7%p · 5/20일 거래량 0.82배",
+      "reason": "프리/정규 최신가 반영 · 당일 -0.7% · 5일 -2.9% · 20일 +2.7% · SPY 대비 20일 -0.6%p · 5/20일 거래량 0.82배",
       "factors": {
-        "momentum": 47,
-        "relative_strength": 53,
+        "momentum": 45,
+        "relative_strength": 47,
         "volume": 37,
         "macro": 55
       }
@@ -507,13 +803,35 @@
       "etfs": [
         "XLP"
       ],
+      "quote_sources": [
+        {
+          "label": "Yahoo Finance",
+          "note": "XLP 시세·차트",
+          "url": "https://finance.yahoo.com/quote/XLP"
+        },
+        {
+          "label": "Nasdaq",
+          "note": "XLP ETF/시세 검색",
+          "url": "https://www.nasdaq.com/market-activity/etf/xlp"
+        },
+        {
+          "label": "Investing.com",
+          "note": "XLP 검색",
+          "url": "https://www.investing.com/search/?q=XLP"
+        },
+        {
+          "label": "Bloomberg",
+          "note": "XLP:US 시세",
+          "url": "https://www.bloomberg.com/quote/XLP:US"
+        }
+      ],
       "status": "중립",
-      "score": 47,
+      "score": 49,
       "action": "관찰",
-      "reason": "프리/정규 최신가 반영 · 당일 -1.3% · 5일 -0.8% · 20일 +1.6% · SPY 대비 20일 -1.7%p · 5/20일 거래량 0.94배",
+      "reason": "프리/정규 최신가 반영 · 당일 -1.3% · 5일 -0.7% · 20일 +2.7% · SPY 대비 20일 -0.7%p · 5/20일 거래량 0.94배",
       "factors": {
-        "momentum": 50,
-        "relative_strength": 42,
+        "momentum": 52,
+        "relative_strength": 47,
         "volume": 46,
         "macro": 55
       }
@@ -523,172 +841,93 @@
       "etfs": [
         "VNQ"
       ],
+      "quote_sources": [
+        {
+          "label": "Yahoo Finance",
+          "note": "VNQ 시세·차트",
+          "url": "https://finance.yahoo.com/quote/VNQ"
+        },
+        {
+          "label": "Nasdaq",
+          "note": "VNQ ETF/시세 검색",
+          "url": "https://www.nasdaq.com/market-activity/etf/vnq"
+        },
+        {
+          "label": "Investing.com",
+          "note": "VNQ 검색",
+          "url": "https://www.investing.com/search/?q=VNQ"
+        },
+        {
+          "label": "Bloomberg",
+          "note": "VNQ:US 시세",
+          "url": "https://www.bloomberg.com/quote/VNQ:US"
+        }
+      ],
       "status": "약화",
-      "score": 39,
+      "score": 44,
       "action": "추가매수 보류",
-      "reason": "프리/정규 최신가 반영 · 당일 +0.2% · 5일 -0.0% · 20일 -2.0% · SPY 대비 20일 -5.2%p · 5/20일 거래량 0.80배",
+      "reason": "프리/정규 최신가 반영 · 당일 +0.2% · 5일 +0.3% · 20일 +0.1% · SPY 대비 20일 -3.2%p · 5/20일 거래량 0.80배",
       "factors": {
-        "momentum": 47,
-        "relative_strength": 24,
+        "momentum": 51,
+        "relative_strength": 34,
         "volume": 36,
         "macro": 55
       }
     }
   ],
-  "watchlist": [
-    {
-      "symbol": "GLD",
-      "name": "금/금광",
-      "status": "상승 사이클",
-      "action": "분할 접근",
-      "score": 76,
-      "reason": "프리/정규 최신가 반영 · 당일 +0.3% · 5일 +3.4% · 20일 +11.6% · SPY 대비 20일 +8.4%p · 5/20일 거래량 1.28배",
-      "as_of_kst": "2026-08-21 15:46",
-      "as_of_et": "2026-08-21 02:46",
-      "sources": [
-        {
-          "label": "Yahoo Finance",
-          "note": "무료 시세·프리마켓 확인",
-          "url": "https://finance.yahoo.com/quote/GLD/"
-        },
-        {
-          "label": "Nasdaq",
-          "note": "ETF 시세·정보",
-          "url": "https://www.nasdaq.com/market-activity/etf/gld"
-        },
-        {
-          "label": "Investing.com",
-          "note": "시세·차트 검색",
-          "url": "https://www.investing.com/search/?q=GLD"
-        },
-        {
-          "label": "Bloomberg",
-          "note": "시세·뉴스 검색",
-          "url": "https://www.bloomberg.com/search?query=GLD"
-        }
-      ]
-    },
-    {
-      "symbol": "XBI",
-      "name": "바이오/헬스케어",
-      "status": "초기 관심",
-      "action": "관찰 · 조정 대기",
-      "score": 70,
-      "reason": "프리/정규 최신가 반영 · 당일 -3.4% · 5일 +4.1% · 20일 +8.8% · SPY 대비 20일 +5.6%p · 5/20일 거래량 1.17배",
-      "as_of_kst": "2026-08-21 15:46",
-      "as_of_et": "2026-08-21 02:46",
-      "sources": [
-        {
-          "label": "Yahoo Finance",
-          "note": "무료 시세·프리마켓 확인",
-          "url": "https://finance.yahoo.com/quote/XBI/"
-        },
-        {
-          "label": "Nasdaq",
-          "note": "ETF 시세·정보",
-          "url": "https://www.nasdaq.com/market-activity/etf/xbi"
-        },
-        {
-          "label": "Investing.com",
-          "note": "시세·차트 검색",
-          "url": "https://www.investing.com/search/?q=XBI"
-        },
-        {
-          "label": "Bloomberg",
-          "note": "시세·뉴스 검색",
-          "url": "https://www.bloomberg.com/search?query=XBI"
-        }
-      ]
-    },
-    {
-      "symbol": "XLE",
-      "name": "에너지",
-      "status": "초기 관심",
-      "action": "관찰 · 조정 대기",
-      "score": 63,
-      "reason": "프리/정규 최신가 반영 · 당일 +0.4% · 5일 +3.1% · 20일 +7.1% · SPY 대비 20일 +3.8%p · 5/20일 거래량 0.91배",
-      "as_of_kst": "2026-08-21 15:46",
-      "as_of_et": "2026-08-21 02:46",
-      "sources": [
-        {
-          "label": "Yahoo Finance",
-          "note": "무료 시세·프리마켓 확인",
-          "url": "https://finance.yahoo.com/quote/XLE/"
-        },
-        {
-          "label": "Nasdaq",
-          "note": "ETF 시세·정보",
-          "url": "https://www.nasdaq.com/market-activity/etf/xle"
-        },
-        {
-          "label": "Investing.com",
-          "note": "시세·차트 검색",
-          "url": "https://www.investing.com/search/?q=XLE"
-        },
-        {
-          "label": "Bloomberg",
-          "note": "시세·뉴스 검색",
-          "url": "https://www.bloomberg.com/search?query=XLE"
-        }
-      ]
-    },
-    {
-      "symbol": "SMH",
-      "name": "반도체/AI 하드웨어",
-      "status": "약화",
-      "action": "추가매수 보류",
-      "score": 38,
-      "reason": "프리/정규 최신가 반영 · 당일 +0.3% · 5일 -4.3% · 20일 +0.3% · SPY 대비 20일 -3.0%p · 5/20일 거래량 0.70배",
-      "as_of_kst": "2026-08-21 15:46",
-      "as_of_et": "2026-08-21 02:46",
-      "sources": [
-        {
-          "label": "Yahoo Finance",
-          "note": "무료 시세·프리마켓 확인",
-          "url": "https://finance.yahoo.com/quote/SMH/"
-        },
-        {
-          "label": "Nasdaq",
-          "note": "ETF 시세·정보",
-          "url": "https://www.nasdaq.com/market-activity/etf/smh"
-        },
-        {
-          "label": "Investing.com",
-          "note": "시세·차트 검색",
-          "url": "https://www.investing.com/search/?q=SMH"
-        },
-        {
-          "label": "Bloomberg",
-          "note": "시세·뉴스 검색",
-          "url": "https://www.bloomberg.com/search?query=SMH"
-        }
-      ]
-    }
-  ],
+  "changes": {
+    "improved": [],
+    "worsened": [],
+    "unchanged": [
+      "SMH",
+      "XBI",
+      "XLI",
+      "XLB",
+      "XLE",
+      "XLF",
+      "GLD",
+      "QQQM",
+      "XLP",
+      "VNQ"
+    ],
+    "note": "전일 비교 데이터 적재 중 · 다음 거래일부터 상태 변화를 표시합니다."
+  },
   "events": [
     {
-      "name": "CPI",
-      "when": "발표 일정 자동화는 다음 단계"
+      "name": "FOMC 회의 (금리결정)",
+      "date_kst": "08/22 (토)",
+      "time_kst": "03:00",
+      "date_et": "2026-08-21",
+      "time_et": "14:00",
+      "iso_kst": "2026-08-22T03:00+09:00",
+      "impact": 3,
+      "source": "Federal Reserve",
+      "source_url": "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm",
+      "note": "FOMC statement / press conference"
     },
     {
-      "name": "NFP",
-      "when": "발표 일정 자동화는 다음 단계"
+      "name": "신규 실업수당",
+      "date_kst": "08/27 (목)",
+      "time_kst": "21:30",
+      "date_et": "2026-08-27",
+      "time_et": "08:30",
+      "iso_kst": "2026-08-27T21:30+09:00",
+      "impact": 1,
+      "source": "U.S. Department of Labor",
+      "source_url": "https://www.dol.gov/ui/data.pdf",
+      "note": "통상 목요일 08:30 ET · 공휴일 예외 가능"
     },
     {
-      "name": "실업률",
-      "when": "NFP와 동시 발표"
-    },
-    {
-      "name": "소매판매",
-      "when": "발표 일정 자동화는 다음 단계"
-    },
-    {
-      "name": "FOMC",
-      "when": "일정 자동화는 다음 단계"
-    },
-    {
-      "name": "실업수당",
-      "when": "매주 목요일"
+      "name": "소매판매 (근원)",
+      "date_kst": "09/16 (수)",
+      "time_kst": "21:30",
+      "date_et": "2026-09-16",
+      "time_et": "08:30",
+      "iso_kst": "2026-09-16T21:30+09:00",
+      "impact": 3,
+      "source": "U.S. Census Bureau",
+      "source_url": "https://www.census.gov/retail/release_schedule.html",
+      "note": "Advance Monthly Retail Trade Report"
     }
   ]
 }
