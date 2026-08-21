@@ -1,6 +1,7 @@
 # 미국 산업 사이클 레이더 v1
 
 무료 데이터 + GitHub Pages + GitHub Actions로 동작하는 개인용 시장 대시보드입니다.
+https://real4goon.github.io/us-cycle-radar/
 
 ## 바로 쓰는 순서
 1. GitHub에서 새 repository 생성
