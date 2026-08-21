@@ -58,7 +58,9 @@
       </div>
 
       <aside class="panel">
-        <div class="panel-head"><div><div class="section-label">WATCHLIST</div><h2>오늘의 관심 ETF</h2></div></div>
+        <div class="panel-head watch-headline">
+          <div><div class="section-label">WATCHLIST</div><h2>오늘의 관심 ETF</h2><div id="watchAsOf" class="watch-date">기준 시점 -</div></div>
+        </div>
         <div id="watchList" class="watch-list"></div>
       </aside>
     </section>
@@ -69,7 +71,11 @@
         <div id="factorBars" class="factor-grid"></div>
       </div>
       <div class="panel summary">
-        <div class="section-label">TOTAL SCORE</div>
+        <div class="section-label">SELECTED ETF</div>
+        <div id="detailPrice" class="detail-price">-</div>
+        <div id="detailAsOf" class="detail-asof">가격 기준 시점 -</div>
+        <a id="detailSource" class="detail-source" href="#" target="_blank" rel="noopener noreferrer">시세 출처 열기 ↗</a>
+        <div class="section-label score-label">TOTAL SCORE</div>
         <div id="detailScore" class="big-score">-</div>
         <div id="detailConclusion" class="conclusion">관심 ETF를 선택하세요.</div>
         <div id="detailNote" class="note"></div>
@@ -84,6 +90,7 @@
     <section class="notice panel">
       <div class="section-label">NOTICE</div>
       <h2>데이터 시점과 이용 시 주의사항</h2>
+      <div class="investment-warning">투자의 책임은 반드시 본인에게 있습니다. 참고 데이터로만 사용하세요.</div>
       <ul id="cautionList">
         <li>화면에 표시된 ‘수집 시점’을 반드시 확인하세요.</li>
         <li>무료 프리마켓 시세는 실시간 체결가와 다를 수 있습니다.</li>
