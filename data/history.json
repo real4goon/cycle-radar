@@ -31,7 +31,7 @@
         {
           "name": "소재/원자재",
           "status": "중립",
-          "score": 55,
+          "score": 52,
           "etfs": [
             "XLB"
           ]
@@ -64,7 +64,7 @@
         {
           "name": "빅테크",
           "status": "중립",
-          "score": 46,
+          "score": 47,
           "etfs": [
             "QQQM"
           ]
