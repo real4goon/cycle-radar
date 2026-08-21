@@ -312,48 +312,151 @@ def rsi14(close):
 
 
 def fetch_fear_greed():
-    """CNN page backing JSON. This is a public page data endpoint, not a documented public API."""
-    endpoint = "https://production.dataviz.cnn.io/index/fearandgreed/graphdata"
-    headers = {
-        **HEADERS,
+    """Fetch CNN Fear & Greed robustly.
+
+    CNN's graphdata endpoint is undocumented and can return anti-bot responses
+    (notably 418/403/429) to cloud runners. Try browser-like, date-scoped URLs
+    first, then the base URL. If CNN is still unavailable, fall back to a
+    GitHub-hosted daily mirror that is rebuilt from the same CNN endpoint.
+    """
+    base = "https://production.dataviz.cnn.io/index/fearandgreed/graphdata"
+    browser_headers = {
+        "User-Agent": (
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+            "AppleWebKit/537.36 (KHTML, like Gecko) "
+            "Chrome/131.0.0.0 Safari/537.36"
+        ),
         "Accept": "application/json,text/plain,*/*",
-        "Origin": "https://www.cnn.com",
+        "Accept-Language": "en-US,en;q=0.9",
         "Referer": "https://www.cnn.com/markets/fear-and-greed",
+        "Origin": "https://www.cnn.com",
+        "Cache-Control": "no-cache",
     }
-    try:
-        r = requests.get(endpoint, headers=headers, timeout=20)
-        r.raise_for_status()
-        fg = (r.json() or {}).get("fear_and_greed") or {}
-        score = float(fg.get("score"))
-        if not math.isfinite(score):
-            raise ValueError("invalid score")
-        rating = str(fg.get("rating") or "").strip().lower()
-        ko = {
+
+    def ko_rating(rating):
+        rating = str(rating or "").strip().lower()
+        return {
             "extreme fear": "극단적 공포",
             "fear": "공포",
             "neutral": "중립",
             "greed": "탐욕",
             "extreme greed": "극단적 탐욕",
         }.get(rating, rating or "확인")
-        def fv(key):
-            try:
-                v = float(fg.get(key))
-                return round(v, 1) if math.isfinite(v) else None
-            except Exception:
-                return None
+
+    def as_float(v):
+        try:
+            x = float(v)
+            return x if math.isfinite(x) else None
+        except Exception:
+            return None
+
+    def parse_payload(payload, source_url):
+        payload = payload or {}
+        fg = payload.get("fear_and_greed") or {}
+        hist = payload.get("fear_and_greed_historical") or {}
+        score = as_float(fg.get("score"))
+        rating = str(fg.get("rating") or "").strip().lower()
+        timestamp = fg.get("timestamp")
+
+        # Some responses may only expose the historical block.
+        if score is None:
+            score = as_float(hist.get("score"))
+            rating = rating or str(hist.get("rating") or "").strip().lower()
+            timestamp = timestamp or hist.get("timestamp")
+        if score is None:
+            data = hist.get("data") or []
+            if data:
+                latest = data[-1]
+                score = as_float(latest.get("y"))
+                rating = rating or str(latest.get("rating") or "").strip().lower()
+                timestamp = timestamp or latest.get("x")
+        if score is None:
+            raise ValueError("CNN response missing Fear & Greed score")
+
         return {
             "available": True,
             "score": round(score, 1),
             "rating": rating,
-            "rating_ko": ko,
-            "previous_close": fv("previous_close"),
-            "previous_1_week": fv("previous_1_week"),
-            "previous_1_month": fv("previous_1_month"),
-            "timestamp": fg.get("timestamp"),
+            "rating_ko": ko_rating(rating),
+            "previous_close": as_float(fg.get("previous_close")),
+            "previous_1_week": as_float(fg.get("previous_1_week")),
+            "previous_1_month": as_float(fg.get("previous_1_month")),
+            "timestamp": timestamp,
+            "source": "CNN",
+            "source_url": source_url,
+            "fallback": False,
+        }
+
+    errors = []
+    today_et = datetime.now(ET).date()
+    # Date-scoped endpoint is less likely to be rejected by CNN's anti-bot layer.
+    candidates = [f"{base}/{(today_et - timedelta(days=i)).isoformat()}" for i in range(0, 4)]
+    candidates.append(base)
+    for endpoint in candidates:
+        try:
+            r = requests.get(endpoint, headers=browser_headers, timeout=20)
+            if r.status_code in {403, 418, 429}:
+                errors.append(f"{endpoint}: HTTP {r.status_code}")
+                continue
+            r.raise_for_status()
+            result = parse_payload(r.json(), endpoint)
+            print(f"fear greed ok: CNN {result['score']} ({result['rating']})")
+            return result
+        except Exception as e:
+            errors.append(f"{endpoint}: {e}")
+
+    # Fallback: public GitHub mirror, rebuilt from CNN data after US market close.
+    # This can be one trading day behind intraday, but prevents a blank card.
+    mirror = "https://raw.githubusercontent.com/whit3rabbit/fear-greed-data/main/fear-greed.csv"
+    try:
+        from io import StringIO
+        r = requests.get(mirror, headers=browser_headers, timeout=20)
+        r.raise_for_status()
+        df = pd.read_csv(StringIO(r.text))
+        if df.empty:
+            raise ValueError("empty mirror CSV")
+        df["Date"] = pd.to_datetime(df["Date"], errors="coerce")
+        df["Fear Greed"] = pd.to_numeric(df["Fear Greed"], errors="coerce")
+        df = df.dropna(subset=["Date", "Fear Greed"]).sort_values("Date")
+        if df.empty:
+            raise ValueError("mirror CSV has no valid rows")
+        latest = df.iloc[-1]
+        latest_date = latest["Date"].date()
+        score = float(latest["Fear Greed"])
+        rating = str(latest.get("Rating", "") or "").strip().lower()
+
+        week_target = pd.Timestamp(latest_date - timedelta(days=7))
+        prior_rows = df[df["Date"] <= week_target]
+        prev_week = float(prior_rows.iloc[-1]["Fear Greed"]) if not prior_rows.empty else None
+
+        print(f"fear greed fallback: mirror {score:.1f} ({rating}) as of {latest_date}")
+        return {
+            "available": True,
+            "score": round(score, 1),
+            "rating": rating,
+            "rating_ko": ko_rating(rating),
+            "previous_close": None,
+            "previous_1_week": round(prev_week, 1) if prev_week is not None else None,
+            "previous_1_month": None,
+            "timestamp": latest_date.isoformat(),
+            "source": "CNN 데이터 GitHub 미러",
+            "source_url": mirror,
+            "fallback": True,
         }
     except Exception as e:
-        print(f"fear greed warning: {e}")
-        return {"available": False, "score": None, "rating": "unavailable", "rating_ko": "수집 실패", "error": str(e)}
+        errors.append(f"mirror: {e}")
+
+    err = " | ".join(errors[-4:])
+    print(f"fear greed warning: {err}")
+    return {
+        "available": False,
+        "score": None,
+        "rating": "unavailable",
+        "rating_ko": "수집 실패",
+        "error": err,
+        "source": "unavailable",
+        "fallback": False,
+    }
 
 
 def timing_label(score, kind):
@@ -464,7 +567,10 @@ def market_timing_signals(spy_df, spy_ext_price, vix_latest, env_score):
 
     fg_note = "CNN 시장심리 원값"
     if fg.get("score") is not None:
-        fg_note = f"1주 전 {fg.get('previous_1_week') if fg.get('previous_1_week') is not None else '-'} · 낮을수록 공포"
+        if fg.get("fallback"):
+            fg_note = f"CNN 미러 · {fg.get('timestamp','-')} 마감 기준 · 낮을수록 공포"
+        else:
+            fg_note = f"CNN 직접 수집 · 1주 전 {fg.get('previous_1_week') if fg.get('previous_1_week') is not None else '-'} · 낮을수록 공포"
     else:
         fg_note = "CNN 데이터 수집 실패 · 저점점수에서 자동 제외"
 
