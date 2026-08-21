@@ -19,3 +19,11 @@ table{width:100%;border-collapse:collapse;font-size:.72rem}th,td{text-align:left
 
 .top-macro-grid .macro-card{min-height:132px}
 .top-macro-grid .macro-sub{margin-top:8px}
+
+/* v1.8: nested modal stacking fix
+   Sector detail stays underneath; quote/source modal always opens above it. */
+#sectorModal{z-index:200}
+#sourceModal{z-index:300}
+#sourceModal .source-backdrop{background:rgba(2,8,13,.78);backdrop-filter:blur(4px)}
+#sourceModal .source-dialog{z-index:302;box-shadow:0 28px 90px rgba(0,0,0,.62)}
+#sectorModal .source-dialog{z-index:202}
