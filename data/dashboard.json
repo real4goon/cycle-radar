@@ -1,9 +1,9 @@
 {
-  "updated_at_kst": "2026-08-21 15:07",
+  "updated_at_kst": "2026-08-21 15:18",
   "meta": {
-    "updated_at_iso": "2026-08-21T06:07:00.100201Z",
-    "updated_at_kst": "2026-08-21 15:07",
-    "updated_at_et": "2026-08-21 02:07",
+    "updated_at_iso": "2026-08-21T06:18:11.902417Z",
+    "updated_at_kst": "2026-08-21 15:18",
+    "updated_at_et": "2026-08-21 02:18",
     "market_session": "장 외 시간",
     "perspective": "미국장 외 시간의 마지막 데이터 관점",
     "update_policy": "서버: 평일 20:00~23:30 KST 30분 간격 · 화면: 5분마다 새 데이터 자동 확인 · GitHub Actions는 지연 가능",
@@ -19,17 +19,17 @@
   "market": [
     {
       "name": "나스닥 선물",
-      "value": "29,357.00",
-      "change_pct": 0.19,
-      "change_text": "+0.19%",
-      "change_direction": 0.1928
+      "value": "29,366.75",
+      "change_pct": 0.23,
+      "change_text": "+0.23%",
+      "change_direction": 0.2261
     },
     {
       "name": "S&P500 선물",
-      "value": "7,667.25",
-      "change_pct": 0.06,
-      "change_text": "+0.06%",
-      "change_direction": 0.062
+      "value": "7,668.75",
+      "change_pct": 0.08,
+      "change_text": "+0.08%",
+      "change_direction": 0.0816
     },
     {
       "name": "SOX",
@@ -54,24 +54,24 @@
     },
     {
       "name": "DXY",
-      "value": "98.70",
-      "change_pct": -0.2,
-      "change_text": "-0.20%",
-      "change_direction": -0.2012
+      "value": "98.74",
+      "change_pct": -0.16,
+      "change_text": "-0.16%",
+      "change_direction": -0.1588
     },
     {
       "name": "비트코인",
-      "value": "75,434",
-      "change_pct": 8.9,
-      "change_text": "+8.90%",
-      "change_direction": 8.9047
+      "value": "75,351",
+      "change_pct": 8.78,
+      "change_text": "+8.78%",
+      "change_direction": 8.785
     },
     {
       "name": "달러/원",
-      "value": "1,385.0",
-      "change_pct": -0.32,
-      "change_text": "-0.32%",
-      "change_direction": -0.3196
+      "value": "1,385.4",
+      "change_pct": -0.29,
+      "change_text": "-0.29%",
+      "change_direction": -0.2901
     }
   ],
   "regime": {
@@ -106,7 +106,7 @@
     {
       "name": "유동성",
       "state": "중립",
-      "summary": "DXY 당일 -0.20%"
+      "summary": "DXY 당일 -0.16%"
     },
     {
       "name": "위험선호",
