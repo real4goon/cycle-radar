@@ -93,12 +93,14 @@ def telegram_test_message(now_kst):
         "✅ 미국 산업 사이클 레이더 알림 설정 완료",
         "",
         "🔔 현재 알림 조건",
-        "1) 산업별 판단이 새로 ‘분할 접근’으로 변경될 때",
-        "2) 시장 타이밍 판단이 새로 ‘분할 접근 검토’로 변경될 때",
+        "1) 산업별 판단이 새로 ‘소액 진입 검토’로 변경될 때",
+        "2) 산업별 판단이 새로 ‘분할 접근’으로 변경될 때",
+        "3) 시장 타이밍 판단이 새로 ‘분할 접근 검토’로 변경될 때",
+        "4) 시장 타이밍 판단이 새로 ‘1차 분할매수 후보’로 변경될 때",
         "",
         "• 동일 상태 유지 시 중복 알림 없음",
         "• 상태 이탈 후 다시 진입하면 재알림",
-        "• 소액 진입 검토 / 관찰 / 조정 대기는 현재 알림 대상 아님",
+        "• 관찰 / 조정 대기 / 추가매수 보류는 현재 알림 대상 아님",
         "",
         f"확인 시각: {now_kst.strftime('%Y-%m-%d %H:%M')} KST",
     ]
@@ -120,7 +122,8 @@ def notify_new_signals(previous, sectors, timing, now_kst):
     for s in sectors:
         current_action = s.get("action")
         prev_action = (prev_sectors.get(s.get("name")) or {}).get("action")
-        if current_action == "분할 접근" and prev_action != "분할 접근":
+        sector_targets = {"소액 진입 검토", "분할 접근"}
+        if current_action in sector_targets and current_action != prev_action:
             alerts.append({
                 "kind": "sector",
                 "name": s.get("name", "산업"),
@@ -134,7 +137,8 @@ def notify_new_signals(previous, sectors, timing, now_kst):
 
     current_timing = timing.get("action") if isinstance(timing, dict) else None
     prev_timing = ((previous.get("timing") or {}).get("action") if isinstance(previous, dict) else None)
-    if current_timing == "분할 접근 검토" and prev_timing != "분할 접근 검토":
+    timing_targets = {"분할 접근 검토", "1차 분할매수 후보"}
+    if current_timing in timing_targets and current_timing != prev_timing:
         alerts.append({
             "kind": "timing",
             "action": current_timing,
@@ -154,7 +158,7 @@ def notify_new_signals(previous, sectors, timing, now_kst):
             lines = [
                 "🚨 미국 산업 사이클 레이더",
                 "",
-                f"🟢 {a['name']}  {a['etfs']}",
+                f"{'🟡' if a['action'] == '소액 진입 검토' else '🟢'} {a['name']}  {a['etfs']}",
                 f"오늘의 판단: {a['action']}",
                 f"사이클: {a['status']} · 레이더 {a['score']}점",
                 f"이전 판단: {a['previous']}",
@@ -175,7 +179,7 @@ def notify_new_signals(previous, sectors, timing, now_kst):
         lines += [
             "",
             f"{now_kst.strftime('%Y-%m-%d %H:%M')} KST",
-            "알림 기준: 신규 ‘분할 접근’ / 신규 ‘분할 접근 검토’",
+            "알림 기준: 소액 진입 검토 / 분할 접근 / 분할 접근 검토 / 1차 분할매수 후보",
         ]
         if dashboard_url:
             lines += [f"대시보드: {dashboard_url}"]
