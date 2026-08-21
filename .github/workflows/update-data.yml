@@ -1,21 +1,39 @@
 name: Update market data
+
 on:
   workflow_dispatch:
   schedule:
-    - cron: "0 13 * * 1-5"
+    # 평일 20:00~23:30 KST, 30분 간격 (UTC 11:00~14:30)
+    # 미국 서머타임/표준시간 모두 장 시작 전후를 포괄하도록 넓게 잡음.
+    - cron: "0,30 11-14 * * 1-5"
+
 permissions:
   contents: write
+
+concurrency:
+  group: update-market-data
+  cancel-in-progress: false
+
 jobs:
   update:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - run: pip install -r requirements.txt
-      - run: python scripts/update_data.py
-      - run: |
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Fetch market and macro data
+        run: python scripts/update_data.py
+
+      - name: Commit updated JSON
+        run: |
           git config user.name "cycle-radar-bot"
           git config user.email "actions@users.noreply.github.com"
           git add data/dashboard.json
