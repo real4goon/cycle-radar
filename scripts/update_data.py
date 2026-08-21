@@ -46,7 +46,7 @@ SECTORS = [
 ]
 BASE = "SPY"
 
-HEADERS = {"User-Agent": "Mozilla/5.0 (compatible; cycle-radar/1.6; +https://github.com/)"}
+HEADERS = {"User-Agent": "Mozilla/5.0 (compatible; cycle-radar/1.9; +https://github.com/)"}
 
 
 def clamp(x, lo=0, hi=100):
@@ -266,6 +266,253 @@ def investment_environment(macro):
         label = "🔴 위험"
         guidance = "위험회피 환경입니다. 신규 고베타 비중 확대보다 방어와 현금 관리가 우선인 구간입니다."
     return {"score": score, "label": label, "guidance": guidance}
+
+
+def interpolate_score(x, points):
+    """Linear interpolation for a monotonic x-axis score map."""
+    x = float(x)
+    pts = sorted((float(px), float(py)) for px, py in points)
+    if x <= pts[0][0]:
+        return pts[0][1]
+    if x >= pts[-1][0]:
+        return pts[-1][1]
+    for (x0, y0), (x1, y1) in zip(pts, pts[1:]):
+        if x0 <= x <= x1:
+            if x1 == x0:
+                return y1
+            t = (x - x0) / (x1 - x0)
+            return y0 + (y1 - y0) * t
+    return pts[-1][1]
+
+
+def weighted_available(parts):
+    """parts: [(value_or_none, weight), ...], renormalized when a source is missing."""
+    usable = [(float(v), float(w)) for v, w in parts if v is not None and math.isfinite(float(v)) and w > 0]
+    if not usable:
+        return None
+    total_w = sum(w for _, w in usable)
+    return round_int(sum(v * w for v, w in usable) / total_w)
+
+
+def rsi14(close):
+    close = pd.Series(close).dropna().astype(float)
+    if len(close) < 15:
+        return None
+    delta = close.diff()
+    gain = delta.clip(lower=0).ewm(alpha=1/14, adjust=False, min_periods=14).mean()
+    loss = (-delta.clip(upper=0)).ewm(alpha=1/14, adjust=False, min_periods=14).mean()
+    last_loss = float(loss.iloc[-1])
+    last_gain = float(gain.iloc[-1])
+    if not math.isfinite(last_gain) or not math.isfinite(last_loss):
+        return None
+    if last_loss == 0:
+        return 100.0
+    rs = last_gain / last_loss
+    return 100 - (100 / (1 + rs))
+
+
+def fetch_fear_greed():
+    """CNN page backing JSON. This is a public page data endpoint, not a documented public API."""
+    endpoint = "https://production.dataviz.cnn.io/index/fearandgreed/graphdata"
+    headers = {
+        **HEADERS,
+        "Accept": "application/json,text/plain,*/*",
+        "Origin": "https://www.cnn.com",
+        "Referer": "https://www.cnn.com/markets/fear-and-greed",
+    }
+    try:
+        r = requests.get(endpoint, headers=headers, timeout=20)
+        r.raise_for_status()
+        fg = (r.json() or {}).get("fear_and_greed") or {}
+        score = float(fg.get("score"))
+        if not math.isfinite(score):
+            raise ValueError("invalid score")
+        rating = str(fg.get("rating") or "").strip().lower()
+        ko = {
+            "extreme fear": "극단적 공포",
+            "fear": "공포",
+            "neutral": "중립",
+            "greed": "탐욕",
+            "extreme greed": "극단적 탐욕",
+        }.get(rating, rating or "확인")
+        def fv(key):
+            try:
+                v = float(fg.get(key))
+                return round(v, 1) if math.isfinite(v) else None
+            except Exception:
+                return None
+        return {
+            "available": True,
+            "score": round(score, 1),
+            "rating": rating,
+            "rating_ko": ko,
+            "previous_close": fv("previous_close"),
+            "previous_1_week": fv("previous_1_week"),
+            "previous_1_month": fv("previous_1_month"),
+            "timestamp": fg.get("timestamp"),
+        }
+    except Exception as e:
+        print(f"fear greed warning: {e}")
+        return {"available": False, "score": None, "rating": "unavailable", "rating_ko": "수집 실패", "error": str(e)}
+
+
+def timing_label(score, kind):
+    if score is None:
+        return "확인 중"
+    score = float(score)
+    if kind == "low_buy":
+        return "매력 높음" if score >= 75 else "관심" if score >= 60 else "보통" if score >= 45 else "낮음"
+    return "확인" if score >= 70 else "개선" if score >= 55 else "대기" if score >= 40 else "미확인"
+
+
+def market_timing_signals(spy_df, spy_ext_price, vix_latest, env_score):
+    close = spy_df["Close"].dropna().astype(float).copy()
+    vol = spy_df["Volume"].fillna(0).astype(float).copy()
+    if spy_ext_price is not None and len(close):
+        close.iloc[-1] = float(spy_ext_price)
+
+    current = float(close.iloc[-1])
+    high_1y = float(close.tail(min(252, len(close))).max())
+    drawdown_pct = max(0.0, (1 - current / high_1y) * 100) if high_1y else 0.0
+    rsi = rsi14(close)
+    r5 = (current / float(close.iloc[-6]) - 1) * 100 if len(close) > 6 else 0.0
+    ma20 = float(close.tail(20).mean()) if len(close) >= 20 else current
+    vs_ma20 = (current / ma20 - 1) * 100 if ma20 else 0.0
+    v5 = float(vol.tail(5).mean()) if len(vol) else 0.0
+    v20 = float(vol.tail(20).mean()) if len(vol) >= 20 else max(v5, 1.0)
+    volume_ratio = v5 / v20 if v20 else 1.0
+
+    # Equal-weight S&P 500 ETF is used only as a broad participation proxy.
+    rsp_rs20 = None
+    rsp_rs5 = None
+    try:
+        rsp = daily_history("RSP", "6mo")["Close"].dropna().astype(float).copy()
+        rsp_ext, _, _ = latest_extended("RSP")
+        if rsp_ext is not None and len(rsp):
+            rsp.iloc[-1] = float(rsp_ext)
+        if len(rsp) > 21 and len(close) > 21:
+            rsp20 = (float(rsp.iloc[-1]) / float(rsp.iloc[-21]) - 1) * 100
+            spy20 = (current / float(close.iloc[-21]) - 1) * 100
+            rsp_rs20 = rsp20 - spy20
+        if len(rsp) > 6 and len(close) > 6:
+            rsp5 = (float(rsp.iloc[-1]) / float(rsp.iloc[-6]) - 1) * 100
+            spy5 = (current / float(close.iloc[-6]) - 1) * 100
+            rsp_rs5 = rsp5 - spy5
+    except Exception as e:
+        print(f"RSP breadth proxy warning: {e}")
+
+    vix_5d_change = None
+    try:
+        vh = daily_history("^VIX", "3mo")["Close"].dropna().astype(float)
+        if len(vh) > 6:
+            vix_5d_change = (float(vh.iloc[-1]) / float(vh.iloc[-6]) - 1) * 100
+    except Exception as e:
+        print(f"VIX history warning: {e}")
+
+    fg = fetch_fear_greed()
+    fg_inverse = 100 - float(fg["score"]) if fg.get("score") is not None else None
+
+    drawdown_component = interpolate_score(drawdown_pct, [(0, 12), (3, 25), (5, 38), (10, 58), (20, 82), (30, 96), (40, 100)])
+    rsi_component = interpolate_score(rsi, [(20, 100), (30, 85), (40, 65), (50, 45), (60, 25), (70, 10), (80, 3)]) if rsi is not None else None
+    vix_component = interpolate_score(vix_latest, [(12, 5), (15, 15), (20, 35), (25, 55), (30, 72), (40, 90), (50, 100)]) if vix_latest is not None else None
+    breadth_stress = max(0.0, -rsp_rs20) if rsp_rs20 is not None else None
+    breadth_stress_component = interpolate_score(breadth_stress, [(0, 30), (1, 40), (3, 60), (5, 76), (8, 94), (12, 100)]) if breadth_stress is not None else None
+
+    low_score = weighted_available([
+        (fg_inverse, 30),
+        (drawdown_component, 25),
+        (rsi_component, 15),
+        (vix_component, 15),
+        (breadth_stress_component, 15),
+    ])
+
+    momentum_component = interpolate_score(r5, [(-8, 5), (-5, 15), (-2, 30), (0, 48), (2, 65), (5, 82), (8, 95)])
+    ma_component = interpolate_score(vs_ma20, [(-10, 5), (-5, 20), (-2, 38), (0, 55), (3, 72), (7, 90), (12, 98)])
+    vix_reversal_component = interpolate_score(vix_5d_change, [(-45, 98), (-25, 82), (-10, 65), (0, 50), (10, 35), (25, 18), (50, 5)]) if vix_5d_change is not None else None
+    breadth_confirm_component = interpolate_score(rsp_rs5, [(-5, 10), (-2, 30), (0, 50), (2, 68), (5, 88), (8, 98)]) if rsp_rs5 is not None else None
+    volume_confirm_component = clamp(50 + (volume_ratio - 1) * 80 + (10 if r5 > 0 else -10))
+
+    reversal_score = weighted_available([
+        (momentum_component, 25),
+        (ma_component, 25),
+        (vix_reversal_component, 20),
+        (breadth_confirm_component, 15),
+        (volume_confirm_component, 15),
+    ])
+
+    if low_score is None or reversal_score is None:
+        summary = "일부 시장 타이밍 데이터가 아직 수집되지 않았습니다."
+        action = "데이터 확인"
+    elif low_score >= 75 and reversal_score >= 60:
+        summary = "공포·낙폭에 따른 가격 매력과 반전 신호가 함께 개선되고 있습니다."
+        action = "1차 분할매수 후보"
+    elif low_score >= 75 and reversal_score < 45:
+        summary = "가격 매력은 높지만 반전 확인이 부족합니다. 떨어지는 칼 위험을 함께 보세요."
+        action = "관찰 · 소액 분할만"
+    elif low_score >= 60 and reversal_score >= 55:
+        summary = "저점 매력과 반전 신호가 동시에 살아나는 구간입니다."
+        action = "분할 접근 검토"
+    elif low_score < 45 and reversal_score >= 65 and env_score >= 55:
+        summary = "추세는 확인되고 있지만 저점매수 매력은 낮습니다. 강한 시장의 추격 위험을 구분하세요."
+        action = "추격보다 조정 대기"
+    elif low_score < 45:
+        summary = "공포·낙폭 기준 저점 매력은 크지 않습니다."
+        action = "선별 관찰"
+    else:
+        summary = "가격 매력과 반전 신호가 엇갈리는 중간 구간입니다."
+        action = "신호 확인 대기"
+
+    fg_note = "CNN 시장심리 원값"
+    if fg.get("score") is not None:
+        fg_note = f"1주 전 {fg.get('previous_1_week') if fg.get('previous_1_week') is not None else '-'} · 낮을수록 공포"
+    else:
+        fg_note = "CNN 데이터 수집 실패 · 저점점수에서 자동 제외"
+
+    return {
+        "low_buy": {
+            "score": low_score,
+            "label": timing_label(low_score, "low_buy"),
+            "note": f"SPY 고점 대비 -{drawdown_pct:.1f}% · RSI {rsi:.1f}" if rsi is not None else f"SPY 고점 대비 -{drawdown_pct:.1f}%",
+            "components": {
+                "fear_greed_inverse": round(fg_inverse, 1) if fg_inverse is not None else None,
+                "drawdown": round(drawdown_component, 1),
+                "rsi": round(rsi_component, 1) if rsi_component is not None else None,
+                "vix": round(vix_component, 1) if vix_component is not None else None,
+                "breadth_stress": round(breadth_stress_component, 1) if breadth_stress_component is not None else None,
+            },
+        },
+        "reversal": {
+            "score": reversal_score,
+            "label": timing_label(reversal_score, "reversal"),
+            "note": f"SPY 5일 {r5:+.1f}% · 20일선 대비 {vs_ma20:+.1f}%",
+            "components": {
+                "momentum_5d": round(momentum_component, 1),
+                "ma20_recovery": round(ma_component, 1),
+                "vix_stabilization": round(vix_reversal_component, 1) if vix_reversal_component is not None else None,
+                "breadth_confirmation": round(breadth_confirm_component, 1) if breadth_confirm_component is not None else None,
+                "volume_confirmation": round(volume_confirm_component, 1),
+            },
+        },
+        "fear_greed": {**fg, "label": fg.get("rating_ko", "확인"), "note": fg_note},
+        "metrics": {
+            "spy_drawdown_pct": round(drawdown_pct, 2),
+            "spy_rsi14": round(rsi, 2) if rsi is not None else None,
+            "spy_5d_pct": round(r5, 2),
+            "spy_vs_ma20_pct": round(vs_ma20, 2),
+            "vix": round(float(vix_latest), 2) if vix_latest is not None else None,
+            "vix_5d_pct": round(vix_5d_change, 2) if vix_5d_change is not None else None,
+            "rsp_vs_spy_20d_pctp": round(rsp_rs20, 2) if rsp_rs20 is not None else None,
+            "rsp_vs_spy_5d_pctp": round(rsp_rs5, 2) if rsp_rs5 is not None else None,
+        },
+        "summary": summary,
+        "action": action,
+        "sources": [
+            {"label":"CNN Fear & Greed","note":"시장 심리 원문 · 7개 심리 지표 종합","url":"https://www.cnn.com/markets/fear-and-greed"},
+            {"label":"Cboe VIX","note":"S&P 500 옵션 기반 30일 예상 변동성","url":"https://www.cboe.com/tradable_products/vix/"},
+            {"label":"Yahoo Finance · SPY","note":"낙폭·RSI·모멘텀 계산용 시세","url":yahoo_url("SPY")},
+            {"label":"Yahoo Finance · RSP","note":"시장 폭 참여도 대용치(동일가중 S&P500)","url":yahoo_url("RSP")},
+        ],
+    }
 
 
 # ---------- official macro calendar ----------
@@ -581,7 +828,8 @@ def main():
     ]
     env = investment_environment(macro)
 
-    spy = daily_history(BASE); spy_ext, _, _ = latest_extended(BASE)
+    spy = daily_history(BASE, "1y"); spy_ext, _, _ = latest_extended(BASE)
+    timing = market_timing_signals(spy, spy_ext, vix, env.get("score", 55))
     sectors = []
     for name, etfs in SECTORS:
         try:
@@ -616,12 +864,16 @@ def main():
                 "투자환경 등급과 산업 점수는 미래 수익률 확률이 아닌 규칙 기반 보조 신호입니다.",
                 "FRED·BLS·Census·Federal Reserve 일정은 공식 공개자료를 사용하지만 기관의 일정 변경이 있을 수 있습니다.",
                 "외부 원자료·시세 사이트와 대시보드의 수집 시점이 달라 값이 다를 수 있습니다.",
+                "CNN Fear & Greed는 CNN 페이지가 사용하는 공개 JSON 데이터를 읽습니다. 구조 변경·차단 시 일시적으로 미표시될 수 있습니다.",
+                "저점매수 매력도는 싸다는 보장이 아니라 공포·낙폭·과매도 정도를 정량화한 역발상 보조 지표입니다.",
+                "반전 확인도는 바닥 확정 신호가 아니라 모멘텀·20일선·VIX·시장 폭·거래량 회복 정도를 보는 보조 지표입니다.",
                 "현재 버전은 뉴스·기업 실적·가이던스의 의미를 자동 점수에 완전히 반영하지 않습니다.",
             ],
         },
         "market": market,
         "regime": {"name": phase, "environment": env, "reasons": reasons},
         "macro": macro,
+        "timing": timing,
         "sectors": sectors,
         "changes": changes,
         "events": events,
