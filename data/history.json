@@ -92,7 +92,7 @@
         {
           "name": "반도체/AI 하드웨어",
           "status": "약화",
-          "score": 34,
+          "score": 39,
           "etfs": [
             "SMH",
             "SOXX"
@@ -110,7 +110,7 @@
         {
           "name": "산업재",
           "status": "약화",
-          "score": 38,
+          "score": 44,
           "etfs": [
             "XLI"
           ]
@@ -118,7 +118,7 @@
         {
           "name": "소재/원자재",
           "status": "중립",
-          "score": 54,
+          "score": 59,
           "etfs": [
             "XLB"
           ]
@@ -126,7 +126,7 @@
         {
           "name": "에너지",
           "status": "초기 관심",
-          "score": 60,
+          "score": 62,
           "etfs": [
             "XLE"
           ]
@@ -134,7 +134,7 @@
         {
           "name": "금융",
           "status": "중립",
-          "score": 49,
+          "score": 53,
           "etfs": [
             "XLF"
           ]
@@ -142,7 +142,7 @@
         {
           "name": "금/금광",
           "status": "상승 사이클",
-          "score": 80,
+          "score": 78,
           "etfs": [
             "GLD",
             "GDX"
@@ -151,7 +151,7 @@
         {
           "name": "빅테크",
           "status": "중립",
-          "score": 48,
+          "score": 46,
           "etfs": [
             "QQQM"
           ]
@@ -159,15 +159,15 @@
         {
           "name": "필수소비재",
           "status": "중립",
-          "score": 48,
+          "score": 53,
           "etfs": [
             "XLP"
           ]
         },
         {
           "name": "리츠",
-          "status": "약화",
-          "score": 37,
+          "status": "중립",
+          "score": 48,
           "etfs": [
             "VNQ"
           ]
