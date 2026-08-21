@@ -1,0 +1,302 @@
+{
+  "updated_at_kst": "2026-08-21 22:00",
+  "market": [
+    {
+      "name": "나스닥 선물",
+      "value": "29,291",
+      "change_pct": -0.85
+    },
+    {
+      "name": "S&P500 선물",
+      "value": "7,641",
+      "change_pct": -0.87
+    },
+    {
+      "name": "SOX",
+      "value": "6,120",
+      "change_pct": 0.36
+    },
+    {
+      "name": "WTI 원유",
+      "value": "86.29",
+      "change_pct": 2.37
+    },
+    {
+      "name": "미 10년물",
+      "value": "4.698%",
+      "change_pct": 0.1
+    },
+    {
+      "name": "DXY",
+      "value": "105.28",
+      "change_pct": -0.28
+    },
+    {
+      "name": "비트코인",
+      "value": "73,050",
+      "change_pct": 5.4
+    },
+    {
+      "name": "달러/원",
+      "value": "1,368.5",
+      "change_pct": -0.82
+    }
+  ],
+  "regime": {
+    "name": "Late Expansion / Risk-Off",
+    "reasons": [
+      "장기금리 부담",
+      "고용 둔화 조짐",
+      "선택적 위험선호"
+    ]
+  },
+  "macro": [
+    {
+      "name": "고용",
+      "state": "강함",
+      "summary": "실업률과 실업수당 추세를 함께 확인"
+    },
+    {
+      "name": "물가",
+      "state": "냉각",
+      "summary": "CPI 추세는 둔화, 속도는 완만"
+    },
+    {
+      "name": "금리",
+      "state": "부담",
+      "summary": "10년물 금리 상승은 성장주에 부담"
+    },
+    {
+      "name": "경기",
+      "state": "중립",
+      "summary": "산업생산·소비 흐름을 관찰"
+    },
+    {
+      "name": "유동성",
+      "state": "개선",
+      "summary": "금리 기대와 달러 흐름이 일부 완화"
+    },
+    {
+      "name": "위험선호",
+      "state": "중립",
+      "summary": "VIX와 고베타 자산 흐름을 확인"
+    }
+  ],
+  "sectors": [
+    {
+      "name": "반도체/AI 하드웨어",
+      "status": "약화",
+      "score": 49,
+      "etfs": [
+        "SMH",
+        "SOXX"
+      ],
+      "action": "추가매수 보류",
+      "reason": "AI 수요는 유지되지만 단기 가격·상대강도 약화",
+      "factors": {
+        "momentum": 42,
+        "relative_strength": 38,
+        "volume": 46,
+        "macro": 51
+      }
+    },
+    {
+      "name": "바이오/헬스케어",
+      "status": "상승 사이클",
+      "score": 82,
+      "etfs": [
+        "XBI",
+        "IBB"
+      ],
+      "action": "조정 대기",
+      "reason": "상대강도와 거래량 개선. 급등 뒤 추격 위험은 존재",
+      "factors": {
+        "momentum": 85,
+        "relative_strength": 78,
+        "volume": 80,
+        "macro": 75
+      }
+    },
+    {
+      "name": "산업재",
+      "status": "중립",
+      "score": 67,
+      "etfs": [
+        "XLI"
+      ],
+      "action": "관찰",
+      "reason": "가격 신호는 중립, 설비투자·인프라 수요는 우호적",
+      "factors": {
+        "momentum": 66,
+        "relative_strength": 63,
+        "volume": 61,
+        "macro": 74
+      }
+    },
+    {
+      "name": "소재/원자재",
+      "status": "초기 관심",
+      "score": 73,
+      "etfs": [
+        "XLB"
+      ],
+      "action": "소액 진입 검토",
+      "reason": "상대강도 개선과 원자재 흐름 회복",
+      "factors": {
+        "momentum": 72,
+        "relative_strength": 76,
+        "volume": 68,
+        "macro": 74
+      }
+    },
+    {
+      "name": "에너지",
+      "status": "초기 관심",
+      "score": 70,
+      "etfs": [
+        "XLE"
+      ],
+      "action": "추격보다 조정 대기",
+      "reason": "유가 강세가 긍정적이나 단기 과열 가능성",
+      "factors": {
+        "momentum": 78,
+        "relative_strength": 72,
+        "volume": 69,
+        "macro": 61
+      }
+    },
+    {
+      "name": "금융",
+      "status": "중립",
+      "score": 58,
+      "etfs": [
+        "XLF"
+      ],
+      "action": "관찰",
+      "reason": "금리 상승은 일부 긍정적이나 경기둔화 리스크 상쇄",
+      "factors": {
+        "momentum": 55,
+        "relative_strength": 57,
+        "volume": 52,
+        "macro": 68
+      }
+    },
+    {
+      "name": "금/금광",
+      "status": "상승 사이클",
+      "score": 76,
+      "etfs": [
+        "GLD",
+        "GDX"
+      ],
+      "action": "분할 접근",
+      "reason": "위험회피와 실질금리 기대가 혼재",
+      "factors": {
+        "momentum": 79,
+        "relative_strength": 77,
+        "volume": 69,
+        "macro": 76
+      }
+    },
+    {
+      "name": "빅테크",
+      "status": "약화",
+      "score": 51,
+      "etfs": [
+        "QQQM"
+      ],
+      "action": "신규매수 서두르지 않음",
+      "reason": "금리와 밸류에이션 부담",
+      "factors": {
+        "momentum": 49,
+        "relative_strength": 47,
+        "volume": 52,
+        "macro": 55
+      }
+    },
+    {
+      "name": "필수소비재",
+      "status": "중립",
+      "score": 56,
+      "etfs": [
+        "XLP"
+      ],
+      "action": "방어용 관찰",
+      "reason": "방어 성격은 유효하나 모멘텀은 제한적",
+      "factors": {
+        "momentum": 55,
+        "relative_strength": 59,
+        "volume": 51,
+        "macro": 61
+      }
+    },
+    {
+      "name": "리츠",
+      "status": "초기 관심",
+      "score": 62,
+      "etfs": [
+        "VNQ"
+      ],
+      "action": "금리 안정 확인 후 접근",
+      "reason": "금리 민감도가 높아 10년물 방향 확인 필요",
+      "factors": {
+        "momentum": 61,
+        "relative_strength": 64,
+        "volume": 58,
+        "macro": 60
+      }
+    }
+  ],
+  "watchlist": [
+    {
+      "symbol": "XBI",
+      "name": "바이오/헬스케어",
+      "status": "상승 사이클",
+      "action": "조정 대기"
+    },
+    {
+      "symbol": "XLB",
+      "name": "소재/원자재",
+      "status": "초기 관심",
+      "action": "소액 진입 검토"
+    },
+    {
+      "symbol": "GLD",
+      "name": "금/금광",
+      "status": "상승 사이클",
+      "action": "분할 접근"
+    },
+    {
+      "symbol": "SMH",
+      "name": "반도체/AI",
+      "status": "약화",
+      "action": "추가매수 보류"
+    }
+  ],
+  "events": [
+    {
+      "name": "CPI",
+      "when": "발표일 자동연결 예정"
+    },
+    {
+      "name": "NFP",
+      "when": "발표일 자동연결 예정"
+    },
+    {
+      "name": "실업률",
+      "when": "NFP와 동시"
+    },
+    {
+      "name": "소매판매",
+      "when": "발표일 자동연결 예정"
+    },
+    {
+      "name": "FOMC",
+      "when": "일정 자동연결 예정"
+    },
+    {
+      "name": "실업수당",
+      "when": "매주 목요일"
+    }
+  ]
+}
