@@ -1,52 +1,84 @@
 {
-  "updated_at_kst": "2026-08-21 14:55",
+  "updated_at_kst": "2026-08-21 15:07",
+  "meta": {
+    "updated_at_iso": "2026-08-21T06:07:00.100201Z",
+    "updated_at_kst": "2026-08-21 15:07",
+    "updated_at_et": "2026-08-21 02:07",
+    "market_session": "장 외 시간",
+    "perspective": "미국장 외 시간의 마지막 데이터 관점",
+    "update_policy": "서버: 평일 20:00~23:30 KST 30분 간격 · 화면: 5분마다 새 데이터 자동 확인 · GitHub Actions는 지연 가능",
+    "cautions": [
+      "수집 시점과 미국장 세션(프리마켓/정규장/애프터마켓)을 먼저 확인하세요.",
+      "Yahoo Finance extended-hours는 무료 비공식 데이터로 실시간 체결가와 지연·누락 차이가 있을 수 있습니다.",
+      "산업 점수는 미래 수익률 확률이 아니라 가격 모멘텀·SPY 대비 상대강도·거래량·Macro 환경의 규칙 기반 점수입니다.",
+      "FRED 거시지표는 각 지표의 최신 공식 발표값이며 장중 실시간 수치가 아닙니다.",
+      "GitHub Actions 예약 실행은 지정 시각보다 늦게 시작될 수 있으므로 화면의 실제 수집 시점을 기준으로 판단하세요.",
+      "현재 버전은 뉴스·기업 실적·가이던스의 의미를 자동 점수에 완전히 반영하지 않습니다. 중대한 이벤트는 별도 확인이 필요합니다."
+    ]
+  },
   "market": [
     {
       "name": "나스닥 선물",
-      "value": "29,358.50",
-      "change_pct": 0.2
+      "value": "29,357.00",
+      "change_pct": 0.19,
+      "change_text": "+0.19%",
+      "change_direction": 0.1928
     },
     {
       "name": "S&P500 선물",
-      "value": "7,668.25",
-      "change_pct": 0.08
+      "value": "7,667.25",
+      "change_pct": 0.06,
+      "change_text": "+0.06%",
+      "change_direction": 0.062
     },
     {
       "name": "SOX",
       "value": "11,800.02",
-      "change_pct": 0.53
+      "change_pct": 0.53,
+      "change_text": "+0.53%",
+      "change_direction": 0.5264
     },
     {
       "name": "WTI 원유",
-      "value": "86.41",
-      "change_pct": -1.62
+      "value": "86.19",
+      "change_pct": -1.87,
+      "change_text": "-1.87%",
+      "change_direction": -1.8672
     },
     {
       "name": "미 10년물",
-      "value": "4.696%",
-      "change_pct": 0.92
+      "value": "0.470%",
+      "change_pct": 0.92,
+      "change_text": "+0.4bp",
+      "change_direction": 0.43
     },
     {
       "name": "DXY",
-      "value": "98.72",
-      "change_pct": -0.18
+      "value": "98.70",
+      "change_pct": -0.2,
+      "change_text": "-0.20%",
+      "change_direction": -0.2012
     },
     {
       "name": "비트코인",
-      "value": "75,356",
-      "change_pct": 8.79
+      "value": "75,434",
+      "change_pct": 8.9,
+      "change_text": "+8.90%",
+      "change_direction": 8.9047
     },
     {
       "name": "달러/원",
-      "value": "1,382.8",
-      "change_pct": -0.48
+      "value": "1,385.0",
+      "change_pct": -0.32,
+      "change_text": "-0.32%",
+      "change_direction": -0.3196
     }
   ],
   "regime": {
     "name": "Late Expansion / 둔화 관찰",
     "reasons": [
       "실업률 4.1% · 3개월 -0.2%p",
-      "10년물 4.696% · 당일 +0.92%",
+      "10년물 0.470% · 당일 +0.4bp",
       "VIX 16.0"
     ]
   },
@@ -63,8 +95,8 @@
     },
     {
       "name": "금리",
-      "state": "부담",
-      "summary": "10년물 4.696% · 당일 +0.92%"
+      "state": "중립",
+      "summary": "10년물 0.470% · 당일 +0.4bp"
     },
     {
       "name": "경기",
@@ -74,7 +106,7 @@
     {
       "name": "유동성",
       "state": "중립",
-      "summary": "DXY 당일 -0.18%"
+      "summary": "DXY 당일 -0.20%"
     },
     {
       "name": "위험선호",
@@ -90,12 +122,12 @@
         "SOXX"
       ],
       "status": "약화",
-      "score": 31,
+      "score": 38,
       "action": "추가매수 보류",
-      "reason": "5일 -4.5%, 20일 -3.0%, SPY 대비 20일 -6.3%p, 5/20일 거래량 0.70배",
+      "reason": "프리/정규 최신가 반영 · 당일 +0.3% · 5일 -4.3% · 20일 +0.3% · SPY 대비 20일 -3.0%p · 5/20일 거래량 0.70배",
       "factors": {
-        "momentum": 33,
-        "relative_strength": 18,
+        "momentum": 38,
+        "relative_strength": 35,
         "volume": 29,
         "macro": 55
       }
@@ -107,12 +139,12 @@
         "IBB"
       ],
       "status": "초기 관심",
-      "score": 67,
+      "score": 70,
       "action": "관찰 · 조정 대기",
-      "reason": "5일 +4.2%, 20일 +7.3%, SPY 대비 20일 +4.0%p, 5/20일 거래량 1.17배",
+      "reason": "프리/정규 최신가 반영 · 당일 -3.4% · 5일 +4.1% · 20일 +8.8% · SPY 대비 20일 +5.6%p · 5/20일 거래량 1.17배",
       "factors": {
-        "momentum": 72,
-        "relative_strength": 70,
+        "momentum": 74,
+        "relative_strength": 78,
         "volume": 62,
         "macro": 55
       }
@@ -123,11 +155,11 @@
         "XLI"
       ],
       "status": "약화",
-      "score": 40,
+      "score": 39,
       "action": "추가매수 보류",
-      "reason": "5일 -3.2%, 20일 -1.2%, SPY 대비 20일 -4.5%p, 5/20일 거래량 0.92배",
+      "reason": "프리/정규 최신가 반영 · 당일 -1.0% · 5일 -3.5% · 20일 -1.4% · SPY 대비 20일 -4.7%p · 5/20일 거래량 0.92배",
       "factors": {
-        "momentum": 39,
+        "momentum": 38,
         "relative_strength": 27,
         "volume": 44,
         "macro": 60
@@ -139,12 +171,12 @@
         "XLB"
       ],
       "status": "중립",
-      "score": 52,
+      "score": 48,
       "action": "관찰",
-      "reason": "5일 +0.2%, 20일 +4.2%, SPY 대비 20일 +0.9%p, 5/20일 거래량 0.77배",
+      "reason": "프리/정규 최신가 반영 · 당일 -0.0% · 5일 -0.1% · 20일 +2.4% · SPY 대비 20일 -0.8%p · 5/20일 거래량 0.77배",
       "factors": {
-        "momentum": 56,
-        "relative_strength": 55,
+        "momentum": 53,
+        "relative_strength": 46,
         "volume": 34,
         "macro": 60
       }
@@ -155,12 +187,12 @@
         "XLE"
       ],
       "status": "초기 관심",
-      "score": 64,
+      "score": 63,
       "action": "관찰 · 조정 대기",
-      "reason": "5일 +4.4%, 20일 +7.4%, SPY 대비 20일 +4.1%p, 5/20일 거래량 0.91배",
+      "reason": "프리/정규 최신가 반영 · 당일 +0.4% · 5일 +3.1% · 20일 +7.1% · SPY 대비 20일 +3.8%p · 5/20일 거래량 0.91배",
       "factors": {
-        "momentum": 73,
-        "relative_strength": 70,
+        "momentum": 69,
+        "relative_strength": 69,
         "volume": 44,
         "macro": 60
       }
@@ -171,12 +203,12 @@
         "XLF"
       ],
       "status": "중립",
-      "score": 49,
+      "score": 48,
       "action": "관찰",
-      "reason": "5일 -2.2%, 20일 +2.0%, SPY 대비 20일 -1.3%p, 5/20일 거래량 1.09배",
+      "reason": "프리/정규 최신가 반영 · 당일 -0.9% · 5일 -2.0% · 20일 +1.2% · SPY 대비 20일 -2.0%p · 5/20일 거래량 1.09배",
       "factors": {
         "momentum": 46,
-        "relative_strength": 43,
+        "relative_strength": 40,
         "volume": 56,
         "macro": 60
       }
@@ -188,11 +220,11 @@
         "GDX"
       ],
       "status": "상승 사이클",
-      "score": 77,
+      "score": 76,
       "action": "분할 접근",
-      "reason": "5일 +4.1%, 20일 +11.8%, SPY 대비 20일 +8.5%p, 5/20일 거래량 1.28배",
+      "reason": "프리/정규 최신가 반영 · 당일 +0.3% · 5일 +3.4% · 20일 +11.6% · SPY 대비 20일 +8.4%p · 5/20일 거래량 1.28배",
       "factors": {
-        "momentum": 78,
+        "momentum": 75,
         "relative_strength": 92,
         "volume": 69,
         "macro": 55
@@ -204,12 +236,12 @@
         "QQQM"
       ],
       "status": "중립",
-      "score": 46,
+      "score": 48,
       "action": "관찰",
-      "reason": "5일 -2.9%, 20일 +2.7%, SPY 대비 20일 -0.6%p, 5/20일 거래량 0.82배",
+      "reason": "프리/정규 최신가 반영 · 당일 -0.7% · 5일 -2.8% · 20일 +3.9% · SPY 대비 20일 +0.7%p · 5/20일 거래량 0.82배",
       "factors": {
-        "momentum": 45,
-        "relative_strength": 47,
+        "momentum": 47,
+        "relative_strength": 53,
         "volume": 37,
         "macro": 55
       }
@@ -220,12 +252,12 @@
         "XLP"
       ],
       "status": "중립",
-      "score": 49,
+      "score": 47,
       "action": "관찰",
-      "reason": "5일 -0.8%, 20일 +2.5%, SPY 대비 20일 -0.8%p, 5/20일 거래량 0.94배",
+      "reason": "프리/정규 최신가 반영 · 당일 -1.3% · 5일 -0.8% · 20일 +1.6% · SPY 대비 20일 -1.7%p · 5/20일 거래량 0.94배",
       "factors": {
-        "momentum": 51,
-        "relative_strength": 46,
+        "momentum": 50,
+        "relative_strength": 42,
         "volume": 46,
         "macro": 55
       }
@@ -236,12 +268,12 @@
         "VNQ"
       ],
       "status": "약화",
-      "score": 43,
+      "score": 39,
       "action": "추가매수 보류",
-      "reason": "5일 +0.0%, 20일 -0.1%, SPY 대비 20일 -3.4%p, 5/20일 거래량 0.80배",
+      "reason": "프리/정규 최신가 반영 · 당일 +0.2% · 5일 -0.0% · 20일 -2.0% · SPY 대비 20일 -5.2%p · 5/20일 거래량 0.80배",
       "factors": {
-        "momentum": 50,
-        "relative_strength": 33,
+        "momentum": 47,
+        "relative_strength": 24,
         "volume": 36,
         "macro": 55
       }
@@ -276,23 +308,23 @@
   "events": [
     {
       "name": "CPI",
-      "when": "발표일 자동화는 v2"
+      "when": "발표 일정 자동화는 다음 단계"
     },
     {
       "name": "NFP",
-      "when": "발표일 자동화는 v2"
+      "when": "발표 일정 자동화는 다음 단계"
     },
     {
       "name": "실업률",
-      "when": "NFP와 동시"
+      "when": "NFP와 동시 발표"
     },
     {
       "name": "소매판매",
-      "when": "발표일 자동화는 v2"
+      "when": "발표 일정 자동화는 다음 단계"
     },
     {
       "name": "FOMC",
-      "when": "일정 자동화는 v2"
+      "when": "일정 자동화는 다음 단계"
     },
     {
       "name": "실업수당",
