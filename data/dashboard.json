@@ -1,117 +1,367 @@
 {
-  "updated_at_kst": "2026-08-21 15:18",
+  "updated_at_kst": "2026-08-21 15:29",
   "meta": {
-    "updated_at_iso": "2026-08-21T06:18:11.902417Z",
-    "updated_at_kst": "2026-08-21 15:18",
-    "updated_at_et": "2026-08-21 02:18",
+    "updated_at_iso": "2026-08-21T15:29:09+09:00",
+    "updated_at_utc_iso": "2026-08-21T06:29:09+00:00",
+    "updated_at_kst": "2026-08-21 15:29",
+    "updated_at_et": "2026-08-21 02:29",
     "market_session": "장 외 시간",
     "perspective": "미국장 외 시간의 마지막 데이터 관점",
     "update_policy": "서버: 평일 20:00~23:30 KST 30분 간격 · 화면: 5분마다 새 데이터 자동 확인 · GitHub Actions는 지연 가능",
     "cautions": [
-      "수집 시점과 미국장 세션(프리마켓/정규장/애프터마켓)을 먼저 확인하세요.",
-      "Yahoo Finance extended-hours는 무료 비공식 데이터로 실시간 체결가와 지연·누락 차이가 있을 수 있습니다.",
-      "산업 점수는 미래 수익률 확률이 아니라 가격 모멘텀·SPY 대비 상대강도·거래량·Macro 환경의 규칙 기반 점수입니다.",
+      "수집 시점과 미국장 세션을 먼저 확인하세요.",
+      "Yahoo Finance extended-hours는 무료 비공식 데이터로 지연·누락이 있을 수 있습니다.",
+      "투자환경 등급과 산업 점수는 미래 수익률 확률이 아닌 규칙 기반 보조 신호입니다.",
       "FRED 거시지표는 각 지표의 최신 공식 발표값이며 장중 실시간 수치가 아닙니다.",
-      "GitHub Actions 예약 실행은 지정 시각보다 늦게 시작될 수 있으므로 화면의 실제 수집 시점을 기준으로 판단하세요.",
-      "현재 버전은 뉴스·기업 실적·가이던스의 의미를 자동 점수에 완전히 반영하지 않습니다. 중대한 이벤트는 별도 확인이 필요합니다."
+      "외부 원자료·시세 사이트와 대시보드의 수집 시점이 달라 값이 다를 수 있습니다.",
+      "현재 버전은 뉴스·기업 실적·가이던스의 의미를 자동 점수에 완전히 반영하지 않습니다."
     ]
   },
   "market": [
     {
       "name": "나스닥 선물",
-      "value": "29,366.75",
+      "symbol": "NQ=F",
+      "value": "29,369.00",
       "change_pct": 0.23,
       "change_text": "+0.23%",
-      "change_direction": 0.2261
+      "change_direction": 0.2338,
+      "source_label": "Yahoo Finance",
+      "source_url": "https://finance.yahoo.com/quote/NQ%3DF/",
+      "sources": [
+        {
+          "label": "CME Group",
+          "note": "E-mini Nasdaq-100 선물 공식 시장",
+          "url": "https://www.cmegroup.com/markets/equities/nasdaq/e-mini-nasdaq-100.html"
+        },
+        {
+          "label": "Yahoo Finance",
+          "note": "대시보드 무료 시세 수집 계열",
+          "url": "https://finance.yahoo.com/quote/NQ%3DF/"
+        },
+        {
+          "label": "Investing.com",
+          "note": "대체 시세·차트 검색",
+          "url": "https://www.investing.com/search/?q=%EB%82%98%EC%8A%A4%EB%8B%A5%20%EC%84%A0%EB%AC%BC"
+        }
+      ]
     },
     {
       "name": "S&P500 선물",
-      "value": "7,668.75",
-      "change_pct": 0.08,
-      "change_text": "+0.08%",
-      "change_direction": 0.0816
+      "symbol": "ES=F",
+      "value": "7,669.75",
+      "change_pct": 0.09,
+      "change_text": "+0.09%",
+      "change_direction": 0.0946,
+      "source_label": "Yahoo Finance",
+      "source_url": "https://finance.yahoo.com/quote/ES%3DF/",
+      "sources": [
+        {
+          "label": "CME Group",
+          "note": "E-mini S&P 500 선물 공식 시장",
+          "url": "https://www.cmegroup.com/markets/equities/sp/e-mini-sandp500.html"
+        },
+        {
+          "label": "Yahoo Finance",
+          "note": "대시보드 무료 시세 수집 계열",
+          "url": "https://finance.yahoo.com/quote/ES%3DF/"
+        },
+        {
+          "label": "Investing.com",
+          "note": "대체 시세·차트 검색",
+          "url": "https://www.investing.com/search/?q=S%26P500%20%EC%84%A0%EB%AC%BC"
+        }
+      ]
     },
     {
       "name": "SOX",
+      "symbol": "^SOX",
       "value": "11,800.02",
       "change_pct": 0.53,
       "change_text": "+0.53%",
-      "change_direction": 0.5264
+      "change_direction": 0.5264,
+      "source_label": "Yahoo Finance",
+      "source_url": "https://finance.yahoo.com/quote/%5ESOX/",
+      "sources": [
+        {
+          "label": "Nasdaq",
+          "note": "PHLX Semiconductor Sector Index",
+          "url": "https://www.nasdaq.com/market-activity/index/sox"
+        },
+        {
+          "label": "Yahoo Finance",
+          "note": "대시보드 무료 시세 수집 계열",
+          "url": "https://finance.yahoo.com/quote/%5ESOX/"
+        },
+        {
+          "label": "Investing.com",
+          "note": "대체 시세·차트 검색",
+          "url": "https://www.investing.com/search/?q=SOX"
+        }
+      ]
     },
     {
       "name": "WTI 원유",
-      "value": "86.19",
-      "change_pct": -1.87,
-      "change_text": "-1.87%",
-      "change_direction": -1.8672
+      "symbol": "CL=F",
+      "value": "86.20",
+      "change_pct": -1.86,
+      "change_text": "-1.86%",
+      "change_direction": -1.8559,
+      "source_label": "Yahoo Finance",
+      "source_url": "https://finance.yahoo.com/quote/CL%3DF/",
+      "sources": [
+        {
+          "label": "CME Group",
+          "note": "WTI Crude Oil 선물 공식 시장",
+          "url": "https://www.cmegroup.com/markets/energy/crude-oil/light-sweet-crude.html"
+        },
+        {
+          "label": "Yahoo Finance",
+          "note": "대시보드 무료 시세 수집 계열",
+          "url": "https://finance.yahoo.com/quote/CL%3DF/"
+        },
+        {
+          "label": "Investing.com",
+          "note": "대체 시세·차트 검색",
+          "url": "https://www.investing.com/search/?q=WTI%20%EC%9B%90%EC%9C%A0"
+        }
+      ]
     },
     {
       "name": "미 10년물",
-      "value": "0.470%",
+      "symbol": "^TNX",
+      "value": "4.696%",
       "change_pct": 0.92,
-      "change_text": "+0.4bp",
-      "change_direction": 0.43
+      "change_text": "+4.3bp",
+      "change_direction": 4.3,
+      "source_label": "Yahoo Finance",
+      "source_url": "https://finance.yahoo.com/quote/%5ETNX/",
+      "sources": [
+        {
+          "label": "FRED",
+          "note": "미국 10년 국채금리 DGS10",
+          "url": "https://fred.stlouisfed.org/series/DGS10"
+        },
+        {
+          "label": "Yahoo Finance",
+          "note": "대시보드 무료 시세 수집 계열",
+          "url": "https://finance.yahoo.com/quote/%5ETNX/"
+        },
+        {
+          "label": "Investing.com",
+          "note": "대체 시세·차트 검색",
+          "url": "https://www.investing.com/search/?q=%EB%AF%B8%2010%EB%85%84%EB%AC%BC"
+        }
+      ]
     },
     {
       "name": "DXY",
+      "symbol": "DX-Y.NYB",
       "value": "98.74",
-      "change_pct": -0.16,
-      "change_text": "-0.16%",
-      "change_direction": -0.1588
+      "change_pct": -0.17,
+      "change_text": "-0.17%",
+      "change_direction": -0.1668,
+      "source_label": "Yahoo Finance",
+      "source_url": "https://finance.yahoo.com/quote/DX-Y.NYB/",
+      "sources": [
+        {
+          "label": "ICE",
+          "note": "U.S. Dollar Index 공식 시장",
+          "url": "https://www.ice.com/products/194/US-Dollar-Index-Futures"
+        },
+        {
+          "label": "Yahoo Finance",
+          "note": "대시보드 무료 시세 수집 계열",
+          "url": "https://finance.yahoo.com/quote/DX-Y.NYB/"
+        },
+        {
+          "label": "Investing.com",
+          "note": "대체 시세·차트 검색",
+          "url": "https://www.investing.com/search/?q=DXY"
+        }
+      ]
     },
     {
       "name": "비트코인",
-      "value": "75,351",
-      "change_pct": 8.78,
-      "change_text": "+8.78%",
-      "change_direction": 8.785
+      "symbol": "BTC-USD",
+      "value": "75,370",
+      "change_pct": 8.81,
+      "change_text": "+8.81%",
+      "change_direction": 8.8119,
+      "source_label": "Yahoo Finance",
+      "source_url": "https://finance.yahoo.com/quote/BTC-USD/",
+      "sources": [
+        {
+          "label": "Coinbase",
+          "note": "Bitcoin 가격",
+          "url": "https://www.coinbase.com/price/bitcoin"
+        },
+        {
+          "label": "Yahoo Finance",
+          "note": "대시보드 무료 시세 수집 계열",
+          "url": "https://finance.yahoo.com/quote/BTC-USD/"
+        },
+        {
+          "label": "Investing.com",
+          "note": "대체 시세·차트 검색",
+          "url": "https://www.investing.com/search/?q=%EB%B9%84%ED%8A%B8%EC%BD%94%EC%9D%B8"
+        }
+      ]
     },
     {
       "name": "달러/원",
-      "value": "1,385.4",
-      "change_pct": -0.29,
-      "change_text": "-0.29%",
-      "change_direction": -0.2901
+      "symbol": "KRW=X",
+      "value": "1,385.3",
+      "change_pct": -0.3,
+      "change_text": "-0.30%",
+      "change_direction": -0.2965,
+      "source_label": "Yahoo Finance",
+      "source_url": "https://finance.yahoo.com/quote/KRW%3DX/",
+      "sources": [
+        {
+          "label": "한국은행 ECOS",
+          "note": "공식 경제통계 시스템",
+          "url": "https://ecos.bok.or.kr/"
+        },
+        {
+          "label": "Yahoo Finance",
+          "note": "대시보드 무료 시세 수집 계열",
+          "url": "https://finance.yahoo.com/quote/KRW%3DX/"
+        },
+        {
+          "label": "Investing.com",
+          "note": "대체 시세·차트 검색",
+          "url": "https://www.investing.com/search/?q=%EB%8B%AC%EB%9F%AC%2F%EC%9B%90"
+        }
+      ]
     }
   ],
   "regime": {
-    "name": "Late Expansion / 둔화 관찰",
+    "name": "둔화 관찰",
+    "environment": {
+      "score": 60,
+      "label": "🔵 중립~우호",
+      "guidance": "선별 매수 환경입니다. 지수 전체보다 상대강도가 개선되는 섹터를 우선 관찰하세요."
+    },
     "reasons": [
-      "실업률 4.1% · 3개월 -0.2%p",
-      "10년물 0.470% · 당일 +0.4bp",
-      "VIX 16.0"
+      "고용: 실업률 4.1% · 3개월 -0.2%p → 투자환경 중립",
+      "금리: 10년물 4.696% · 당일 +4.3bp → 투자환경 주의",
+      "위험선호: VIX 16.0 → 투자환경 우호"
     ]
   },
   "macro": [
     {
       "name": "고용",
       "state": "강함",
-      "summary": "실업률 4.1% · 3개월 -0.2%p"
+      "summary": "실업률 4.1% · 3개월 -0.2%p",
+      "investment_grade": "중립",
+      "investment_hint": "고용 둔화가 빨라지면 경기민감주에는 부담. 견조한 고용은 경기에 긍정적이나 금리인하 기대를 늦출 수 있음.",
+      "sources": [
+        {
+          "label": "FRED · UNRATE",
+          "note": "미국 실업률 공식 시계열",
+          "url": "https://fred.stlouisfed.org/series/UNRATE"
+        },
+        {
+          "label": "BLS",
+          "note": "미 노동통계국 고용 원문",
+          "url": "https://www.bls.gov/cps/"
+        }
+      ]
     },
     {
       "name": "물가",
       "state": "냉각",
-      "summary": "CPI YoY 3.54% · 이전 3.73%"
+      "summary": "CPI YoY 3.54% · 이전 3.73%",
+      "investment_grade": "우호",
+      "investment_hint": "물가 둔화는 장기금리 안정에 도움 → 성장주·바이오·리츠에 상대적으로 우호.",
+      "sources": [
+        {
+          "label": "FRED · CPIAUCSL",
+          "note": "CPI 공식 시계열",
+          "url": "https://fred.stlouisfed.org/series/CPIAUCSL"
+        },
+        {
+          "label": "BLS CPI",
+          "note": "CPI 원문",
+          "url": "https://www.bls.gov/cpi/"
+        }
+      ]
     },
     {
       "name": "금리",
-      "state": "중립",
-      "summary": "10년물 0.470% · 당일 +0.4bp"
+      "state": "부담",
+      "summary": "10년물 4.696% · 당일 +4.3bp",
+      "investment_grade": "주의",
+      "investment_hint": "장기금리가 높거나 상승하면 QQQ·반도체·바이오·리츠 같은 금리민감 자산에 부담.",
+      "sources": [
+        {
+          "label": "FRED · DGS10",
+          "note": "미국 10년 국채금리",
+          "url": "https://fred.stlouisfed.org/series/DGS10"
+        },
+        {
+          "label": "U.S. Treasury",
+          "note": "미 재무부 금리 자료",
+          "url": "https://home.treasury.gov/resource-center/data-chart-center/interest-rates"
+        }
+      ]
     },
     {
       "name": "경기",
       "state": "냉각",
-      "summary": "신규 실업수당 206K · 4주전 대비 +9.0%"
+      "summary": "신규 실업수당 206K · 4주전 대비 +9.0%",
+      "investment_grade": "중립",
+      "investment_hint": "실업수당 급증은 경기민감·소비 관련 자산에 부담. 현재는 단일 지표라 보조 신호로만 사용.",
+      "sources": [
+        {
+          "label": "FRED · ICSA",
+          "note": "신규 실업수당",
+          "url": "https://fred.stlouisfed.org/series/ICSA"
+        },
+        {
+          "label": "U.S. DOL",
+          "note": "실업보험 통계",
+          "url": "https://www.dol.gov/ui/data.pdf"
+        }
+      ]
     },
     {
       "name": "유동성",
       "state": "중립",
-      "summary": "DXY 당일 -0.16%"
+      "summary": "DXY 당일 -0.17%",
+      "investment_grade": "중립",
+      "investment_hint": "달러 흐름이 중립 범위.",
+      "sources": [
+        {
+          "label": "ICE",
+          "note": "U.S. Dollar Index 공식 시장",
+          "url": "https://www.ice.com/products/194/US-Dollar-Index-Futures"
+        },
+        {
+          "label": "Yahoo Finance",
+          "note": "DXY 시세",
+          "url": "https://finance.yahoo.com/quote/DX-Y.NYB/"
+        }
+      ]
     },
     {
       "name": "위험선호",
       "state": "강함",
-      "summary": "VIX 16.0"
+      "summary": "VIX 16.0",
+      "investment_grade": "우호",
+      "investment_hint": "VIX가 낮을수록 위험선호에 우호. 급등 시 고베타·레버리지 자산 변동성 확대에 주의.",
+      "sources": [
+        {
+          "label": "Cboe VIX",
+          "note": "VIX 공식 자료",
+          "url": "https://www.cboe.com/tradable_products/vix/"
+        },
+        {
+          "label": "Yahoo Finance",
+          "note": "VIX 시세",
+          "url": "https://finance.yahoo.com/quote/%5EVIX/"
+        }
+      ]
     }
   ],
   "sectors": [
@@ -284,25 +534,121 @@
       "symbol": "GLD",
       "name": "금/금광",
       "status": "상승 사이클",
-      "action": "분할 접근"
+      "action": "분할 접근",
+      "as_of_kst": "2026-08-21 15:29",
+      "as_of_et": "2026-08-21 02:29",
+      "sources": [
+        {
+          "label": "Yahoo Finance",
+          "note": "무료 시세·프리마켓 확인",
+          "url": "https://finance.yahoo.com/quote/GLD/"
+        },
+        {
+          "label": "Nasdaq",
+          "note": "ETF 시세·정보",
+          "url": "https://www.nasdaq.com/market-activity/etf/gld"
+        },
+        {
+          "label": "Investing.com",
+          "note": "시세·차트 검색",
+          "url": "https://www.investing.com/search/?q=GLD"
+        },
+        {
+          "label": "Bloomberg",
+          "note": "시세·뉴스 검색",
+          "url": "https://www.bloomberg.com/search?query=GLD"
+        }
+      ]
     },
     {
       "symbol": "XBI",
       "name": "바이오/헬스케어",
       "status": "초기 관심",
-      "action": "관찰 · 조정 대기"
+      "action": "관찰 · 조정 대기",
+      "as_of_kst": "2026-08-21 15:29",
+      "as_of_et": "2026-08-21 02:29",
+      "sources": [
+        {
+          "label": "Yahoo Finance",
+          "note": "무료 시세·프리마켓 확인",
+          "url": "https://finance.yahoo.com/quote/XBI/"
+        },
+        {
+          "label": "Nasdaq",
+          "note": "ETF 시세·정보",
+          "url": "https://www.nasdaq.com/market-activity/etf/xbi"
+        },
+        {
+          "label": "Investing.com",
+          "note": "시세·차트 검색",
+          "url": "https://www.investing.com/search/?q=XBI"
+        },
+        {
+          "label": "Bloomberg",
+          "note": "시세·뉴스 검색",
+          "url": "https://www.bloomberg.com/search?query=XBI"
+        }
+      ]
     },
     {
       "symbol": "XLE",
       "name": "에너지",
       "status": "초기 관심",
-      "action": "관찰 · 조정 대기"
+      "action": "관찰 · 조정 대기",
+      "as_of_kst": "2026-08-21 15:29",
+      "as_of_et": "2026-08-21 02:29",
+      "sources": [
+        {
+          "label": "Yahoo Finance",
+          "note": "무료 시세·프리마켓 확인",
+          "url": "https://finance.yahoo.com/quote/XLE/"
+        },
+        {
+          "label": "Nasdaq",
+          "note": "ETF 시세·정보",
+          "url": "https://www.nasdaq.com/market-activity/etf/xle"
+        },
+        {
+          "label": "Investing.com",
+          "note": "시세·차트 검색",
+          "url": "https://www.investing.com/search/?q=XLE"
+        },
+        {
+          "label": "Bloomberg",
+          "note": "시세·뉴스 검색",
+          "url": "https://www.bloomberg.com/search?query=XLE"
+        }
+      ]
     },
     {
       "symbol": "XLB",
       "name": "소재/원자재",
       "status": "중립",
-      "action": "관찰"
+      "action": "관찰",
+      "as_of_kst": "2026-08-21 15:29",
+      "as_of_et": "2026-08-21 02:29",
+      "sources": [
+        {
+          "label": "Yahoo Finance",
+          "note": "무료 시세·프리마켓 확인",
+          "url": "https://finance.yahoo.com/quote/XLB/"
+        },
+        {
+          "label": "Nasdaq",
+          "note": "ETF 시세·정보",
+          "url": "https://www.nasdaq.com/market-activity/etf/xlb"
+        },
+        {
+          "label": "Investing.com",
+          "note": "시세·차트 검색",
+          "url": "https://www.investing.com/search/?q=XLB"
+        },
+        {
+          "label": "Bloomberg",
+          "note": "시세·뉴스 검색",
+          "url": "https://www.bloomberg.com/search?query=XLB"
+        }
+      ]
     }
   ],
   "events": [
