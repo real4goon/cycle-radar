@@ -27,3 +27,34 @@ table{width:100%;border-collapse:collapse;font-size:.72rem}th,td{text-align:left
 #sourceModal .source-backdrop{background:rgba(2,8,13,.78);backdrop-filter:blur(4px)}
 #sourceModal .source-dialog{z-index:302;box-shadow:0 28px 90px rgba(0,0,0,.62)}
 #sectorModal .source-dialog{z-index:202}
+
+/* v1.9: compact market timing signals */
+.timing-divider{height:1px;background:#1c3041;margin:12px 0 10px}
+.timing-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px}
+.timing-head h3{margin:3px 0 0;font-size:.9rem;letter-spacing:-.02em}
+.timing-detail-btn{border:1px solid #2d4e66;background:transparent;color:#71bde7;border-radius:7px;padding:5px 8px;font-size:.58rem;font-weight:850;cursor:pointer}
+.timing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
+.timing-card{min-width:0;border:1px solid #244158;border-radius:9px;background:#091a27;padding:9px 9px 8px}
+.timing-card-top{display:flex;align-items:center;justify-content:space-between;gap:6px;font-size:.62rem;font-weight:900;color:#cbd9e3}
+.timing-label{font-size:.56rem;font-weight:900;white-space:nowrap}
+.timing-score-row{display:flex;align-items:baseline;gap:4px;margin-top:5px}
+.timing-score-row b{font-size:1.35rem;line-height:1;font-weight:950}
+.timing-score-row span{font-size:.6rem;color:#8199aa}
+.timing-meter{height:5px;border-radius:99px;background:#1d3345;overflow:hidden;margin:7px 0 6px}
+.timing-meter span{display:block;height:100%;border-radius:99px;background:#8aa3b5}
+.timing-card small{display:block;color:#8198aa;font-size:.55rem;line-height:1.35;min-height:29px}
+.timing-card.tone-good .timing-score-row b,.timing-card.tone-good .timing-label{color:var(--green)}
+.timing-card.tone-good .timing-meter span{background:var(--green)}
+.timing-card.tone-cyan .timing-score-row b,.timing-card.tone-cyan .timing-label{color:var(--cyan)}
+.timing-card.tone-cyan .timing-meter span{background:var(--cyan)}
+.timing-card.tone-warn .timing-score-row b,.timing-card.tone-warn .timing-label{color:var(--amber)}
+.timing-card.tone-warn .timing-meter span{background:var(--amber)}
+.timing-card.tone-danger .timing-score-row b,.timing-card.tone-danger .timing-label{color:var(--red)}
+.timing-card.tone-danger .timing-meter span{background:var(--red)}
+.timing-card.tone-mid .timing-score-row b,.timing-card.tone-mid .timing-label{color:var(--blue)}
+.timing-card.tone-mid .timing-meter span{background:var(--blue)}
+.timing-summary{margin-top:8px;border:1px solid #26475e;border-radius:8px;background:linear-gradient(90deg,rgba(25,72,104,.22),rgba(11,27,40,.5));padding:8px 9px;display:flex;justify-content:space-between;gap:9px;align-items:center;color:#c9d8e2;font-size:.61rem;line-height:1.4}
+.timing-summary b{color:#67bdf0;white-space:nowrap;font-size:.62rem}
+[data-theme="day"] .timing-card{background:#e1e9ee}
+[data-theme="day"] .timing-summary{background:linear-gradient(90deg,#dce9f1,#e6edf1)}
+@media(max-width:760px){.timing-grid{grid-template-columns:1fr}.timing-card small{min-height:0}.timing-summary{align-items:flex-start;flex-direction:column}.timing-summary b{white-space:normal}}

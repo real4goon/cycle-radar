@@ -38,6 +38,38 @@ function renderMarket(d){
   $$('[data-market-source]').forEach(btn=>btn.onclick=()=>{const m=d.market[Number(btn.dataset.marketSource)];openSourceModal(m.name,`${m.value} · ${m.change_text||''}`,m.sources||[])});
 }
 function renderEnvironment(d){const env=d.regime?.environment||{};$('#environmentScore').textContent=`${env.score??'-'}/100점`;$('#environmentGrade').textContent=(env.label||'-').replace(/^[^\s]+\s*/,'');$('#environmentGuidance').textContent=env.guidance||'시장 환경 해석 중';$('#environmentReasons').innerHTML=(d.regime?.reasons||[]).map(x=>`<div>• ${escapeHtml(x)}</div>`).join('');$$('#environmentScale span').forEach(x=>x.classList.remove('active'));const s=Number(env.score);const range=s>=70?'favorable':s>=55?'selective':s>=40?'caution':'risk';$(`#environmentScale [data-range="${range}"]`)?.classList.add('active');}
+function timingTone(kind,score){
+  const n=Number(score);
+  if(!Number.isFinite(n))return 'tone-mid';
+  if(kind==='fear'){
+    if(n<45)return 'tone-danger';
+    if(n<55)return 'tone-mid';
+    if(n<75)return 'tone-warn';
+    return 'tone-danger';
+  }
+  if(n>=75)return 'tone-good';
+  if(n>=60)return 'tone-cyan';
+  if(n>=45)return 'tone-mid';
+  return 'tone-warn';
+}
+function timingCard(title,obj,kind){
+  const score=(obj&&obj.score!==null&&obj.score!==undefined)?Math.round(Number(obj.score)):null;
+  const label=obj?.label||obj?.rating_ko||obj?.rating||'확인 중';
+  const note=obj?.note||obj?.guidance||'';
+  const tone=timingTone(kind,score);
+  const width=score===null?0:Math.max(0,Math.min(100,score));
+  return `<div class="timing-card ${tone}"><div class="timing-card-top"><span>${escapeHtml(title)}</span><span class="timing-label">${escapeHtml(label)}</span></div><div class="timing-score-row"><b>${score===null?'-':score}</b><span>/100</span></div><div class="timing-meter"><span style="width:${width}%"></span></div><small>${escapeHtml(note)}</small></div>`;
+}
+function renderTiming(d){
+  const t=d.timing||{};
+  const low=t.low_buy||{};
+  const rev=t.reversal||{};
+  const fg=t.fear_greed||{};
+  $('#timingGrid').innerHTML=timingCard('저점매수 매력도',low,'low')+timingCard('반전 확인도',rev,'reversal')+timingCard('Fear & Greed',fg,'fear');
+  const summary=t.summary||'저점 매력과 실제 반전 신호를 함께 확인합니다.';
+  const action=t.action?`<b>${escapeHtml(t.action)}</b>`:'';
+  $('#timingSummary').innerHTML=`<span>${escapeHtml(summary)}</span>${action}`;
+}
 function sectorRows(d){return (d.sectors||[]).filter(s=>currentFilter==='all'||s.status===currentFilter);}
 function renderRadar(d){
   const rows=sectorRows(d);
@@ -51,7 +83,7 @@ function renderEvents(d){$('#events').innerHTML=(d.events||[]).map((e,i)=>`<div 
 function renderMacro(d){$('#macroCards').innerHTML=(d.macro||[]).map((m,i)=>`<div class="macro-card panel"><div class="macro-top"><div class="macro-title">${escapeHtml(m.name)}</div><span class="macro-state ${clsForStatus(m.state)}">${escapeHtml(m.state)}</span></div><div class="macro-sub">${escapeHtml(m.summary)}</div><div class="macro-invest"><span class="macro-score">시장 영향 ${m.investment_score??'-'}/100</span><span class="chip ${m.investment_grade==='우호'?'upcycle':m.investment_grade==='주의'||m.investment_grade==='위험'?'weak':'neutral'}">${escapeHtml(m.investment_grade||'중립')}</span></div><div class="macro-hint"><b>투자 해석</b> · ${escapeHtml(m.investment_hint||'')}</div><button class="macro-source-btn" data-macro-source="${i}">근거 데이터 보기</button></div>`).join('');$$('[data-macro-source]').forEach(btn=>btn.onclick=()=>{const m=d.macro[Number(btn.dataset.macroSource)];openSourceModal(`${m.name} 근거 데이터`,m.summary,m.sources||[])});}
 function renderCautions(d){$('#cautionList').innerHTML=(d.meta?.cautions||[]).map(x=>`<li>${escapeHtml(x)}</li>`).join('');}
 function renderMeta(d){const m=d.meta||{};$('#updatedAt').textContent=`수집 ${m.updated_at_kst||d.updated_at_kst||'-'} KST · ${m.updated_at_et||'-'} ET`;$('#marketViewpoint').textContent=m.perspective||'데이터 수집 시점 기준';updateFreshness(m,d);}
-function renderAll(d){lastData=d;renderMeta(d);renderMarket(d);renderEnvironment(d);renderRadar(d);renderChanges(d);renderEvents(d);renderMacro(d);renderCautions(d);}
+function renderAll(d){lastData=d;renderMeta(d);renderMarket(d);renderEnvironment(d);renderTiming(d);renderRadar(d);renderChanges(d);renderEvents(d);renderMacro(d);renderCautions(d);}
 async function loadData(manual=false){const btn=$('#manualRefresh');if(manual){btn.disabled=true;btn.textContent='확인 중…'}try{const r=await fetch(`data/dashboard.json?t=${Date.now()}`,{cache:'no-store'});if(!r.ok)throw new Error(`HTTP ${r.status}`);const d=await r.json();renderAll(d);nextBrowserRefreshAt=Date.now()+AUTO_REFRESH_MS;}catch(e){console.error(e);$('#freshLabel').textContent='데이터 로딩 오류';$('#freshDot').className='status-dot stale';}finally{if(manual){btn.disabled=false;btn.textContent='새로고침 ↻'}}}
 function updateCountdown(){const sec=Math.max(0,Math.ceil((nextBrowserRefreshAt-Date.now())/1000));$('#refreshCountdown').textContent=`화면 자동 확인 ${Math.floor(sec/60)}:${String(sec%60).padStart(2,'0')} 후`;if(sec<=0)loadData();}
 
@@ -59,6 +91,7 @@ $('#themeToggle').onclick=()=>{uiTheme=uiTheme==='night'?'day':'night';localStor
 $('#fontSmaller').onclick=()=>setFontScale(uiFontScale-.1);$('#fontReset').onclick=()=>setFontScale(1);$('#fontLarger').onclick=()=>setFontScale(uiFontScale+.1);$('#manualRefresh').onclick=()=>loadData(true);
 $('#sectorFilters').onclick=e=>{const b=e.target.closest('[data-filter]');if(!b)return;currentFilter=b.dataset.filter;$$('.filter-btn').forEach(x=>x.classList.remove('active'));b.classList.add('active');if(lastData)renderRadar(lastData);};
 $('#environmentDetailBtn').onclick=()=>{if(!lastData)return;const src=(lastData.macro||[]).flatMap(m=>(m.sources||[]).slice(0,1));openSourceModal('오늘의 투자 환경 근거','고용·물가·금리·경기·유동성·위험선호를 종합한 규칙 기반 점수',src);};
+$('#timingDetailBtn').onclick=()=>{if(!lastData)return;const t=lastData.timing||{};const src=t.sources||[];const formula='저점매수 매력도 = Fear & Greed 역산 30% + S&P500 고점 대비 낙폭 25% + RSI 15% + VIX 15% + 시장 폭 스트레스 15% · 반전 확인도 = 5일 모멘텀 25% + 20일선 회복 25% + VIX 안정 20% + 시장 폭 개선 15% + 거래량 확인 15%';openSourceModal('시장 타이밍 신호 계산 기준',formula,src);};
 $$('[data-close-modal]').forEach(x=>x.onclick=closeSourceModal);$$('[data-close-sector]').forEach(x=>x.onclick=closeSectorModal);
 document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeSourceModal();closeSectorModal();}});
 applyUiSettings();loadData();setInterval(updateCountdown,1000);
