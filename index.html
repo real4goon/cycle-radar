@@ -3,11 +3,18 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <meta name="color-scheme" content="dark"/>
+  <meta name="color-scheme" content="light dark"/>
   <title>미국 산업 사이클 레이더</title>
   <link rel="stylesheet" href="styles.css"/>
 </head>
 <body>
+  <div class="display-toolbar" aria-label="화면 설정">
+    <button id="themeToggle" class="display-btn" type="button" title="데이/나이트 전환">☀ 데이</button>
+    <span class="toolbar-divider"></span>
+    <button id="fontSmaller" class="display-btn font-btn" type="button" title="글씨 10% 작게">A−</button>
+    <button id="fontReset" class="display-btn font-btn" type="button" title="글씨 기본 크기">A</button>
+    <button id="fontLarger" class="display-btn font-btn" type="button" title="글씨 10% 크게">A+</button>
+  </div>
   <main class="app">
     <section id="marketStrip" class="market-strip"></section>
 
@@ -34,7 +41,13 @@
           <div id="environmentScore" class="environment-score">-</div>
         </div>
         <div id="environmentGuidance" class="environment-guidance">시장 데이터를 해석 중입니다.</div>
-        <div class="phase-row"><span>보조 국면 분류</span><b id="regimeName">-</b></div>
+        <div class="environment-scale" id="environmentScale" aria-label="투자환경 점수 단계">
+          <span data-range="favorable"><b>70~100</b> 우호</span>
+          <span data-range="selective"><b>55~69</b> 중립~우호</span>
+          <span data-range="caution"><b>40~54</b> 중립~주의</span>
+          <span data-range="risk"><b>0~39</b> 위험</span>
+        </div>
+        <div class="phase-row"><span>경기 국면 참고 <small>(매수·매도 지시 아님)</small></span><b id="regimeName">-</b></div>
         <div id="regimeReasons" class="reasons"></div>
         <div class="regime-foot" id="updatePolicy">서버 데이터 업데이트 정책 확인 중</div>
       </div>

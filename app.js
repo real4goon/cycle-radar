@@ -5,6 +5,39 @@ let selectedSymbol = null;
 let selectedSector = null;
 let selectedWatch = null;
 let nextBrowserRefreshAt = Date.now() + AUTO_REFRESH_MS;
+let uiFontScale = Number(localStorage.getItem('radarFontScale') || '1');
+let uiTheme = localStorage.getItem('radarTheme') || 'day';
+
+function applyUiSettings(){
+  document.documentElement.dataset.theme = uiTheme;
+  document.documentElement.style.setProperty('--ui-zoom', String(uiFontScale));
+  const t=$('#themeToggle');
+  if(t){ t.textContent = uiTheme==='day' ? '🌙 나이트' : '☀ 데이'; t.title = uiTheme==='day' ? '나이트 화면으로 전환' : '데이 화면으로 전환'; }
+}
+function setFontScale(v){
+  uiFontScale=Math.max(.9,Math.min(1.1,Number(v.toFixed(1))));
+  localStorage.setItem('radarFontScale',String(uiFontScale));
+  applyUiSettings();
+}
+function gradeScore(grade='중립'){
+  const g=String(grade);
+  if(g.includes('우호')) return 80;
+  if(g.includes('위험')) return 15;
+  if(g.includes('주의')) return 35;
+  return 55;
+}
+function macroFallbackHint(name,grade='중립'){
+  const g=String(grade);
+  const map={
+    '고용': g.includes('주의')?'고용 둔화가 빨라지는 구간으로 경기민감주에는 부담입니다.':'고용은 아직 시장을 크게 훼손하지 않는 범위입니다.',
+    '물가': g.includes('우호')?'물가 둔화는 금리 안정에 도움을 줘 성장주·바이오·리츠에 우호적입니다.':'물가가 다시 강해지면 금리 상승 압력이 커져 성장주에 부담입니다.',
+    '금리': g.includes('주의')?'장기금리 부담이 커 고밸류 성장주·반도체·바이오·리츠에 불리합니다.':'금리 부담이 크게 확대되지 않는 중립 구간입니다.',
+    '경기': g.includes('주의')?'경기 둔화 신호가 강해지면 산업재·소비·금융 등 경기민감 자산에 부담입니다.':'경기 신호는 아직 중립 범위입니다.',
+    '유동성': g.includes('우호')?'달러·유동성 환경이 위험자산에 비교적 우호적입니다.':g.includes('주의')?'달러 강세·유동성 부담은 위험자산에 불리합니다.':'유동성 환경은 뚜렷한 방향이 없는 중립입니다.',
+    '위험선호': g.includes('우호')?'변동성이 낮아 위험자산 선호에 우호적입니다.':g.includes('위험')||g.includes('주의')?'변동성 확대 구간으로 고베타·레버리지 자산에 주의가 필요합니다.':'위험선호는 중립 범위입니다.'
+  };
+  return map[name]||'시장 영향은 현재 중립 범위로 해석합니다.';
+}
 
 const clsForStatus = (s='') => {
   if (s.includes('상승') || s.includes('강함') || s.includes('개선')) return 'state-good';
@@ -77,21 +110,22 @@ async function load({manual=false}={}){
     const r=await fetch(`data/dashboard.json?t=${Date.now()}`,{cache:'no-store'});if(!r.ok)throw new Error(`HTTP ${r.status}`);const d=await r.json();lastData=d;const meta=d.meta||{};const kst=meta.updated_at_kst||d.updated_at_kst||'-';
     $('#updatedAt').textContent=`수집 ${kst} KST${meta.updated_at_et?` · ${meta.updated_at_et} ET`:''}`;$('#marketViewpoint').textContent=meta.perspective||'세션 정보 업데이트 대기';$('#updatePolicy').textContent=meta.update_policy||'서버 데이터는 예약 갱신됩니다.';$('#watchAsOf').textContent=`판정 기준 ${kst} KST${meta.perspective?` · ${meta.perspective}`:''}`;updateFreshness(meta,d);
 
-    const env=d.regime?.environment||{};$('#environmentGrade').textContent=env.label||d.regime?.market_label||'중립';$('#environmentGrade').className=`environment-grade ${investClass(env.label||'중립')}`;$('#environmentScore').textContent=env.score!=null?`${env.score}/100`:'규칙 기반';$('#environmentGuidance').textContent=env.guidance||'시장 환경 등급은 고용·물가·금리·경기·유동성·위험선호를 종합한 보조 신호입니다.';$('#regimeName').textContent=d.regime?.name||'-';$('#regimeReasons').innerHTML=(d.regime?.reasons||[]).map(x=>`• ${escapeHtml(x)}`).join('<br>');
+    const env=d.regime?.environment||{};$('#environmentGrade').textContent=env.label||d.regime?.market_label||'중립';$('#environmentGrade').className=`environment-grade ${investClass(env.label||'중립')}`;$('#environmentScore').textContent=env.score!=null?`${env.score}/100점`:'규칙 기반';$('#environmentGuidance').textContent=env.guidance||'시장 환경 등급은 고용·물가·금리·경기·유동성·위험선호를 종합한 보조 신호입니다.';document.querySelectorAll('#environmentScale span').forEach(x=>x.classList.remove('active'));if(env.score!=null){const range=env.score>=70?'favorable':env.score>=55?'selective':env.score>=40?'caution':'risk';document.querySelector(`#environmentScale [data-range="${range}"]`)?.classList.add('active');}$('#regimeName').textContent=d.regime?.name||'-';$('#regimeReasons').innerHTML=(d.regime?.reasons||[]).map(x=>`• ${escapeHtml(x)}`).join('<br>');
 
-    $('#marketStrip').innerHTML=(d.market||[]).map((m,i)=>{const changeText=m.change_text??`${m.change_pct>=0?'+':''}${Number(m.change_pct||0).toFixed(2)}%`;return `<button class="market-item market-link" type="button" data-market-index="${i}" title="출처·시세 확인"><div class="market-name">${escapeHtml(m.name)} <span class="source-mark">ⓘ</span></div><div class="market-value">${escapeHtml(m.value)}</div><div class="market-change ${(m.change_direction??m.change_pct)>=0?'positive':'negative'}">${escapeHtml(changeText)}</div><div class="market-source">클릭: 출처·시세</div></button>`;}).join('');
-    document.querySelectorAll('[data-market-index]').forEach(el=>el.onclick=()=>{const m=d.market[+el.dataset.marketIndex];openSourceModal(`${m.name} · 출처/시세`,`${m.value} · ${m.change_text||''} · 수집 ${kst} KST`,m.sources?.length?m.sources:fallbackMarketSources(m));});
+    $('#marketStrip').innerHTML=(d.market||[]).map((m,i)=>{const changeText=m.change_text??`${m.change_pct>=0?'+':''}${Number(m.change_pct||0).toFixed(2)}%`;return `<div class="market-item"><div class="market-name">${escapeHtml(m.name)}</div><div class="market-value">${escapeHtml(m.value)}</div><div class="market-change ${(m.change_direction??m.change_pct)>=0?'positive':'negative'}">${escapeHtml(changeText)}</div><button class="source-trigger" type="button" data-market-source="${i}">출처·시세 보기</button></div>`;}).join('');
+    document.querySelectorAll('[data-market-source]').forEach(el=>el.onclick=(e)=>{e.stopPropagation();const m=d.market[+el.dataset.marketSource];openSourceModal(`${m.name} · 출처/시세`,`${m.value} · ${m.change_text||''} · 수집 ${kst} KST`,m.sources?.length?m.sources:fallbackMarketSources(m));});
 
-    $('#macroCards').innerHTML=(d.macro||[]).map((m,i)=>`<button class="macro-card panel macro-link" type="button" data-macro-index="${i}"><div class="macro-top"><div class="macro-title">${escapeHtml(m.name)} <span class="source-mark">ⓘ</span></div><div class="macro-state ${clsForStatus(m.state)}">${escapeHtml(m.state)}</div></div><div class="macro-sub">${escapeHtml(m.summary)}</div><div class="macro-invest"><span class="macro-invest-label">투자환경</span><span class="invest-badge ${investClass(m.investment_grade||'중립')}">${escapeHtml(m.investment_grade||'중립')}</span></div><div class="macro-impact">${escapeHtml(m.investment_hint||'시장 영향 해석 업데이트 대기')}</div><div class="source-hint">클릭: 근거 데이터 보기</div></button>`).join('');
-    document.querySelectorAll('[data-macro-index]').forEach(el=>el.onclick=()=>{const m=d.macro[+el.dataset.macroIndex];openSourceModal(`${m.name} · 근거 데이터`,`${m.summary} · 투자환경 ${m.investment_grade||'중립'} · ${m.investment_hint||''}`,fallbackMacroSources(m));});
+    $('#macroCards').innerHTML=(d.macro||[]).map((m,i)=>{const g=m.investment_grade||'중립';const sc=m.investment_score??gradeScore(g);const hint=m.investment_hint||macroFallbackHint(m.name,g);return `<div class="macro-card panel"><div class="macro-top"><div class="macro-title">${escapeHtml(m.name)}</div><div class="macro-state ${clsForStatus(m.state)}">${escapeHtml(m.state)}</div></div><div class="macro-sub">${escapeHtml(m.summary)}</div><div class="macro-invest"><span class="macro-invest-label">시장 영향 점수</span><span class="invest-badge ${investClass(g)}">${sc}/100 · ${escapeHtml(g)}</span></div><div class="macro-impact"><b>투자 해석</b> · ${escapeHtml(hint)}</div><button class="source-trigger macro-source-trigger" type="button" data-macro-source="${i}">근거 데이터 보기</button></div>`;}).join('');
+    document.querySelectorAll('[data-macro-source]').forEach(el=>el.onclick=(e)=>{e.stopPropagation();const m=d.macro[+el.dataset.macroSource];openSourceModal(`${m.name} · 근거 데이터`,`${m.summary} · 시장 영향 ${m.investment_score??gradeScore(m.investment_grade||'중립')}/100 · ${m.investment_grade||'중립'}`,fallbackMacroSources(m));});
 
     $('#sectorTable').innerHTML=(d.sectors||[]).map(s=>`<tr><td class="sector-name">${escapeHtml(s.name)}</td><td><span class="chip ${chipClass(s.status)}">${escapeHtml(s.status)}</span></td><td class="score-cell">${s.score}</td><td><b>${s.etfs.map(escapeHtml).join(' / ')}</b></td><td class="action">${escapeHtml(s.action)}</td></tr>`).join('');
     $('#sectorCards').innerHTML=(d.sectors||[]).map(s=>`<div class="sector-card"><div class="sector-card-top"><div class="sector-name">${escapeHtml(s.name)}</div><span class="chip ${chipClass(s.status)}">${escapeHtml(s.status)}</span></div><div style="margin-top:8px"><b>${s.score}점</b> · ${s.etfs.map(escapeHtml).join(' / ')}</div><small>${escapeHtml(s.action)}</small></div>`).join('');
 
     const top=d.watchlist||d.sectors.slice().sort((a,b)=>b.score-a.score).slice(0,4);const watchBySymbol=Object.fromEntries(top.map(w=>[w.symbol||w.etfs?.[0]||'',w]));
-    $('#watchList').innerHTML=top.map((w,i)=>{const sym=w.symbol||w.etfs?.[0]||'';const selected=(selectedSymbol?selectedSymbol===sym:i===0)?'selected':'';return `<div class="watch-card ${selected}" data-symbol="${escapeHtml(sym)}"><div class="watch-head"><div><div class="symbol">${escapeHtml(sym)}</div><div class="watch-meta">${escapeHtml(w.name||'')}</div></div><span class="chip ${chipClass(w.status)}">${escapeHtml(w.status)}</span></div><div class="watch-date">판정 기준 ${escapeHtml(w.as_of_kst||kst)} KST</div><div class="watch-action">${escapeHtml(w.action)}</div><div class="watch-quote">시세·차트 사이트 보기 ↗</div></div>`;}).join('');
+    $('#watchList').innerHTML=top.map((w,i)=>{const sym=w.symbol||w.etfs?.[0]||'';const selected=(selectedSymbol?selectedSymbol===sym:i===0)?'selected':'';return `<div class="watch-card ${selected}" data-symbol="${escapeHtml(sym)}"><div class="watch-head"><div><div class="symbol">${escapeHtml(sym)}</div><div class="watch-meta">${escapeHtml(w.name||'')}</div></div><span class="chip ${chipClass(w.status)}">${escapeHtml(w.status)}</span></div><div class="watch-date">판정 기준 ${escapeHtml(w.as_of_kst||kst)} KST</div><div class="watch-action">${escapeHtml(w.action)}</div><button class="source-trigger watch-source-trigger" type="button" data-watch-source="${escapeHtml(sym)}">시세·차트 보기</button></div>`;}).join('');
     const details={};(d.sectors||[]).forEach(s=>s.etfs.forEach(e=>details[e]=s));
-    document.querySelectorAll('.watch-card').forEach(card=>{card.onclick=()=>{selectedSymbol=card.dataset.symbol;selectedSector=details[selectedSymbol]||d.sectors[0];selectedWatch=watchBySymbol[selectedSymbol]||{symbol:selectedSymbol};document.querySelectorAll('.watch-card').forEach(x=>x.classList.remove('selected'));card.classList.add('selected');renderDetail(selectedSector,selectedWatch);openSourceModal(`${selectedSymbol} · 시세/차트`,`오늘의 관심 ETF · 판정 기준 ${selectedWatch.as_of_kst||kst} KST`,selectedWatch.sources?.length?selectedWatch.sources:genericQuoteSources(selectedSymbol));};});
+    document.querySelectorAll('.watch-card').forEach(card=>{card.onclick=(e)=>{if(e.target.closest('[data-watch-source]'))return;selectedSymbol=card.dataset.symbol;selectedSector=details[selectedSymbol]||d.sectors[0];selectedWatch=watchBySymbol[selectedSymbol]||{symbol:selectedSymbol};document.querySelectorAll('.watch-card').forEach(x=>x.classList.remove('selected'));card.classList.add('selected');renderDetail(selectedSector,selectedWatch);};});
+    document.querySelectorAll('[data-watch-source]').forEach(btn=>btn.onclick=(e)=>{e.stopPropagation();const sym=btn.dataset.watchSource;const w=watchBySymbol[sym]||{symbol:sym};openSourceModal(`${sym} · 시세/차트`,`오늘의 관심 ETF · 판정 기준 ${w.as_of_kst||kst} KST`,w.sources?.length?w.sources:genericQuoteSources(sym));});
     const defaultSymbol=selectedSymbol&&details[selectedSymbol]?selectedSymbol:(top[0]?.symbol||d.sectors[0]?.etfs?.[0]);selectedSymbol=defaultSymbol;selectedSector=details[defaultSymbol]||d.sectors[0];selectedWatch=watchBySymbol[defaultSymbol]||{symbol:defaultSymbol};renderDetail(selectedSector,selectedWatch);
 
     $('#events').innerHTML=(d.events||[]).map(e=>`<div class="event"><b>${escapeHtml(e.name)}</b><span>${escapeHtml(e.when)}</span></div>`).join('');if(Array.isArray(meta.cautions)&&meta.cautions.length)$('#cautionList').innerHTML=meta.cautions.map(x=>`<li>${escapeHtml(x)}</li>`).join('');nextBrowserRefreshAt=Date.now()+AUTO_REFRESH_MS;
@@ -100,4 +134,9 @@ async function load({manual=false}={}){
 function renderDetail(s,w={}){if(!s)return;const symbol=w.symbol||s.etfs[0];$('#detailTitle').textContent=`${symbol} · ${s.name}`;const factors=[['가격 모멘텀',s.factors.momentum],['상대강도',s.factors.relative_strength],['거래량/수급',s.factors.volume],['Macro 환경',s.factors.macro]];$('#factorBars').innerHTML=factors.map(([n,v])=>`<div class="factor"><div class="factor-name">${n}</div><div class="bar"><div class="fill" style="width:${v}%"></div></div><div class="factor-score">${v}</div></div>`).join('');$('#detailSymbol').textContent=symbol;$('#detailAsOf').textContent=`판정 기준 ${w.as_of_kst||lastData?.meta?.updated_at_kst||'-'} KST`;$('#detailScore').textContent=`${s.score}/100`;$('#detailConclusion').textContent=`${s.status} · ${s.action}`;$('#detailNote').textContent=s.reason||'가격·상대강도·거래량·거시환경을 가중 합산한 규칙 기반 신호입니다.';}
 $('#detailQuoteBtn').addEventListener('click',()=>{if(!selectedSymbol)return;openSourceModal(`${selectedSymbol} · 시세/차트`,`판정과 실제 시세를 분리해서 확인합니다.`,selectedWatch?.sources?.length?selectedWatch.sources:genericQuoteSources(selectedSymbol));});
 function updateCountdown(){const sec=Math.max(0,Math.ceil((nextBrowserRefreshAt-Date.now())/1000)),m=Math.floor(sec/60),s=sec%60;$('#refreshCountdown').textContent=`화면 자동 확인 ${m}:${String(s).padStart(2,'0')} 후`;if(lastData)updateFreshness(lastData.meta||{},lastData);}
+applyUiSettings();
+$('#themeToggle').addEventListener('click',()=>{uiTheme=uiTheme==='day'?'night':'day';localStorage.setItem('radarTheme',uiTheme);applyUiSettings();});
+$('#fontSmaller').addEventListener('click',()=>setFontScale(.9));
+$('#fontReset').addEventListener('click',()=>setFontScale(1));
+$('#fontLarger').addEventListener('click',()=>setFontScale(1.1));
 $('#manualRefresh').addEventListener('click',()=>load({manual:true}));load();setInterval(()=>load(),AUTO_REFRESH_MS);setInterval(updateCountdown,1000);updateCountdown();
