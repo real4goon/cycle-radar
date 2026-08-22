@@ -169,3 +169,6 @@ table{width:100%;border-collapse:collapse;font-size:.72rem}th,td{text-align:left
 [data-theme="day"] .regime-summary,[data-theme="day"] .signal-intel-grid>div,[data-theme="day"] .scorecard-item{background:#e1e9ee}
 @media(max-width:760px){.signal-intel-grid{grid-template-columns:repeat(2,1fr)}.scorecard-grid{grid-template-columns:repeat(2,1fr)}.sector-card>.mobile-intel{padding-top:2px}.sector-card>.reason-mini{padding-top:6px}}
 @media(max-width:420px){.scorecard-grid{grid-template-columns:1fr 1fr}.signal-intel-grid{grid-template-columns:1fr 1fr}.regime-summary{align-items:flex-start;flex-direction:column}}
+
+.signal-story{margin-top:4px;font-size:.82rem;line-height:1.35;color:var(--muted,#95a1b3);font-weight:600}
+.mobile-intel .signal-story{flex-basis:100%;margin-top:2px}
