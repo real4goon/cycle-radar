@@ -1,10 +1,10 @@
 {
-  "updated_at_kst": "2026-08-22 09:10",
+  "updated_at_kst": "2026-08-22 09:24",
   "meta": {
-    "updated_at_iso": "2026-08-22T09:10:41+09:00",
-    "updated_at_utc_iso": "2026-08-22T00:10:41+00:00",
-    "updated_at_kst": "2026-08-22 09:10",
-    "updated_at_et": "2026-08-21 20:10",
+    "updated_at_iso": "2026-08-22T09:24:41+09:00",
+    "updated_at_utc_iso": "2026-08-22T00:24:41+00:00",
+    "updated_at_kst": "2026-08-22 09:24",
+    "updated_at_et": "2026-08-21 20:24",
     "market_session": "closed",
     "perspective": "미국장 외 시간의 마지막 데이터 관점",
     "update_policy": "서버: 미국 거래일 기준 KST 20:00~익일 09:00, 30분 간격 · 정규장 종료 후 애프터마켓까지 수집 · 화면: 5분마다 새 데이터 자동 확인 · GitHub Actions는 지연 가능",
@@ -330,12 +330,13 @@
     {
       "name": "비트코인",
       "symbol": "BTC-USD",
-      "value": "77,863",
-      "change_pct": 6.61,
-      "change_text": "+6.61%",
-      "change_direction": 6.6134,
+      "value": "78,059",
+      "change_pct": 6.88,
+      "change_text": "+6.88%",
+      "change_direction": 6.8817,
       "spark": [
-        77862.742188
+        77893.617188,
+        78058.648438
       ],
       "sources": [
         {
@@ -584,7 +585,7 @@
       "previous_close": 52.4857142857143,
       "previous_1_week": 63.9714285714286,
       "previous_1_month": 43.3714285714286,
-      "timestamp": "2026-08-21T23:54:57+00:00",
+      "timestamp": "2026-08-21T23:44:52+00:00",
       "source": "CNN",
       "source_url": "https://production.dataviz.cnn.io/index/fearandgreed/graphdata/2026-08-21",
       "fallback": false,
@@ -689,7 +690,7 @@
   "event_risk": {
     "active": true,
     "penalty": 10,
-    "label": "FOMC 회의 (금리결정) 17.8시간 전",
+    "label": "FOMC 회의 (금리결정) 17.6시간 전",
     "event": {
       "name": "FOMC 회의 (금리결정)",
       "date_kst": "08/23 (일)",
@@ -785,7 +786,7 @@
         "sector_participation_positive_pct": 0.0,
         "sector_participation_outperform_pct": 0.0,
         "provisional": false,
-        "event_risk": "FOMC 회의 (금리결정) 17.8시간 전"
+        "event_risk": "FOMC 회의 (금리결정) 17.6시간 전"
       },
       "raw_score": 40,
       "trend": {
@@ -799,6 +800,9 @@
         ]
       },
       "signal_days": 1,
+      "buy_signal_days": 0,
+      "stage_days": 1,
+      "signal_story": "오늘 판단 변경",
       "confidence": {
         "score": 41,
         "grade": "D"
@@ -921,7 +925,7 @@
         "sector_participation_positive_pct": 100.0,
         "sector_participation_outperform_pct": 100.0,
         "provisional": false,
-        "event_risk": "FOMC 회의 (금리결정) 17.8시간 전"
+        "event_risk": "FOMC 회의 (금리결정) 17.6시간 전"
       },
       "raw_score": 73,
       "trend": {
@@ -935,6 +939,9 @@
         ]
       },
       "signal_days": 1,
+      "buy_signal_days": 0,
+      "stage_days": 1,
+      "signal_story": "오늘 판단 변경",
       "confidence": {
         "score": 82,
         "grade": "A"
@@ -1055,7 +1062,7 @@
         "sector_participation_positive_pct": 0.0,
         "sector_participation_outperform_pct": 0.0,
         "provisional": false,
-        "event_risk": "FOMC 회의 (금리결정) 17.8시간 전"
+        "event_risk": "FOMC 회의 (금리결정) 17.6시간 전"
       },
       "raw_score": 42,
       "trend": {
@@ -1069,6 +1076,9 @@
         ]
       },
       "signal_days": 1,
+      "buy_signal_days": 0,
+      "stage_days": 1,
+      "signal_story": "오늘 판단 변경",
       "confidence": {
         "score": 48,
         "grade": "D"
@@ -1189,7 +1199,7 @@
         "sector_participation_positive_pct": 100.0,
         "sector_participation_outperform_pct": 100.0,
         "provisional": false,
-        "event_risk": "FOMC 회의 (금리결정) 17.8시간 전"
+        "event_risk": "FOMC 회의 (금리결정) 17.6시간 전"
       },
       "raw_score": 60,
       "trend": {
@@ -1203,6 +1213,9 @@
         ]
       },
       "signal_days": 1,
+      "buy_signal_days": 0,
+      "stage_days": 1,
+      "signal_story": "오늘 판단 변경",
       "confidence": {
         "score": 65,
         "grade": "B"
@@ -1297,7 +1310,7 @@
         "extended_score_adjustment": 0.0,
         "regular_base_score": 63,
         "regular_close": 63.639999,
-        "latest_price": 63.65,
+        "latest_price": 63.63,
         "daily_bar_date": "2026-08-21",
         "history_points": 126,
         "daily_volatility_pct": 1.59,
@@ -1324,7 +1337,7 @@
         "sector_participation_positive_pct": 66.7,
         "sector_participation_outperform_pct": 66.7,
         "provisional": false,
-        "event_risk": "FOMC 회의 (금리결정) 17.8시간 전"
+        "event_risk": "FOMC 회의 (금리결정) 17.6시간 전"
       },
       "raw_score": 63,
       "trend": {
@@ -1338,6 +1351,9 @@
         ]
       },
       "signal_days": 1,
+      "buy_signal_days": 1,
+      "stage_days": 1,
+      "signal_story": "🟡 오늘 신규 관심",
       "confidence": {
         "score": 70,
         "grade": "B"
@@ -1458,7 +1474,7 @@
         "sector_participation_positive_pct": 0.0,
         "sector_participation_outperform_pct": 33.3,
         "provisional": false,
-        "event_risk": "FOMC 회의 (금리결정) 17.8시간 전"
+        "event_risk": "FOMC 회의 (금리결정) 17.6시간 전"
       },
       "raw_score": 52,
       "trend": {
@@ -1472,6 +1488,9 @@
         ]
       },
       "signal_days": 1,
+      "buy_signal_days": 0,
+      "stage_days": 1,
+      "signal_story": "오늘 판단 변경",
       "confidence": {
         "score": 53,
         "grade": "C"
@@ -1593,7 +1612,7 @@
         "sector_participation_positive_pct": 100.0,
         "sector_participation_outperform_pct": 100.0,
         "provisional": false,
-        "event_risk": "FOMC 회의 (금리결정) 17.8시간 전"
+        "event_risk": "FOMC 회의 (금리결정) 17.6시간 전"
       },
       "raw_score": 79,
       "trend": {
@@ -1607,6 +1626,9 @@
         ]
       },
       "signal_days": 1,
+      "buy_signal_days": 1,
+      "stage_days": 1,
+      "signal_story": "🟢 오늘 분할 접근 진입",
       "confidence": {
         "score": 86,
         "grade": "A"
@@ -1727,7 +1749,7 @@
         "sector_participation_positive_pct": 0.0,
         "sector_participation_outperform_pct": 33.3,
         "provisional": false,
-        "event_risk": "FOMC 회의 (금리결정) 17.8시간 전"
+        "event_risk": "FOMC 회의 (금리결정) 17.6시간 전"
       },
       "raw_score": 46,
       "trend": {
@@ -1741,6 +1763,9 @@
         ]
       },
       "signal_days": 1,
+      "buy_signal_days": 0,
+      "stage_days": 1,
+      "signal_story": "오늘 판단 변경",
       "confidence": {
         "score": 51,
         "grade": "C"
@@ -1861,7 +1886,7 @@
         "sector_participation_positive_pct": 0.0,
         "sector_participation_outperform_pct": 100.0,
         "provisional": false,
-        "event_risk": "FOMC 회의 (금리결정) 17.8시간 전"
+        "event_risk": "FOMC 회의 (금리결정) 17.6시간 전"
       },
       "raw_score": 54,
       "trend": {
@@ -1875,6 +1900,9 @@
         ]
       },
       "signal_days": 1,
+      "buy_signal_days": 0,
+      "stage_days": 1,
+      "signal_story": "오늘 판단 변경",
       "confidence": {
         "score": 61,
         "grade": "C"
@@ -1995,7 +2023,7 @@
         "sector_participation_positive_pct": 0.0,
         "sector_participation_outperform_pct": 100.0,
         "provisional": false,
-        "event_risk": "FOMC 회의 (금리결정) 17.8시간 전"
+        "event_risk": "FOMC 회의 (금리결정) 17.6시간 전"
       },
       "raw_score": 48,
       "trend": {
@@ -2009,6 +2037,9 @@
         ]
       },
       "signal_days": 1,
+      "buy_signal_days": 0,
+      "stage_days": 1,
+      "signal_story": "오늘 판단 변경",
       "confidence": {
         "score": 60,
         "grade": "C"

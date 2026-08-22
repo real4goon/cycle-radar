@@ -40,6 +40,9 @@
               40.0
             ]
           },
+          "buy_signal_days": 0,
+          "stage_days": 1,
+          "signal_story": "오늘 판단 변경",
           "factors": {
             "momentum": 37,
             "relative_strength": 36,
@@ -73,6 +76,9 @@
               73.0
             ]
           },
+          "buy_signal_days": 0,
+          "stage_days": 1,
+          "signal_story": "오늘 판단 변경",
           "factors": {
             "momentum": 78,
             "relative_strength": 76,
@@ -105,6 +111,9 @@
               42.0
             ]
           },
+          "buy_signal_days": 0,
+          "stage_days": 1,
+          "signal_story": "오늘 판단 변경",
           "factors": {
             "momentum": 34,
             "relative_strength": 39,
@@ -137,6 +146,9 @@
               60.0
             ]
           },
+          "buy_signal_days": 0,
+          "stage_days": 1,
+          "signal_story": "오늘 판단 변경",
           "factors": {
             "momentum": 64,
             "relative_strength": 61,
@@ -169,6 +181,9 @@
               63.0
             ]
           },
+          "buy_signal_days": 1,
+          "stage_days": 1,
+          "signal_story": "🟡 오늘 신규 관심",
           "factors": {
             "momentum": 68,
             "relative_strength": 66,
@@ -201,6 +216,9 @@
               52.0
             ]
           },
+          "buy_signal_days": 0,
+          "stage_days": 1,
+          "signal_story": "오늘 판단 변경",
           "factors": {
             "momentum": 47,
             "relative_strength": 49,
@@ -234,6 +252,9 @@
               79.0
             ]
           },
+          "buy_signal_days": 1,
+          "stage_days": 1,
+          "signal_story": "🟢 오늘 분할 접근 진입",
           "factors": {
             "momentum": 87,
             "relative_strength": 81,
@@ -266,6 +287,9 @@
               46.0
             ]
           },
+          "buy_signal_days": 0,
+          "stage_days": 1,
+          "signal_story": "오늘 판단 변경",
           "factors": {
             "momentum": 46,
             "relative_strength": 48,
@@ -298,6 +322,9 @@
               54.0
             ]
           },
+          "buy_signal_days": 0,
+          "stage_days": 1,
+          "signal_story": "오늘 판단 변경",
           "factors": {
             "momentum": 53,
             "relative_strength": 52,
@@ -330,6 +357,9 @@
               48.0
             ]
           },
+          "buy_signal_days": 0,
+          "stage_days": 1,
+          "signal_story": "오늘 판단 변경",
           "factors": {
             "momentum": 44,
             "relative_strength": 47,
