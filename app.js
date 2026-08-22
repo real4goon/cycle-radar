@@ -22,7 +22,36 @@ function scoreFillClass(status=''){return status.includes('상승')?'fill-good':
 function parseTimestamp(meta={},d={}){const raw=meta.updated_at_iso||meta.updated_at_kst||d.updated_at_kst;if(!raw)return null;let text=String(raw).trim();if(/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}$/.test(text))text=text.replace(' ','T')+':00+09:00';const t=Date.parse(text);return Number.isFinite(t)?t:null;}
 function minutesSince(meta={},d={}){const t=parseTimestamp(meta,d);return t===null?null:Math.max(0,Math.floor((Date.now()-t)/60000));}
 function ageText(mins){if(mins===null)return '경과시간 확인 불가';if(mins<1)return '방금 수집';if(mins<60)return `${mins}분 전 수집`;return `${Math.floor(mins/60)}시간 ${mins%60}분 전 수집`;}
-function updateFreshness(meta={},d={}){const age=minutesSince(meta,d),dot=$('#freshDot');dot.className='status-dot';let label='수집 시점 확인';if(age!==null&&age<=35){label='최근 데이터';dot.classList.add('fresh')}else if(age!==null&&age<=70){label='갱신 대기';dot.classList.add('warn')}else if(age!==null){label='오래된 데이터 주의';dot.classList.add('stale')}$('#freshLabel').textContent=label;$('#dataAge').textContent=ageText(age);}
+function updateFreshness(meta={},d={}){
+  const age=minutesSince(meta,d),dot=$('#freshDot');
+  const session=meta.market_session||'';
+  const perspective=String(meta.perspective||'');
+  dot.className='status-dot';
+  let label='수집 시점 확인';
+  let ageLabel=ageText(age);
+
+  if(session==='closed'){
+    if(perspective.includes('주말')){
+      label='주말 · 직전 장 최종 데이터';
+    }else{
+      label='미국장 마감 후 최종 데이터';
+    }
+    dot.classList.add('fresh');
+    ageLabel=age===null?'최종 수집 시점 확인 불가':`${ageText(age).replace(' 수집','')} · 최종 수집`;
+  }else if(age!==null&&age<=35){
+    label=session==='regular'?'정규장 최신 데이터':session==='premarket'?'프리마켓 최신 데이터':'애프터마켓 최신 데이터';
+    dot.classList.add('fresh');
+  }else if(age!==null&&age<=70){
+    label='다음 갱신 대기';
+    dot.classList.add('warn');
+  }else if(age!==null){
+    label='장중 데이터 갱신 지연 주의';
+    dot.classList.add('stale');
+  }
+
+  $('#freshLabel').textContent=label;
+  $('#dataAge').textContent=ageLabel;
+}
 function openSourceModal(title,subtitle,sources=[]){$('#sourceModalTitle').textContent=title;$('#sourceModalSubtitle').textContent=subtitle||'';$('#sourceButtons').innerHTML=(sources||[]).map(s=>`<a href="${escapeHtml(s.url)}" target="_blank" rel="noopener"><b>${escapeHtml(s.label)}</b><small>${escapeHtml(s.note||'')}</small></a>`).join('')||'<div class="source-note">연결된 외부 출처가 없습니다.</div>';$('#sourceModal').classList.add('open');$('#sourceModal').setAttribute('aria-hidden','false');}
 function closeSourceModal(){$('#sourceModal').classList.remove('open');$('#sourceModal').setAttribute('aria-hidden','true');}
 function closeSectorModal(){$('#sectorModal').classList.remove('open');$('#sectorModal').setAttribute('aria-hidden','true');}
