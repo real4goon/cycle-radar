@@ -47,7 +47,30 @@ SECTORS = [
 ]
 BASE = "SPY"
 
-HEADERS = {"User-Agent": "Mozilla/5.0 (compatible; cycle-radar/1.9; +https://github.com/)"}
+BASE_FACTOR_WEIGHTS = {
+    "momentum": 0.30,
+    "relative_strength": 0.30,
+    "volume": 0.15,
+    "breadth": 0.10,
+    "macro": 0.15,
+}
+
+# Representative ETF baskets used only as a free sector-participation proxy.
+# This is intentionally not presented as constituent-level advance/decline breadth.
+VALIDATION_ETFS = {
+    "반도체/AI 하드웨어": ["SMH", "SOXX", "XSD"],
+    "바이오/헬스케어": ["XBI", "IBB", "XLV"],
+    "산업재": ["XLI", "PAVE", "ITA"],
+    "소재/원자재": ["XLB", "VAW", "PICK"],
+    "에너지": ["XLE", "XOP", "OIH"],
+    "금융": ["XLF", "KRE", "KBE"],
+    "금/금광": ["GLD", "GDX", "GDXJ"],
+    "빅테크": ["QQQM", "XLK", "IGV"],
+    "필수소비재": ["XLP", "VDC", "FSTA"],
+    "리츠": ["VNQ", "XLRE", "SCHH"],
+}
+
+HEADERS = {"User-Agent": "Mozilla/5.0 (compatible; cycle-radar/1.14; +https://github.com/)"}
 
 
 def load_previous_dashboard():
@@ -99,8 +122,9 @@ def telegram_test_message(now_kst):
         "4) 시장 타이밍 판단이 새로 ‘1차 분할매수 후보’로 변경될 때",
         "",
         "• 동일 상태 유지 시 중복 알림 없음",
-        "• 상태 이탈 후 다시 진입하면 재알림",
-        "• 관찰 / 조정 대기 / 추가매수 보류는 현재 알림 대상 아님",
+        "• 동일 유형 재알림은 18시간 쿨다운",
+        "• 신뢰도 80점 상향 돌파 / 급격한 약화도 품질 알림",
+        "• 관찰 / 조정 대기 / 추가매수 보류 자체는 매수 알림 대상 아님",
         "",
         f"확인 시각: {now_kst.strftime('%Y-%m-%d %H:%M')} KST",
     ]
@@ -109,8 +133,28 @@ def telegram_test_message(now_kst):
     return telegram_send("\n".join(lines))
 
 
-def notify_new_signals(previous, sectors, timing, now_kst):
-    """Send only on a newly-entered target action, not every scheduled run."""
+def alert_allowed(history, key, now_kst, cooldown_hours=18):
+    state = history.setdefault("alert_state", {}) if isinstance(history, dict) else {}
+    last = state.get(key)
+    if last:
+        try:
+            dt = datetime.fromisoformat(last)
+            if dt.tzinfo is None:
+                dt = dt.replace(tzinfo=KST)
+            if (now_kst - dt.astimezone(KST)).total_seconds() < cooldown_hours * 3600:
+                return False
+        except Exception:
+            pass
+    return True
+
+
+def mark_alert(history, key, now_kst):
+    if isinstance(history, dict):
+        history.setdefault("alert_state", {})[key] = now_kst.isoformat(timespec="seconds")
+
+
+def notify_new_signals(previous, sectors, timing, now_kst, history=None):
+    """Send meaningful signal transitions with cooldown, not every scheduled run."""
     if os.getenv("TELEGRAM_TEST", "false").lower() in {"1", "true", "yes", "on"}:
         return
 
@@ -118,22 +162,46 @@ def notify_new_signals(previous, sectors, timing, now_kst):
         s.get("name"): s for s in (previous.get("sectors") or []) if isinstance(s, dict)
     }
     alerts = []
+    signal_names = set()
 
     for s in sectors:
+        name = s.get("name", "산업")
         current_action = s.get("action")
-        prev_action = (prev_sectors.get(s.get("name")) or {}).get("action")
+        prev_obj = prev_sectors.get(name) or {}
+        prev_action = prev_obj.get("action")
         sector_targets = {"소액 진입 검토", "분할 접근"}
         if current_action in sector_targets and current_action != prev_action:
             alerts.append({
-                "kind": "sector",
-                "name": s.get("name", "산업"),
-                "etfs": " / ".join(s.get("etfs") or []),
-                "action": current_action,
-                "score": s.get("score"),
-                "status": s.get("status"),
-                "previous": prev_action or "이전 기록 없음",
-                "reason": s.get("reason", ""),
-                "metrics": s.get("metrics") or {},
+                "kind": "sector", "key": f"sector:{name}:{current_action}",
+                "name": name, "etfs": " / ".join(s.get("etfs") or []),
+                "action": current_action, "score": s.get("score"),
+                "raw_score": s.get("raw_score"), "status": s.get("status"),
+                "previous": prev_action or "이전 기록 없음", "reason": s.get("reason", ""),
+                "metrics": s.get("metrics") or {}, "trend": s.get("trend") or {},
+                "confidence": s.get("confidence") or {}, "rank": s.get("rank"),
+                "rank_change": s.get("rank_change"), "flags": s.get("flags") or [],
+            })
+            signal_names.add(name)
+
+        confidence = float((s.get("confidence") or {}).get("score") or 0)
+        prev_confidence = float((prev_obj.get("confidence") or {}).get("score") or 0)
+        if name not in signal_names and current_action in sector_targets and confidence >= 80 > prev_confidence:
+            alerts.append({
+                "kind": "quality", "key": f"quality:{name}", "name": name,
+                "etfs": " / ".join(s.get("etfs") or []), "action": current_action,
+                "score": s.get("score"), "confidence": s.get("confidence") or {},
+                "trend": s.get("trend") or {}, "flags": s.get("flags") or [],
+            })
+
+        trend_label = (s.get("trend") or {}).get("label")
+        prev_trend = (prev_obj.get("trend") or {}).get("label")
+        if trend_label == "↓ 급격한 약화" and prev_trend != trend_label and float(s.get("score") or 0) >= 55:
+            alerts.append({
+                "kind": "weakening", "key": f"weakening:{name}", "name": name,
+                "etfs": " / ".join(s.get("etfs") or []), "action": current_action,
+                "score": s.get("score"), "raw_score": s.get("raw_score"),
+                "trend": s.get("trend") or {}, "confidence": s.get("confidence") or {},
+                "flags": s.get("flags") or [],
             })
 
     current_timing = timing.get("action") if isinstance(timing, dict) else None
@@ -141,58 +209,68 @@ def notify_new_signals(previous, sectors, timing, now_kst):
     timing_targets = {"분할 접근 검토", "1차 분할매수 후보"}
     if current_timing in timing_targets and current_timing != prev_timing:
         alerts.append({
-            "kind": "timing",
-            "action": current_timing,
-            "previous": prev_timing or "이전 기록 없음",
+            "kind": "timing", "key": f"timing:{current_timing}",
+            "action": current_timing, "previous": prev_timing or "이전 기록 없음",
             "low_buy": (timing.get("low_buy") or {}).get("score"),
             "reversal": (timing.get("reversal") or {}).get("score"),
             "summary": timing.get("summary", ""),
         })
 
     if not alerts:
-        print("telegram: no new target signal")
+        print("telegram: no new meaningful signal")
         return
 
     dashboard_url = os.getenv("DASHBOARD_URL", "").strip()
     for a in alerts:
+        key = a.get("key", a.get("kind", "alert"))
+        if not alert_allowed(history or {}, key, now_kst):
+            print(f"telegram: cooldown skip {key}")
+            continue
+
         if a["kind"] == "sector":
+            conf = a.get("confidence") or {}
+            tr = a.get("trend") or {}
             lines = [
-                "🚨 미국 산업 사이클 레이더",
-                "",
+                "🚨 미국 산업 사이클 레이더", "",
                 f"{'🟡' if a['action'] == '소액 진입 검토' else '🟢'} {a['name']}  {a['etfs']}",
                 f"오늘의 판단: {a['action']}",
-                f"사이클: {a['status']} · 레이더 {a['score']}점",
+                f"안정화 레이더: {a['score']}점 · 원점수 {a.get('raw_score', '-')}점",
+                f"추세: {tr.get('label', '-')} · 3일 {tr.get('delta_3d', 0):+}점",
+                f"신뢰도: {conf.get('score', '-')}점 ({conf.get('grade', '-')}) · 순위 #{a.get('rank') or '-'}",
                 f"이전 판단: {a['previous']}",
             ]
             m = a.get("metrics") or {}
             if m.get("session") in {"premarket", "afterhours"}:
                 label = "프리마켓" if m.get("session") == "premarket" else "애프터마켓"
-                lines += [
-                    "",
-                    f"🌙 {label}: {float(m.get('extended_change_pct') or 0):+.2f}%",
-                    f"SPY 대비: {float(m.get('extended_vs_spy_pctp') or 0):+.2f}%p · 레이더 보정 {float(m.get('extended_score_adjustment') or 0):+.1f}점",
-                ]
-            if a.get("reason"):
-                lines += ["", a["reason"]]
+                lines += ["", f"🌙 {label}: {float(m.get('extended_change_pct') or 0):+.2f}%",
+                          f"SPY 대비: {float(m.get('extended_vs_spy_pctp') or 0):+.2f}%p · 보정 {float(m.get('extended_score_adjustment') or 0):+.1f}점"]
+            if a.get("flags"):
+                lines += ["", "주의: " + " · ".join(a["flags"][:3])]
+        elif a["kind"] == "quality":
+            conf = a.get("confidence") or {}; tr = a.get("trend") or {}
+            lines = ["🔵 신호 신뢰도 강화", "", f"{a['name']}  {a['etfs']}",
+                     f"판단: {a['action']} · 레이더 {a['score']}점",
+                     f"신뢰도 {conf.get('score', '-')}점 ({conf.get('grade', '-')})",
+                     f"추세: {tr.get('label', '-')}"]
+        elif a["kind"] == "weakening":
+            tr = a.get("trend") or {}; conf = a.get("confidence") or {}
+            lines = ["🔴 레이더 급격한 약화", "", f"{a['name']}  {a['etfs']}",
+                     f"현재 판단: {a['action']} · 안정화 {a['score']}점 / 원점수 {a.get('raw_score', '-')}점",
+                     f"최근 3일 변화: {tr.get('delta_3d', 0):+}점 · 고점 대비 {tr.get('peak_drop_5d', 0):+}점",
+                     f"신뢰도: {conf.get('score', '-')}점 ({conf.get('grade', '-')})"]
         else:
-            lines = [
-                "🚨 미국 시장 타이밍 신호",
-                "",
-                f"판단: {a['action']}",
-                f"저점매수 매력도: {a['low_buy']}점",
-                f"반전 확인도: {a['reversal']}점",
-                f"이전 판단: {a['previous']}",
-            ]
+            lines = ["🚨 미국 시장 타이밍 신호", "", f"판단: {a['action']}",
+                     f"저점매수 매력도: {a['low_buy']}점", f"반전 확인도: {a['reversal']}점",
+                     f"이전 판단: {a['previous']}"]
             if a.get("summary"):
                 lines += ["", a["summary"]]
-        lines += [
-            "",
-            f"{now_kst.strftime('%Y-%m-%d %H:%M')} KST",
-            "알림 기준: 소액 진입 검토 / 분할 접근 / 분할 접근 검토 / 1차 분할매수 후보",
-        ]
+
+        lines += ["", f"{now_kst.strftime('%Y-%m-%d %H:%M')} KST",
+                  "알림: 신규 진입 / 신뢰도 강화 / 급격한 약화 · 동일 유형 18시간 쿨다운"]
         if dashboard_url:
             lines += [f"대시보드: {dashboard_url}"]
-        telegram_send("\n".join(lines))
+        if telegram_send("\n".join(lines)):
+            mark_alert(history or {}, key, now_kst)
 
 
 def clamp(x, lo=0, hi=100):
@@ -364,18 +442,14 @@ def market_breadth_score(spy_df, spy_ext_price=None):
             cap = spy.copy() if cap_ticker == "SPY" else daily_history(cap_ticker, "6mo")["Close"].dropna().astype(float).copy()
             eq_ext, _, _ = latest_extended(equal_ticker)
             cap_ext = spy_ext_price if cap_ticker == "SPY" else latest_extended(cap_ticker)[0]
-            if eq_ext is not None and len(eq):
-                eq.iloc[-1] = float(eq_ext)
-            if cap_ext is not None and len(cap):
-                cap.iloc[-1] = float(cap_ext)
+            if eq_ext is not None and len(eq): eq.iloc[-1] = float(eq_ext)
+            if cap_ext is not None and len(cap): cap.iloc[-1] = float(cap_ext)
             if len(eq) > 21 and len(cap) > 21:
                 eq5 = (float(eq.iloc[-1]) / float(eq.iloc[-6]) - 1) * 100
                 cap5 = (float(cap.iloc[-1]) / float(cap.iloc[-6]) - 1) * 100
                 eq20 = (float(eq.iloc[-1]) / float(eq.iloc[-21]) - 1) * 100
                 cap20 = (float(cap.iloc[-1]) / float(cap.iloc[-21]) - 1) * 100
-                rs5 = eq5 - cap5
-                rs20 = eq20 - cap20
-                # Positive values mean participation is broadening beyond mega-cap leadership.
+                rs5, rs20 = eq5-cap5, eq20-cap20
                 score = clamp(50 + rs5 * 6 + rs20 * 3)
                 components.append(score)
                 raw[f"{equal_ticker}_vs_{cap_ticker}_5d"] = round(rs5, 2)
@@ -386,132 +460,174 @@ def market_breadth_score(spy_df, spy_ext_price=None):
     return score, raw
 
 
-def calc_sector(primary, spy_df, spy_ext_price=None, ten_y_change=0, vix=20, breadth_score=50, session="closed"):
-    df = daily_history(primary, "6mo")
-    close = df["Close"].dropna().copy()
-    vol = df["Volume"].fillna(0)
+def market_regime_profile(spy_df, spy_ext_price, vix, breadth_score, env_score):
+    close = spy_df["Close"].dropna().astype(float).copy()
+    if spy_ext_price is not None and len(close): close.iloc[-1] = float(spy_ext_price)
+    current = float(close.iloc[-1])
+    ma50 = float(close.tail(50).mean()) if len(close) >= 50 else current
+    ma200 = float(close.tail(200).mean()) if len(close) >= 200 else ma50
+    above50 = (current / ma50 - 1) * 100 if ma50 else 0
+    above200 = (current / ma200 - 1) * 100 if ma200 else 0
+    trend_score = clamp(50 + above50 * 4 + above200 * 2 + (10 if ma50 >= ma200 else -10))
+    vix_score = 88 if vix < 16 else 75 if vix < 20 else 58 if vix < 24 else 38 if vix < 30 else 18
+    score = round_int(trend_score * .35 + float(breadth_score) * .25 + float(env_score) * .20 + vix_score * .20)
+    if score >= 65:
+        label, guidance = "Risk-on", "시장 추세와 참여도가 비교적 우호적입니다. 섹터 강도 신호를 정상 해석합니다."
+    elif score >= 45:
+        label, guidance = "Neutral", "시장 방향성이 혼재합니다. 섹터별 추세·신뢰도를 함께 확인합니다."
+    else:
+        label, guidance = "Risk-off", "시장 전체 위험회피가 우세합니다. 매수형 섹터 신호를 한 단계 보수적으로 해석합니다."
+    return {"label": label, "score": score, "guidance": guidance,
+            "metrics": {"spy_vs_ma50_pct": round(above50,2), "spy_vs_ma200_pct": round(above200,2),
+                        "trend_score": round_int(trend_score), "breadth_score": round(float(breadth_score),1),
+                        "environment_score": round_int(env_score), "vix": round(float(vix),2)}}
 
+
+def sector_participation_score(name, spy_df):
+    basket = VALIDATION_ETFS.get(name, [])
+    spy = spy_df["Close"].dropna().astype(float)
+    spy5 = (float(spy.iloc[-1])/float(spy.iloc[-6])-1)*100 if len(spy)>6 else 0.0
+    values, details, failures = [], [], []
+    for sym in basket:
+        try:
+            c = daily_history(sym, "3mo")["Close"].dropna().astype(float)
+            if len(c) <= 6: raise RuntimeError("history too short")
+            r5 = (float(c.iloc[-1])/float(c.iloc[-6])-1)*100
+            rs5 = r5-spy5
+            values.append((r5,rs5)); details.append({"symbol":sym,"return_5d_pct":round(r5,2),"rs5_pctp":round(rs5,2)})
+        except Exception as e:
+            failures.append(sym); print(f"participation {name}/{sym} warning: {e}")
+    if not values:
+        return {"score":50,"positive_pct":None,"outperform_pct":None,"members":details,"failures":failures}
+    positive = sum(1 for r,rs in values if r>0)/len(values)*100
+    outperform = sum(1 for r,rs in values if rs>0)/len(values)*100
+    avg_rs = sum(rs for r,rs in values)/len(values)
+    rs_component = clamp(50+avg_rs*8)
+    score = round_int(clamp(positive*.40+outperform*.40+rs_component*.20))
+    return {"score":score,"positive_pct":round(positive,1),"outperform_pct":round(outperform,1),
+            "avg_rs5_pctp":round(avg_rs,2),"members":details,"failures":failures}
+
+
+def event_risk_profile(events, now_kst):
+    upcoming=[]
+    for e in events or []:
+        try:
+            dt=datetime.fromisoformat(e.get("iso_kst"))
+            if dt.tzinfo is None: dt=dt.replace(tzinfo=KST)
+            hours=(dt.astimezone(KST)-now_kst).total_seconds()/3600
+            if 0<=hours<=36 and int(e.get("impact",1))>=2:
+                upcoming.append((hours,e))
+        except Exception:
+            continue
+    if not upcoming:
+        return {"active":False,"penalty":0,"label":"없음","event":None}
+    hours,e=min(upcoming,key=lambda x:x[0])
+    impact=int(e.get("impact",1)); penalty=10 if impact>=3 and hours<=24 else 7 if impact>=3 else 5
+    return {"active":True,"penalty":penalty,"label":f"{e.get('name')} {hours:.1f}시간 전", "event":e}
+
+
+def calc_sector(primary, spy_df, spy_ext_price=None, ten_y_change=0, vix=20, breadth_score=50, session="closed", factor_weights=None):
+    df = daily_history(primary, "6mo")
+    close = df["Close"].dropna().astype(float).copy()
+    vol = df["Volume"].fillna(0).astype(float)
     sector_snap = extended_snapshot(primary, session)
     ext = sector_snap.get("latest")
     extchg = sector_snap.get("day_change_pct", 0.0)
     ext_session_chg = sector_snap.get("extended_change_pct", 0.0)
+    if session == "regular" and ext is not None and len(close): close.iloc[-1] = ext
 
-    # During the regular session we keep using the live quote in momentum.
-    # In pre/after-hours the official regular close remains the base, and the
-    # extended-hours move is added separately as a bounded confirmation adjustment.
-    if session == "regular" and ext is not None and len(close):
-        close.iloc[-1] = ext
-
-    spy = spy_df["Close"].dropna().copy()
+    spy = spy_df["Close"].dropna().astype(float).copy()
     spy_snap = extended_snapshot(BASE, session)
-    if session == "regular" and spy_ext_price is not None and len(spy):
-        spy.iloc[-1] = spy_ext_price
+    if session == "regular" and spy_ext_price is not None and len(spy): spy.iloc[-1] = spy_ext_price
 
-    r5 = (close.iloc[-1] / close.iloc[-6] - 1) * 100 if len(close) > 6 else 0
-    r20 = (close.iloc[-1] / close.iloc[-21] - 1) * 100 if len(close) > 21 else 0
-    spy5 = (spy.iloc[-1] / spy.iloc[-6] - 1) * 100 if len(spy) > 6 else 0
-    spy20 = (spy.iloc[-1] / spy.iloc[-21] - 1) * 100 if len(spy) > 21 else 0
-    rs5 = r5 - spy5
-    rs20 = r20 - spy20
-    rs_accel = rs5 - rs20
+    r5 = (close.iloc[-1]/close.iloc[-6]-1)*100 if len(close)>6 else 0
+    r20 = (close.iloc[-1]/close.iloc[-21]-1)*100 if len(close)>21 else 0
+    spy5 = (spy.iloc[-1]/spy.iloc[-6]-1)*100 if len(spy)>6 else 0
+    spy20 = (spy.iloc[-1]/spy.iloc[-21]-1)*100 if len(spy)>21 else 0
+    rs5, rs20 = r5-spy5, r20-spy20
+    rs_accel = rs5-rs20
 
-    # Compare recent volume with the preceding window, not with an overlapping 20d average.
-    v_recent = vol.tail(5).mean()
-    prior = vol.iloc[-25:-5] if len(vol) >= 25 else vol.head(max(0, len(vol)-5))
-    v_base = prior.mean() if len(prior) else max(v_recent, 1)
-    vr = v_recent / v_base if v_base else 1
+    returns = close.pct_change().dropna()*100
+    daily_vol_pct = float(returns.tail(20).std()) if len(returns)>=5 else 1.0
+    daily_vol_pct = max(daily_vol_pct, .15)
+    z5 = r5/(daily_vol_pct*math.sqrt(5))
+    z20 = r20/(daily_vol_pct*math.sqrt(20))
+    raw_mom = clamp(50+r5*3+r20*1.3)
+    vol_adj_mom = clamp(50+z5*16+z20*8)
+    mom = clamp(raw_mom*.60+vol_adj_mom*.40)
+    rel = clamp(50+rs20*4+rs_accel*3)
 
-    mom = clamp(50 + r5 * 3 + r20 * 1.3)
-    rel = clamp(50 + rs20 * 4 + rs_accel * 3)
-    direction_bonus = 10 if r5 > 0 else (-10 if r5 < -2 else 0)
-    volume = clamp(50 + (vr - 1) * 70 + direction_bonus)
-    breadth = clamp(float(breadth_score))
+    v_recent=vol.tail(5).mean(); prior=vol.iloc[-25:-5] if len(vol)>=25 else vol.head(max(0,len(vol)-5))
+    v_base=prior.mean() if len(prior) else max(v_recent,1); vr=v_recent/v_base if v_base else 1
+    direction_bonus=10 if r5>0 else (-10 if r5<-2 else 0)
+    volume=clamp(50+(vr-1)*70+direction_bonus); breadth=clamp(float(breadth_score))
 
-    macro = 55
-    if primary in {"QQQM", "SMH", "SOXX", "XBI", "IBB", "VNQ"}:
-        macro += -10 if ten_y_change > 0.05 else (7 if ten_y_change < -0.05 else 0)
-    if primary in {"XLP", "GLD", "GDX"} and vix > 22:
-        macro += 10
-    if primary in {"XLI", "XLB", "XLE", "XLF"} and vix < 22:
-        macro += 5
-    macro = clamp(macro)
+    macro=55
+    if primary in {"QQQM","SMH","SOXX","XBI","IBB","VNQ"}: macro += -10 if ten_y_change>.05 else (7 if ten_y_change<-.05 else 0)
+    if primary in {"XLP","GLD","GDX"} and vix>22: macro+=10
+    if primary in {"XLI","XLB","XLE","XLF"} and vix<22: macro+=5
+    macro=clamp(macro)
 
-    base_total = mom * .30 + rel * .30 + volume * .15 + breadth * .10 + macro * .15
+    weights=(factor_weights or BASE_FACTOR_WEIGHTS).copy()
+    total_w=sum(weights.values()) or 1
+    weights={k:float(v)/total_w for k,v in weights.items()}
+    factors={"momentum":mom,"relative_strength":rel,"volume":volume,"breadth":breadth,"macro":macro}
+    base_total=sum(factors[k]*weights.get(k,0) for k in factors)
 
-    spy_ext_chg = float(spy_snap.get("extended_change_pct") or 0.0)
-    ext_relative = ext_session_chg - spy_ext_chg
-    if session in {"premarket", "afterhours"}:
-        # Extended hours are thinner and noisier, so they can only move the radar
-        # by a maximum of ±4 points. Sector-specific strength vs SPY gets extra weight.
-        ext_adjustment = max(-4.0, min(4.0, ext_session_chg * 0.7 + ext_relative * 0.8))
-    else:
-        ext_adjustment = 0.0
+    spy_ext_chg=float(spy_snap.get("extended_change_pct") or 0.0); ext_relative=ext_session_chg-spy_ext_chg
+    ext_adjustment=max(-4.0,min(4.0,ext_session_chg*.7+ext_relative*.8)) if session in {"premarket","afterhours"} else 0.0
+    total=round_int(clamp(base_total+ext_adjustment)); base_score=round_int(clamp(base_total))
 
-    total = round_int(clamp(base_total + ext_adjustment))
-    base_score = round_int(clamp(base_total))
-    status = "상승 사이클" if total >= 75 else "초기 관심" if total >= 60 else "중립" if total >= 45 else "약화"
-    if status == "상승 사이클" and r5 > 5:
-        action = "추격주의 · 조정 대기"
-    elif status == "상승 사이클":
-        action = "분할 접근"
-    elif status == "초기 관심" and r5 < 3:
-        action = "소액 진입 검토"
-    elif status == "초기 관심":
-        action = "관찰 · 조정 대기"
-    elif status == "약화":
-        action = "추가매수 보류"
-    else:
-        action = "관찰"
+    ma20=float(close.tail(20).mean()) if len(close)>=20 else float(close.iloc[-1])
+    dist_ma20=(float(close.iloc[-1])/ma20-1)*100 if ma20 else 0.0
+    high20=float(close.tail(20).max()) if len(close)>=20 else float(close.max())
+    dist_high20=(float(close.iloc[-1])/high20-1)*100 if high20 else 0.0
+    prior_high=float(df["High"].iloc[-21:-1].max()) if "High" in df and len(df)>21 else high20
+    today_high=float(df["High"].iloc[-1]) if "High" in df and len(df) else float(close.iloc[-1])
+    breakout_failure=bool(prior_high and today_high>prior_high*1.001 and float(close.iloc[-1])<prior_high)
+    overheat=bool(r5>5 and z5>1.7 and dist_ma20>4)
 
-    session_label = {
-        "premarket": "프리마켓",
-        "regular": "정규장",
-        "afterhours": "애프터마켓",
-        "closed": "장외 마지막",
-    }.get(session, session)
+    gap_pct=0.0; gap_hold=None
+    try:
+        open_now=float(df["Open"].iloc[-1]); prev_close=float(df["Close"].iloc[-2])
+        gap_pct=(open_now/prev_close-1)*100 if prev_close else 0.0
+        gap_move=open_now-prev_close
+        if abs(gap_pct)>=1 and gap_move:
+            gap_hold=(float(close.iloc[-1])-prev_close)/gap_move
+    except Exception: pass
 
-    ext_text = ""
-    if session in {"premarket", "afterhours"}:
-        ext_text = (
-            f" · {session_label} {ext_session_chg:+.2f}%"
-            f" · SPY 대비 {ext_relative:+.2f}%p"
-            f" · 보정 {ext_adjustment:+.1f}점"
-        )
+    corr20=corr60=corr_change=None
+    try:
+        aligned=pd.concat([close.pct_change().rename("sector"), spy.pct_change().rename("spy")],axis=1).dropna()
+        if len(aligned)>=20: corr20=float(aligned.tail(20).corr().iloc[0,1])
+        if len(aligned)>=60: corr60=float(aligned.tail(60).corr().iloc[0,1])
+        if corr20 is not None and corr60 is not None: corr_change=corr20-corr60
+    except Exception: pass
 
-    reason = (
-        f"{session_label} 최신가 확인 · 당일 {extchg:+.1f}% · 5일 {r5:+.1f}% · "
-        f"20일 {r20:+.1f}% · SPY 대비 5일 {rs5:+.1f}%p / 20일 {rs20:+.1f}%p · "
-        f"상대강도 변화 {rs_accel:+.1f}%p · 최근/이전 거래량 {vr:.2f}배 · Breadth {breadth:.0f}점"
-        f"{ext_text}"
-    )
-    return {
-        "status": status,
-        "score": total,
-        "base_score": base_score,
-        "action": action,
-        "reason": reason,
-        "factors": {
-            "momentum": round_int(mom),
-            "relative_strength": round_int(rel),
-            "volume": round_int(volume),
-            "breadth": round_int(breadth),
-            "macro": round_int(macro),
-        },
-        "metrics": {
-            "return_5d_pct": round(r5, 2),
-            "return_20d_pct": round(r20, 2),
-            "rs_vs_spy_5d_pctp": round(rs5, 2),
-            "rs_vs_spy_20d_pctp": round(rs20, 2),
-            "rs_acceleration_pctp": round(rs_accel, 2),
-            "volume_expansion_ratio": round(float(vr), 2),
-            "breadth_score": round(float(breadth), 1),
-            "session": session,
-            "extended_change_pct": round(float(ext_session_chg), 2),
-            "extended_vs_spy_pctp": round(float(ext_relative), 2),
-            "extended_score_adjustment": round(float(ext_adjustment), 1),
-            "regular_base_score": base_score,
-        },
-    }
+    status="상승 사이클" if total>=75 else "초기 관심" if total>=60 else "중립" if total>=45 else "약화"
+    action="추격주의 · 조정 대기" if status=="상승 사이클" and (r5>5 or overheat) else "분할 접근" if status=="상승 사이클" else "소액 진입 검토" if status=="초기 관심" and r5<3 else "관찰 · 조정 대기" if status=="초기 관심" else "추가매수 보류" if status=="약화" else "관찰"
+    session_label={"premarket":"프리마켓","regular":"정규장","afterhours":"애프터마켓","closed":"장외 마지막"}.get(session,session)
+    ext_text=f" · {session_label} {ext_session_chg:+.2f}% · SPY 대비 {ext_relative:+.2f}%p · 보정 {ext_adjustment:+.1f}점" if session in {"premarket","afterhours"} else ""
+    reason=(f"{session_label} 최신가 확인 · 5일 {r5:+.1f}% · 20일 {r20:+.1f}% · SPY 대비 5일 {rs5:+.1f}%p / 20일 {rs20:+.1f}%p · "
+            f"상대강도 변화 {rs_accel:+.1f}%p · 거래량 {vr:.2f}배 · 변동성조정 5일 z {z5:+.2f} · Breadth {breadth:.0f}점{ext_text}")
+    try:
+        daily_bar_date=str(pd.Timestamp(df.index[-1]).date())
+    except Exception: daily_bar_date=""
+    return {"status":status,"score":total,"base_score":base_score,"action":action,"reason":reason,
+            "factors":{k:round_int(v) for k,v in factors.items()},
+            "metrics":{"return_5d_pct":round(r5,2),"return_20d_pct":round(r20,2),"rs_vs_spy_5d_pctp":round(rs5,2),
+                       "rs_vs_spy_20d_pctp":round(rs20,2),"rs_acceleration_pctp":round(rs_accel,2),"volume_expansion_ratio":round(float(vr),2),
+                       "breadth_score":round(float(breadth),1),"session":session,"extended_change_pct":round(float(ext_session_chg),2),
+                       "extended_vs_spy_pctp":round(float(ext_relative),2),"extended_score_adjustment":round(float(ext_adjustment),1),
+                       "regular_base_score":base_score,"regular_close":round(float(sector_snap.get("regular_close") or close.iloc[-1]),6),
+                       "latest_price":round(float(sector_snap.get("latest") or sector_snap.get("regular_close") or close.iloc[-1]),6),
+                       "daily_bar_date":daily_bar_date,"history_points":int(len(close)),"daily_volatility_pct":round(daily_vol_pct,3),
+                       "volatility_z5":round(z5,2),"volatility_z20":round(z20,2),"distance_ma20_pct":round(dist_ma20,2),
+                       "distance_20d_high_pct":round(dist_high20,2),"overheat":overheat,"breakout_failure":breakout_failure,
+                       "gap_pct":round(gap_pct,2),"gap_hold_ratio":round(float(gap_hold),2) if gap_hold is not None else None,
+                       "corr20_spy":round(corr20,3) if corr20 is not None else None,"corr60_spy":round(corr60,3) if corr60 is not None else None,
+                       "corr_change":round(corr_change,3) if corr_change is not None else None,"latest_quote_available":ext is not None,
+                       "factor_weights":{k:round(v,4) for k,v in weights.items()}}}
 
 
 def format_market(name, latest, prev, chg):
@@ -1098,54 +1214,256 @@ def official_calendar(now_et):
     return sorted(uniq.values(), key=lambda e: e["iso_kst"])[:6]
 
 
-# ---------- daily change tracking ----------
+# ---------- history, stabilization, validation ----------
 
 def load_history():
-    if not HISTORY.exists():
-        return {"days": {}}
+    if not HISTORY.exists(): return {"days": {}, "signals": [], "alert_state": {}}
     try:
-        return json.loads(HISTORY.read_text(encoding="utf-8"))
-    except Exception:
-        return {"days": {}}
+        data=json.loads(HISTORY.read_text(encoding="utf-8")); data.setdefault("days",{}); data.setdefault("signals",[]); data.setdefault("alert_state",{}); return data
+    except Exception: return {"days": {}, "signals": [], "alert_state": {}}
 
 
-def change_rank(status):
-    return {"약화": 0, "중립": 1, "초기 관심": 2, "상승 사이클": 3}.get(status, 1)
+def previous_sector_records(history, today, name, limit=10):
+    days=history.get("days",{}); dates=sorted([d for d in days if d<today])[-limit:]
+    out=[]
+    for d in dates:
+        for s in days[d].get("sectors",[]):
+            if s.get("name")==name:
+                out.append({"date":d,**s}); break
+    return out
+
+
+def hysteresis_status(score, prev_status=None):
+    s=float(score)
+    if prev_status=="상승 사이클":
+        return "상승 사이클" if s>=72 else "초기 관심" if s>=58 else "중립" if s>=43 else "약화"
+    if prev_status=="초기 관심":
+        return "상승 사이클" if s>=76 else "초기 관심" if s>=57 else "중립" if s>=43 else "약화"
+    if prev_status=="중립":
+        return "상승 사이클" if s>=76 else "초기 관심" if s>=62 else "중립" if s>=43 else "약화"
+    if prev_status=="약화":
+        return "상승 사이클" if s>=76 else "초기 관심" if s>=62 else "중립" if s>=46 else "약화"
+    return "상승 사이클" if s>=75 else "초기 관심" if s>=60 else "중립" if s>=45 else "약화"
+
+
+def trend_label(delta3):
+    if delta3>=8: return "↑ 빠른 개선"
+    if delta3>=3: return "↗ 완만한 개선"
+    if delta3<=-8: return "↓ 급격한 약화"
+    if delta3<=-3: return "↘ 약화"
+    return "→ 유지"
+
+
+def data_quality_profile(metrics, now_et):
+    score=100; flags=[]
+    if int(metrics.get("history_points") or 0)<60: score-=25; flags.append("히스토리 부족")
+    vr=metrics.get("volume_expansion_ratio")
+    if vr is None or not math.isfinite(float(vr)) or float(vr)<=0: score-=20; flags.append("거래량 데이터 확인")
+    bar=metrics.get("daily_bar_date")
+    if bar:
+        try:
+            stale=(now_et.date()-datetime.strptime(bar,"%Y-%m-%d").date()).days
+            if stale>4: score-=25; flags.append(f"일봉 {stale}일 경과")
+        except Exception: score-=10
+    else: score-=15; flags.append("일봉 시점 확인 불가")
+    if metrics.get("session") in {"premarket","regular","afterhours"} and not metrics.get("latest_quote_available"):
+        score-=20; flags.append("장중/장외 최신가 누락")
+    if abs(float(metrics.get("extended_change_pct") or 0))>15: score-=15; flags.append("장외 이상치 가능")
+    score=round_int(clamp(score)); grade="A" if score>=85 else "B" if score>=70 else "C" if score>=50 else "D"
+    return {"score":score,"grade":grade,"flags":flags}
+
+
+def determine_action(status, trend, metrics, regime_label):
+    overheat=bool(metrics.get("overheat")); fake=bool(metrics.get("breakout_failure"))
+    if status=="약화": action="추가매수 보류"
+    elif status=="중립": action="관찰"
+    elif overheat or fake: action="추격주의 · 조정 대기"
+    elif trend in {"↓ 급격한 약화","↘ 약화"}: action="관찰 · 조정 대기"
+    elif status=="상승 사이클": action="분할 접근"
+    elif status=="초기 관심" and trend in {"↑ 빠른 개선","↗ 완만한 개선"}: action="소액 진입 검토"
+    elif status=="초기 관심" and float(metrics.get("return_5d_pct") or 0)<3: action="소액 진입 검토"
+    else: action="관찰 · 조정 대기"
+    if regime_label=="Risk-off":
+        if action=="분할 접근": action="소액 진입 검토"
+        elif action=="소액 진입 검토": action="관찰 · 조정 대기"
+    return action
+
+
+def signal_duration(history, today, name, action):
+    if not action: return 0
+    records=previous_sector_records(history,today,name,30); count=1
+    for r in reversed(records):
+        if r.get("action")==action: count+=1
+        else: break
+    return count
+
+
+def enrich_sector_signal(s, history, today, now_et, regime, event_risk, participation):
+    prev=previous_sector_records(history,today,s["name"],10)
+    prev_status=prev[-1].get("status") if prev else None
+    historical_raw=[float(x.get("raw_score",x.get("score",50))) for x in prev[-4:]]
+    raw=float(s.get("score",50)); series=historical_raw+[raw]
+    avg3=sum(series[-3:])/len(series[-3:]); avg5=sum(series[-5:])/len(series[-5:])
+    smoothed=round_int(clamp(raw*.60+avg3*.40))
+    delta3=round(raw-series[-3],1) if len(series)>=3 else round(raw-series[0],1)
+    peak=max(series[-5:]); peak_drop=round(raw-peak,1)
+    tr_label=trend_label(delta3)
+    status=hysteresis_status(smoothed,prev_status)
+    # Avoid excessive lag: a sharp raw-score improvement can enter early-interest
+    # only when the sector-participation proxy also confirms the move.
+    if status=="중립" and raw>=60 and tr_label=="↑ 빠른 개선" and float(participation.get("score",50))>=60:
+        status="초기 관심"
+
+    metrics=s.get("metrics") or {}; quality=data_quality_profile(metrics,now_et)
+    action=determine_action(status,tr_label,metrics,regime.get("label"))
+    duration=signal_duration(history,today,s["name"],action)
+
+    base_raw=float(metrics.get("regular_base_score") or raw)
+    base_series=historical_raw+[base_raw]; base_avg3=sum(base_series[-3:])/len(base_series[-3:]); base_smoothed=round_int(clamp(base_raw*.60+base_avg3*.40))
+    base_status=hysteresis_status(base_smoothed,prev_status); base_action=determine_action(base_status,tr_label,{**metrics,"overheat":False,"breakout_failure":False},regime.get("label"))
+    provisional=bool(metrics.get("session") in {"premarket","afterhours"} and (status!=base_status or action!=base_action))
+
+    factors=s.get("factors") or {}; factor_values=[float(v) for v in factors.values() if v is not None]
+    if status in {"상승 사이클","초기 관심"}: coherence=sum(1 for v in factor_values if v>=55)/max(1,len(factor_values))*100
+    elif status=="약화": coherence=sum(1 for v in factor_values if v<=45)/max(1,len(factor_values))*100
+    else: coherence=70-max(0,(max(factor_values)-min(factor_values)) if factor_values else 0)*.5
+    persistence=clamp(45+min(duration,5)*8+(8 if tr_label in {"↑ 빠른 개선","↗ 완만한 개선"} and status in {"상승 사이클","초기 관심"} else 0))
+    regime_fit=90 if regime.get("label")=="Risk-on" and status in {"상승 사이클","초기 관심"} else 35 if regime.get("label")=="Risk-off" and status in {"상승 사이클","초기 관심"} else 70
+    confidence=quality["score"]*.30+float(participation.get("score",50))*.25+clamp(coherence)*.20+persistence*.15+regime_fit*.10
+    # A sector becoming less correlated with SPY while its relative strength is positive
+    # is treated as a small confirmation that the move is sector-specific rather than pure beta.
+    corr_change=metrics.get("corr_change"); rs5=float(metrics.get("rs_vs_spy_5d_pctp") or 0)
+    if corr_change is not None and float(corr_change)<=-.20 and rs5>0:
+        confidence+=4
+    penalties=0; flags=[]
+    if provisional: penalties+=10; flags.append("장외 잠정 신호")
+    if metrics.get("breakout_failure"): penalties+=12; flags.append("돌파 실패 가능성")
+    if metrics.get("overheat"): penalties+=8; flags.append("단기 과열")
+    if abs(float(metrics.get("gap_pct") or 0))>=1 and metrics.get("gap_hold_ratio") is not None and float(metrics.get("gap_hold_ratio"))<.35:
+        penalties+=6; flags.append("갭 메움 진행")
+    if event_risk.get("active"): penalties+=event_risk.get("penalty",0); flags.append("주요 이벤트 임박")
+    flags.extend(quality.get("flags") or [])
+    conf=round_int(clamp(confidence-penalties)); grade="A" if conf>=80 else "B" if conf>=65 else "C" if conf>=50 else "D"
+
+    metrics["sector_participation_score"]=participation.get("score"); metrics["sector_participation_positive_pct"]=participation.get("positive_pct")
+    metrics["sector_participation_outperform_pct"]=participation.get("outperform_pct"); metrics["provisional"]=provisional
+    metrics["event_risk"]=event_risk.get("label") if event_risk.get("active") else None
+    return {**s,"raw_score":round_int(raw),"score":smoothed,"status":status,"action":action,"metrics":metrics,
+            "trend":{"avg3":round(avg3,1),"avg5":round(avg5,1),"delta_3d":delta3,"peak_drop_5d":peak_drop,"label":tr_label,"series":[round(x,1) for x in series[-5:]]},
+            "signal_days":duration,"confidence":{"score":conf,"grade":grade},"data_quality":quality,"participation":participation,
+            "provisional":provisional,"flags":list(dict.fromkeys(flags))[:6]}
+
+
+def assign_sector_ranks(sectors, history, today):
+    ordered=sorted(sectors,key=lambda x:(-float(x.get("score",0)),x.get("name","")))
+    current={s["name"]:i+1 for i,s in enumerate(ordered)}
+    days=history.get("days",{}); prev_dates=sorted([d for d in days if d<today]); previous={}
+    if prev_dates:
+        rows=days[prev_dates[-1]].get("sectors",[]); prow=sorted(rows,key=lambda x:(-float(x.get("score",0)),x.get("name","")))
+        previous={s.get("name"):i+1 for i,s in enumerate(prow)}
+    for s in sectors:
+        s["rank"]=current.get(s["name"]); pr=previous.get(s["name"]); s["rank_change"]=(pr-s["rank"]) if pr else None
+    return sectors
+
+
+def change_rank(status): return {"약화":0,"중립":1,"초기 관심":2,"상승 사이클":3}.get(status,1)
 
 
 def compute_changes(sectors, history, today):
-    days = history.get("days", {})
-    previous_dates = sorted([d for d in days.keys() if d < today])
-    if not previous_dates:
-        return {"improved": [], "worsened": [], "unchanged": [s["etfs"][0] for s in sectors], "note": "전일 비교 데이터 적재 중 · 다음 거래일부터 상태 변화를 표시합니다."}
-    prev_date = previous_dates[-1]
-    prev = {x["name"]: x for x in days[prev_date].get("sectors", [])}
-    improved, worsened, unchanged = [], [], []
+    days=history.get("days",{}); previous_dates=sorted([d for d in days if d<today])
+    if not previous_dates: return {"improved":[],"worsened":[],"unchanged":[s["etfs"][0] for s in sectors],"note":"전일 비교 데이터 적재 중 · 다음 거래일부터 상태 변화를 표시합니다."}
+    prev_date=previous_dates[-1]; prev={x["name"]:x for x in days[prev_date].get("sectors",[])}
+    improved=[]; worsened=[]; unchanged=[]
     for s in sectors:
-        p = prev.get(s["name"])
-        if not p:
-            unchanged.append(s["etfs"][0]); continue
-        delta = int(s["score"]) - int(p.get("score", s["score"]))
-        rdelta = change_rank(s["status"]) - change_rank(p.get("status", "중립"))
-        obj = {"name": s["name"], "symbol": s["etfs"][0], "from_status": p.get("status", "-"), "to_status": s["status"], "delta": delta}
-        if rdelta > 0 or (rdelta == 0 and delta >= 5):
-            improved.append(obj)
-        elif rdelta < 0 or (rdelta == 0 and delta <= -5):
-            worsened.append(obj)
-        else:
-            unchanged.append(s["etfs"][0])
-    improved.sort(key=lambda x: x["delta"], reverse=True)
-    worsened.sort(key=lambda x: x["delta"])
-    return {"improved": improved, "worsened": worsened, "unchanged": unchanged, "note": f"비교 기준: {prev_date} 최종 저장값"}
+        p=prev.get(s["name"])
+        if not p: unchanged.append(s["etfs"][0]); continue
+        delta=int(s["score"])-int(p.get("score",s["score"])); rdelta=change_rank(s["status"])-change_rank(p.get("status","중립"))
+        obj={"name":s["name"],"symbol":s["etfs"][0],"from_status":p.get("status","-"),"to_status":s["status"],"delta":delta,
+             "trend":(s.get("trend") or {}).get("label"),"rank":s.get("rank"),"rank_change":s.get("rank_change")}
+        if rdelta>0 or (rdelta==0 and delta>=5): improved.append(obj)
+        elif rdelta<0 or (rdelta==0 and delta<=-5): worsened.append(obj)
+        else: unchanged.append(s["etfs"][0])
+    improved.sort(key=lambda x:x["delta"],reverse=True); worsened.sort(key=lambda x:x["delta"])
+    return {"improved":improved,"worsened":worsened,"unchanged":unchanged,"note":f"비교 기준: {prev_date} 최종 저장값"}
 
 
-def save_history(history, today, sectors):
-    days = history.setdefault("days", {})
-    days[today] = {"sectors": [{"name": s["name"], "status": s["status"], "score": s["score"], "etfs": s["etfs"]} for s in sectors]}
-    for old in sorted(days.keys())[:-14]:
-        days.pop(old, None)
-    HISTORY.write_text(json.dumps(history, ensure_ascii=False, indent=2), encoding="utf-8")
+def evaluate_signal_outcomes(history):
+    signals=history.setdefault("signals",[]); by_symbol={}
+    for e in signals:
+        if all((e.get("results") or {}).get(f"return_{h}d_pct") is not None for h in (5,10,20)): continue
+        sym=e.get("symbol")
+        if not sym: continue
+        if sym not in by_symbol:
+            try: by_symbol[sym]=daily_history(sym,"2y")
+            except Exception as ex: print(f"signal outcome {sym} warning: {ex}"); by_symbol[sym]=None
+        df=by_symbol[sym]
+        if df is None or df.empty: continue
+        dates=[str(pd.Timestamp(x).date()) for x in df.index]; target=e.get("entry_bar_date") or e.get("date")
+        candidates=[i for i,d in enumerate(dates) if d<=target]
+        if not candidates: continue
+        idx=candidates[-1]; entry=float(e.get("entry_price") or df["Close"].iloc[idx]); results=e.setdefault("results",{})
+        for h in (5,10,20):
+            if idx+h<len(df): results[f"return_{h}d_pct"]=round((float(df["Close"].iloc[idx+h])/entry-1)*100,2)
+            else: results.setdefault(f"return_{h}d_pct",None)
+        if idx+20<len(df):
+            future=df["Close"].iloc[idx+1:idx+21].astype(float); results["max_drawdown_20d_pct"]=round(min(0.0,(float(future.min())/entry-1)*100),2)
+        else: results.setdefault("max_drawdown_20d_pct",None)
+    history["signals"]=[e for e in signals if e.get("date","") >= (datetime.now(KST)-timedelta(days=400)).strftime("%Y-%m-%d")]
 
+
+def walk_forward_calibration(history):
+    matured=[e for e in history.get("signals",[]) if (e.get("results") or {}).get("return_20d_pct") is not None and e.get("factors")]
+    weights=BASE_FACTOR_WEIGHTS.copy(); correlations={}; n=len(matured); active=False
+    if n>=20:
+        rows=[]
+        for e in matured:
+            row={k:(e.get("factors") or {}).get(k) for k in BASE_FACTOR_WEIGHTS}; row["ret"]=(e.get("results") or {}).get("return_20d_pct"); rows.append(row)
+        df=pd.DataFrame(rows).apply(pd.to_numeric,errors="coerce")
+        for k in BASE_FACTOR_WEIGHTS:
+            c=df[[k,"ret"]].dropna().corr().iloc[0,1] if len(df[[k,"ret"]].dropna())>=10 else 0
+            correlations[k]=round(float(c) if pd.notna(c) else 0.0,3)
+    if n>=60:
+        active=True; tilted={}
+        for k,b in BASE_FACTOR_WEIGHTS.items():
+            c=max(-.25,min(.25,float(correlations.get(k,0))))
+            tilted[k]=b*(1+c*.4)
+        total=sum(tilted.values()); weights={k:v/total for k,v in tilted.items()}
+    return {"active":active,"sample_20d":n,"minimum_sample":60,"weights":weights,"correlations":correlations,
+            "note":"20거래일 결과 60건 전까지 기본 가중치 유지. 이후 상관 기반 소폭 보정(과최적화 방지 제한)."}
+
+
+def record_signal_entries(history, sectors, today, regime):
+    signals=history.setdefault("signals",[]); ids={e.get("id") for e in signals}; targets={"소액 진입 검토","분할 접근"}
+    for s in sectors:
+        prev=previous_sector_records(history,today,s["name"],1); prev_action=prev[-1].get("action") if prev else None
+        action=s.get("action")
+        # First run establishes a baseline; do not back-fill current signals as if they newly occurred.
+        if not prev or prev_action is None: continue
+        if action not in targets or action==prev_action: continue
+        m=s.get("metrics") or {}; eid=f"{today}|{s['name']}|{action}"
+        if eid in ids: continue
+        signals.append({"id":eid,"date":today,"entry_bar_date":today,"name":s["name"],"symbol":s["etfs"][0],
+                        "action":action,"entry_price":m.get("latest_price") or m.get("regular_close"),"entry_score":s.get("score"),"entry_raw_score":s.get("raw_score"),
+                        "entry_confidence":(s.get("confidence") or {}).get("score"),"regime":regime.get("label"),"factors":s.get("factors") or {},"results":{}})
+        ids.add(eid)
+
+
+def signal_scorecard(history, calibration):
+    sig=history.get("signals",[]); horizons={}
+    for h in (5,10,20):
+        vals=[float((e.get("results") or {}).get(f"return_{h}d_pct")) for e in sig if (e.get("results") or {}).get(f"return_{h}d_pct") is not None]
+        horizons[str(h)]={"count":len(vals),"win_rate":round(sum(v>0 for v in vals)/len(vals)*100,1) if vals else None,"avg_return_pct":round(sum(vals)/len(vals),2) if vals else None}
+    mdd=[float((e.get("results") or {}).get("max_drawdown_20d_pct")) for e in sig if (e.get("results") or {}).get("max_drawdown_20d_pct") is not None]
+    return {"total_signals":len(sig),"horizons":horizons,"avg_max_drawdown_20d_pct":round(sum(mdd)/len(mdd),2) if mdd else None,
+            "calibration":calibration,"note":"신호 발생 당시 정규장 기준가를 기록해 이후 5·10·20거래일 성과를 자동 추적합니다."}
+
+
+def save_history(history, today, sectors, regime=None):
+    days=history.setdefault("days",{})
+    days[today]={"regime":regime or {},"sectors":[{"name":s["name"],"status":s["status"],"score":s["score"],"raw_score":s.get("raw_score",s["score"]),
+        "action":s.get("action"),"etfs":s["etfs"],"rank":s.get("rank"),"confidence":s.get("confidence"),"trend":s.get("trend"),"factors":s.get("factors")} for s in sectors]}
+    for old in sorted(days.keys())[:-120]: days.pop(old,None)
+    HISTORY.write_text(json.dumps(history,ensure_ascii=False,indent=2),encoding="utf-8")
 
 def main():
     previous_dashboard = load_previous_dashboard()
@@ -1153,6 +1471,9 @@ def main():
     now_kst = now_utc.astimezone(KST)
     now_et = now_utc.astimezone(ET)
     session, perspective = market_session(now_et)
+    history = load_history()
+    evaluate_signal_outcomes(history)
+    calibration = walk_forward_calibration(history)
 
     market, quotes = [], {}
     for name, sym in MARKET.items():
@@ -1227,23 +1548,32 @@ def main():
     spy = daily_history(BASE, "1y"); spy_ext, _, _ = latest_extended(BASE)
     timing = market_timing_signals(spy, spy_ext, vix, env.get("score", 55))
     breadth_score, breadth_metrics = market_breadth_score(spy, spy_ext)
+    market_regime = market_regime_profile(spy, spy_ext, vix, breadth_score, env.get("score",55))
+    events = official_calendar(now_et)
+    event_risk = event_risk_profile(events, now_kst)
+    # History is keyed by U.S. market date, not KST calendar date.
+    # This prevents one U.S. session from being counted as two separate "days" after midnight in Korea.
+    today = now_et.strftime("%Y-%m-%d")
+
     sectors = []
     for name, etfs in SECTORS:
         try:
-            calc = calc_sector(etfs[0], spy, spy_ext_price=spy_ext, ten_y_change=ten_bp/100, vix=vix, breadth_score=breadth_score, session=session)
+            calc = calc_sector(etfs[0], spy, spy_ext_price=spy_ext, ten_y_change=ten_bp/100, vix=vix, breadth_score=breadth_score, session=session, factor_weights=calibration.get("weights"))
+            participation = sector_participation_score(name, spy)
+            sector = enrich_sector_signal({"name":name,"etfs":etfs,"quote_sources":etf_sources(etfs[0]),**calc}, history, today, now_et, market_regime, event_risk, participation)
         except Exception as e:
-            calc = {"status":"중립","score":50,"action":"데이터 확인","reason":str(e),"factors":{"momentum":50,"relative_strength":50,"volume":50,"breadth":50,"macro":50}}
-        sectors.append({"name": name, "etfs": etfs, "quote_sources": etf_sources(etfs[0]), **calc})
-
-    history = load_history(); today = now_kst.strftime("%Y-%m-%d")
+            sector = {"name":name,"etfs":etfs,"quote_sources":etf_sources(etfs[0]),"status":"중립","score":50,"raw_score":50,"action":"데이터 확인","reason":str(e),
+                      "factors":{"momentum":50,"relative_strength":50,"volume":50,"breadth":50,"macro":50},"metrics":{},"trend":{"label":"→ 유지","avg3":50,"avg5":50,"delta_3d":0,"peak_drop_5d":0,"series":[50]},
+                      "confidence":{"score":20,"grade":"D"},"data_quality":{"score":20,"grade":"D","flags":["계산 오류"]},"participation":{"score":50},"signal_days":0,"flags":["계산 오류"]}
+        sectors.append(sector)
+    sectors = assign_sector_ranks(sectors, history, today)
     changes = compute_changes(sectors, history, today)
-    save_history(history, today, sectors)
+    record_signal_entries(history, sectors, today, market_regime)
+    scorecard = signal_scorecard(history, calibration)
 
     slowing = (emp_state == "냉각") + (econ_state == "냉각")
     phase = "둔화 관찰" if slowing >= 1 else "확장/중립"
-    reasons = [f"고용 · {emp_summary}", f"물가 · {inf_summary}", f"금리 · {rate_summary}", f"위험선호 · {risk_summary}"]
-
-    events = official_calendar(now_et)
+    reasons = [f"시장 레짐 · {market_regime['label']} {market_regime['score']}점", f"고용 · {emp_summary}", f"물가 · {inf_summary}", f"금리 · {rate_summary}", f"위험선호 · {risk_summary}"]
 
     out = {
         "updated_at_kst": now_kst.strftime("%Y-%m-%d %H:%M"),
@@ -1266,14 +1596,22 @@ def main():
                 "저점매수 매력도는 싸다는 보장이 아니라 공포·낙폭·과매도 정도를 정량화한 역발상 보조 지표입니다.",
                 "반전 확인도는 바닥 확정 신호가 아니라 모멘텀·20일선·VIX·시장 폭·거래량 회복 정도를 보는 보조 지표입니다.",
                 "시장 Breadth는 RSP/SPY·QQQE/QQQ 상대강도를 이용한 무료 프록시이며 전체 종목 상승/하락 종목수를 직접 집계한 값은 아닙니다.",
+                "산업 내부 확산은 대표 ETF 묶음의 참여도를 보는 프록시이며 개별 구성종목 전수 상승/하락 집계가 아닙니다.",
+                "레이더 표시는 현재 원점수 60% + 최근 3일 평균 40%로 안정화하고, 진입·이탈 기준을 다르게 둬 하루 노이즈를 줄입니다.",
+                "신뢰도 점수는 데이터 품질·내부 확산·팩터 일치·지속성·시장 레짐을 합친 규칙 기반 등급이며 실제 성공확률을 뜻하지 않습니다.",
+                "장외 움직임만으로 상태가 바뀌면 잠정 신호로 표시하며 정규장 확인 전 과도한 해석을 피합니다.",
+                "Walk-forward 가중치 보정은 20거래일 결과가 60건 쌓이기 전까지 비활성화되며, 이후에도 소폭만 조정합니다.",
                 "현재 버전은 뉴스·기업 실적·가이던스의 의미를 자동 점수에 완전히 반영하지 않습니다.",
             ],
         },
         "market": market,
-        "regime": {"name": phase, "environment": env, "reasons": reasons},
+        "regime": {"name": phase, "environment": env, "market_regime": market_regime, "reasons": reasons},
         "macro": macro,
         "timing": timing,
         "breadth": {"score": round(float(breadth_score), 1), "metrics": breadth_metrics, "note": "RSP/SPY + QQQE/QQQ 동일가중 대비 시총가중 상대강도 프록시"},
+        "signal_scorecard": scorecard,
+        "calibration": calibration,
+        "event_risk": event_risk,
         "sectors": sectors,
         "changes": changes,
         "events": events,
@@ -1281,8 +1619,9 @@ def main():
     if telegram_test_message(now_kst):
         print("telegram: test completed")
     else:
-        notify_new_signals(previous_dashboard, sectors, timing, now_kst)
+        notify_new_signals(previous_dashboard, sectors, timing, now_kst, history)
 
+    save_history(history, today, sectors, market_regime)
     OUT.write_text(json.dumps(out, ensure_ascii=False, indent=2), encoding="utf-8")
     print(f"Wrote {OUT}")
     print(f"Wrote {HISTORY}")
