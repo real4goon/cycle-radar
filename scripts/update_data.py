@@ -468,7 +468,7 @@ def tnx_yield(value):
 
 def market_session(now_et):
     if now_et.weekday() >= 5:
-        return "closed", "주말 · 미국장 휴장 시점 관점"
+        return "closed", "주말 · 직전 미국장 최종 데이터 관점"
     mins = now_et.hour * 60 + now_et.minute
     if 4 * 60 <= mins < 9 * 60 + 30:
         return "premarket", "미국장 프리마켓 관점"
@@ -476,7 +476,7 @@ def market_session(now_et):
         return "regular", "미국장 정규장 진행 중 관점"
     if 16 * 60 <= mins < 20 * 60:
         return "afterhours", "미국장 애프터마켓 관점"
-    return "closed", "미국장 외 시간의 마지막 데이터 관점"
+    return "closed", "미국장 마감 후 최종 데이터 관점"
 
 
 def market_breadth_score(spy_df, spy_ext_price=None):
