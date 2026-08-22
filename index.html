@@ -71,9 +71,18 @@
 
       <aside class="right-stack">
         <section class="panel environment-panel">
-          <div class="panel-head"><div><div class="section-label">MARKET ENVIRONMENT</div><h2>오늘의 투자 환경</h2></div></div>
-          <div class="environment-row"><div id="environmentScore" class="environment-score-big">-</div><div id="environmentGrade" class="environment-grade">-</div></div>
-          <div id="marketRegimeSummary" class="regime-summary">시장 레짐 계산 중</div>
+          <div class="panel-head"><div><div class="section-label">MARKET ENVIRONMENT</div><h2>시장 환경 요약</h2></div></div>
+          <div class="environment-dual">
+            <div class="environment-metric macro-env">
+              <div class="environment-metric-label">거시 투자환경 <span>고용·물가·금리·경기 등</span></div>
+              <div class="environment-row"><div id="environmentScore" class="environment-score-big">-</div><div id="environmentGrade" class="environment-grade">-</div></div>
+            </div>
+            <div class="environment-metric market-regime-box">
+              <div class="environment-metric-label">시장 레짐 <span>주가추세·Breadth·VIX 등</span></div>
+              <div id="marketRegimeSummary" class="regime-summary">시장 레짐 계산 중</div>
+            </div>
+          </div>
+          <div id="environmentRelation" class="environment-relation">두 환경의 관계를 해석 중입니다.</div>
           <div id="environmentGuidance" class="environment-guidance">시장 데이터를 해석 중입니다.</div>
           <div class="environment-scale" id="environmentScale">
             <span data-range="favorable"><b>70~100</b>우호</span>
@@ -82,7 +91,7 @@
             <span data-range="risk"><b>0~39</b>위험</span>
           </div>
           <div id="environmentReasons" class="environment-reasons"></div>
-          <button id="environmentDetailBtn" class="soft-btn" type="button">자세한 설명 보기</button>
+          <button id="environmentDetailBtn" class="soft-btn" type="button">두 점수 차이·근거 보기</button>
 
           <div class="timing-divider"></div>
           <div class="timing-head">

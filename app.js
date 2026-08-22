@@ -37,7 +37,36 @@ function renderMarket(d){
   $('#marketStrip').innerHTML=(d.market||[]).map((m,i)=>`<div class="market-item"><div class="market-top"><div class="market-name">${escapeHtml(m.name)}</div><button class="source-icon" data-market-source="${i}" title="출처·시세">ⓘ</button></div><div class="market-value-row"><div class="market-value">${escapeHtml(m.value)}</div><div class="market-change ${(m.change_direction??m.change_pct)>=0?'positive':'negative'}">${escapeHtml(m.change_text||((m.change_pct>=0?'+':'')+Number(m.change_pct||0).toFixed(2)+'%'))}</div></div>${sparkSvg(m.spark||[],(m.change_direction??m.change_pct)>=0)}</div>`).join('');
   $$('[data-market-source]').forEach(btn=>btn.onclick=()=>{const m=d.market[Number(btn.dataset.marketSource)];openSourceModal(m.name,`${m.value} · ${m.change_text||''}`,m.sources||[])});
 }
-function renderEnvironment(d){const env=d.regime?.environment||{};const mr=d.regime?.market_regime||{};$('#environmentScore').textContent=`${env.score??'-'}/100점`;$('#environmentGrade').textContent=(env.label||'-').replace(/^[^\s]+\s*/,'');const rc=mr.label==='Risk-on'?'regime-on':mr.label==='Risk-off'?'regime-off':'regime-neutral';$('#marketRegimeSummary').innerHTML=`<b class="${rc}">${escapeHtml(mr.label||'-')}</b><span>${mr.score??'-'}/100 · ${escapeHtml(mr.guidance||'')}</span>`;$('#environmentGuidance').textContent=env.guidance||'시장 환경 해석 중';$('#environmentReasons').innerHTML=(d.regime?.reasons||[]).map(x=>`<div>• ${escapeHtml(x)}</div>`).join('');$$('#environmentScale span').forEach(x=>x.classList.remove('active'));const s=Number(env.score);const range=s>=70?'favorable':s>=55?'selective':s>=40?'caution':'risk';$(`#environmentScale [data-range="${range}"]`)?.classList.add('active');}
+function renderEnvironment(d){
+  const env=d.regime?.environment||{};
+  const mr=d.regime?.market_regime||{};
+  const envScore=Number(env.score);
+  const mrScore=Number(mr.score);
+  $('#environmentScore').textContent=`${env.score??'-'}/100점`;
+  $('#environmentGrade').textContent=(env.label||'-').replace(/^[^\s]+\s*/,'');
+  const rc=mr.label==='Risk-on'?'regime-on':mr.label==='Risk-off'?'regime-off':'regime-neutral';
+  $('#marketRegimeSummary').innerHTML=`<b class="${rc}">${escapeHtml(mr.label||'-')}</b><strong>${mr.score??'-'}/100</strong>`;
+
+  let relation='거시환경과 실제 시장 흐름을 함께 확인하세요.';
+  if(mr.label==='Risk-on' && envScore<70){
+    relation='거시는 중립 수준이지만 실제 시장 흐름은 Risk-on입니다. 지수 추격보다 상대강도가 개선되는 섹터를 선별 관찰하는 구간입니다.';
+  }else if(mr.label==='Risk-on' && envScore>=70){
+    relation='거시환경과 시장 흐름이 모두 우호적입니다. 강한 섹터의 추세 지속 여부를 우선 확인하세요.';
+  }else if(mr.label==='Risk-off' && envScore>=55){
+    relation='거시환경보다 실제 시장 가격 흐름이 약합니다. 점수가 높아도 신규 진입은 보수적으로 확인하는 구간입니다.';
+  }else if(mr.label==='Risk-off'){
+    relation='거시환경과 시장 흐름이 모두 방어적입니다. 매수형 신호는 강한 확인이 있을 때만 선별적으로 봅니다.';
+  }else if(Number.isFinite(envScore) && Number.isFinite(mrScore) && Math.abs(envScore-mrScore)>=12){
+    relation=mrScore>envScore?'시장 흐름이 거시환경보다 앞서 개선되고 있습니다.':'거시환경에 비해 시장 가격 반응은 아직 약합니다.';
+  }
+  $('#environmentRelation').textContent=relation;
+  $('#environmentGuidance').textContent=env.guidance||'시장 환경 해석 중';
+  $('#environmentReasons').innerHTML=(d.regime?.reasons||[]).map(x=>`<div>• ${escapeHtml(x)}</div>`).join('');
+  $$('#environmentScale span').forEach(x=>x.classList.remove('active'));
+  const s=Number(env.score);
+  const range=s>=70?'favorable':s>=55?'selective':s>=40?'caution':'risk';
+  $(`#environmentScale [data-range="${range}"]`)?.classList.add('active');
+}
 function timingTone(kind,score){
   const n=Number(score);
   if(!Number.isFinite(n))return 'tone-mid';
@@ -95,7 +124,7 @@ function updateCountdown(){const sec=Math.max(0,Math.ceil((nextBrowserRefreshAt-
 $('#themeToggle').onclick=()=>{uiTheme=uiTheme==='night'?'day':'night';localStorage.setItem('radarThemeV16',uiTheme);applyUiSettings();};
 $('#fontSmaller').onclick=()=>setFontScale(uiFontScale-.1);$('#fontReset').onclick=()=>setFontScale(1);$('#fontLarger').onclick=()=>setFontScale(uiFontScale+.1);$('#manualRefresh').onclick=()=>loadData(true);
 $('#sectorFilters').onclick=e=>{const b=e.target.closest('[data-filter]');if(!b)return;currentFilter=b.dataset.filter;$$('.filter-btn').forEach(x=>x.classList.remove('active'));b.classList.add('active');if(lastData)renderRadar(lastData);};
-$('#environmentDetailBtn').onclick=()=>{if(!lastData)return;const src=(lastData.macro||[]).flatMap(m=>(m.sources||[]).slice(0,1));openSourceModal('오늘의 투자 환경 근거','고용·물가·금리·경기·유동성·위험선호를 종합한 규칙 기반 점수',src);};
+$('#environmentDetailBtn').onclick=()=>{if(!lastData)return;const src=(lastData.macro||[]).flatMap(m=>(m.sources||[]).slice(0,1));openSourceModal('거시 투자환경 vs 시장 레짐','거시 투자환경은 고용·물가·금리·경기·유동성·위험선호를 종합한 점수입니다. 시장 레짐은 SPY 추세·시장 Breadth·VIX와 거시환경 일부를 함께 봐 실제 위험자산 선호 흐름을 판단합니다. 따라서 두 점수는 서로 다를 수 있습니다.',src);};
 $('#timingDetailBtn').onclick=()=>{if(!lastData)return;const t=lastData.timing||{};const src=t.sources||[];const formula='저점매수 매력도 = Fear & Greed 역산 30% + S&P500 고점 대비 낙폭 25% + RSI 15% + VIX 15% + 시장 폭 스트레스 15% · 반전 확인도 = 5일 모멘텀 25% + 20일선 회복 25% + VIX 안정 20% + 시장 폭 개선 15% + 거래량 확인 15%';openSourceModal('시장 타이밍 신호 계산 기준',formula,src);};
 $$('[data-close-modal]').forEach(x=>x.onclick=closeSourceModal);$$('[data-close-sector]').forEach(x=>x.onclick=closeSectorModal);
 document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeSourceModal();closeSectorModal();}});

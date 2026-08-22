@@ -172,3 +172,22 @@ table{width:100%;border-collapse:collapse;font-size:.72rem}th,td{text-align:left
 
 .signal-story{margin-top:4px;font-size:.82rem;line-height:1.35;color:var(--muted,#95a1b3);font-weight:600}
 .mobile-intel .signal-story{flex-basis:100%;margin-top:2px}
+
+/* v1.14.4 - separate macro environment from actual market regime */
+.environment-dual{display:grid;grid-template-columns:1.08fr .92fr;gap:8px;margin-top:2px}
+.environment-metric{min-width:0;padding:10px 11px;border:1px solid #29475e;border-radius:9px;background:#091a27}
+.environment-metric-label{font-size:.66rem;font-weight:900;color:#d8e5ed;margin-bottom:6px}
+.environment-metric-label span{display:block;margin-top:2px;font-size:.56rem;font-weight:600;color:#7890a2}
+.environment-metric .environment-row{gap:10px}
+.environment-metric .environment-score-big{font-size:1.85rem}
+.environment-metric .environment-grade{font-size:1.02rem}
+.market-regime-box .regime-summary{margin:0;min-height:48px;padding:0;border:0;background:transparent;display:flex;align-items:baseline;gap:8px}
+.market-regime-box .regime-summary b{font-size:1.02rem}
+.market-regime-box .regime-summary strong{font-size:1.35rem;color:#e5eef4;letter-spacing:-.02em}
+.environment-relation{margin-top:8px;padding:9px 11px;border-left:3px solid var(--cyan);border-radius:7px;background:rgba(24,128,148,.08);font-size:.68rem;font-weight:800;line-height:1.5;color:#d4e3ec}
+[data-theme="day"] .environment-metric{background:#e1e9ee}
+[data-theme="day"] .environment-relation{background:rgba(20,127,147,.08);color:#284254}
+@media(max-width:520px){
+  .environment-dual{grid-template-columns:1fr}
+  .environment-metric .environment-score-big{font-size:1.75rem}
+}
