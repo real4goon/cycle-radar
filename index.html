@@ -66,13 +66,14 @@
           </table>
         </div>
         <div id="sectorCards" class="mobile-sector-list"></div>
-        <div class="radar-formula">ⓘ 레이더 점수 = 가격 모멘텀 35% + SPY 대비 상대강도 30% + 거래량/수급 20% + 거시환경 15%</div>
+        <div class="radar-formula">ⓘ 원점수 = 모멘텀 30% + 상대강도 30% + 거래량 15% + 시장 Breadth 10% + Macro 15% · 표시점수 = 원점수 60% + 최근 3일 평균 40% · 히스테리시스로 경계값 출렁임 완화</div>
       </div>
 
       <aside class="right-stack">
         <section class="panel environment-panel">
           <div class="panel-head"><div><div class="section-label">MARKET ENVIRONMENT</div><h2>오늘의 투자 환경</h2></div></div>
           <div class="environment-row"><div id="environmentScore" class="environment-score-big">-</div><div id="environmentGrade" class="environment-grade">-</div></div>
+          <div id="marketRegimeSummary" class="regime-summary">시장 레짐 계산 중</div>
           <div id="environmentGuidance" class="environment-guidance">시장 데이터를 해석 중입니다.</div>
           <div class="environment-scale" id="environmentScale">
             <span data-range="favorable"><b>70~100</b>우호</span>
@@ -103,6 +104,12 @@
           <div class="panel-head"><div><div class="section-label">DAY-OVER-DAY</div><h2>오늘의 핵심 변화 <small>(전일 대비)</small></h2></div></div>
           <div id="changesGrid" class="changes-grid"></div>
           <div id="unchangedSummary" class="unchanged-summary"></div>
+        </section>
+
+        <section class="panel validation-panel">
+          <div class="panel-head"><div><div class="section-label">SIGNAL VALIDATION</div><h2>신호 성적표</h2></div><div id="calibrationState" class="calendar-auto">검증 데이터 적재 중</div></div>
+          <div id="signalScorecard" class="scorecard-grid"></div>
+          <div id="scorecardNote" class="unchanged-summary"></div>
         </section>
 
         <section class="panel calendar-panel">
@@ -141,6 +148,7 @@
       <h2 id="sectorModalTitle">섹터 판정 근거</h2>
       <div id="sectorModalMeta" class="source-subtitle"></div>
       <div id="factorBars" class="factor-grid"></div>
+      <div id="signalIntel" class="signal-intel-grid"></div>
       <div id="sectorDetailReason" class="detail-reason"></div>
       <div id="sectorDetailAction" class="detail-action"></div>
       <button id="sectorQuoteBtn" class="quote-btn" type="button">대표 ETF 시세·차트 보기</button>
