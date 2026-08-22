@@ -1,10 +1,10 @@
 {
-  "updated_at_kst": "2026-08-22 09:24",
+  "updated_at_kst": "2026-08-22 09:25",
   "meta": {
-    "updated_at_iso": "2026-08-22T09:24:41+09:00",
-    "updated_at_utc_iso": "2026-08-22T00:24:41+00:00",
-    "updated_at_kst": "2026-08-22 09:24",
-    "updated_at_et": "2026-08-21 20:24",
+    "updated_at_iso": "2026-08-22T09:25:50+09:00",
+    "updated_at_utc_iso": "2026-08-22T00:25:50+00:00",
+    "updated_at_kst": "2026-08-22 09:25",
+    "updated_at_et": "2026-08-21 20:25",
     "market_session": "closed",
     "perspective": "미국장 외 시간의 마지막 데이터 관점",
     "update_policy": "서버: 미국 거래일 기준 KST 20:00~익일 09:00, 30분 간격 · 정규장 종료 후 애프터마켓까지 수집 · 화면: 5분마다 새 데이터 자동 확인 · GitHub Actions는 지연 가능",
@@ -330,13 +330,13 @@
     {
       "name": "비트코인",
       "symbol": "BTC-USD",
-      "value": "78,059",
-      "change_pct": 6.88,
-      "change_text": "+6.88%",
-      "change_direction": 6.8817,
+      "value": "78,067",
+      "change_pct": 6.89,
+      "change_text": "+6.89%",
+      "change_direction": 6.8931,
       "spark": [
         77893.617188,
-        78058.648438
+        78066.953125
       ],
       "sources": [
         {
@@ -585,7 +585,7 @@
       "previous_close": 52.4857142857143,
       "previous_1_week": 63.9714285714286,
       "previous_1_month": 43.3714285714286,
-      "timestamp": "2026-08-21T23:44:52+00:00",
+      "timestamp": "2026-08-21T23:59:58+00:00",
       "source": "CNN",
       "source_url": "https://production.dataviz.cnn.io/index/fearandgreed/graphdata/2026-08-21",
       "fallback": false,
