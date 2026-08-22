@@ -180,8 +180,23 @@ def notify_new_signals(previous, sectors, timing, now_kst, history=None):
                 "metrics": s.get("metrics") or {}, "trend": s.get("trend") or {},
                 "confidence": s.get("confidence") or {}, "rank": s.get("rank"),
                 "rank_change": s.get("rank_change"), "flags": s.get("flags") or [],
+                "buy_signal_days": s.get("buy_signal_days", 0), "stage_days": s.get("stage_days", 0),
+                "signal_story": s.get("signal_story", ""),
             })
             signal_names.add(name)
+        elif prev_action in sector_targets and current_action not in sector_targets:
+            alerts.append({
+                "kind": "sector_exit", "key": f"sector_exit:{name}",
+                "name": name, "etfs": " / ".join(s.get("etfs") or []),
+                "action": current_action or "관찰", "score": s.get("score"),
+                "raw_score": s.get("raw_score"), "status": s.get("status"),
+                "previous": prev_action, "reason": s.get("reason", ""),
+                "metrics": s.get("metrics") or {}, "trend": s.get("trend") or {},
+                "confidence": s.get("confidence") or {}, "rank": s.get("rank"),
+                "rank_change": s.get("rank_change"), "flags": s.get("flags") or [],
+                "buy_signal_days": s.get("buy_signal_days", 0), "stage_days": s.get("stage_days", 0),
+                "signal_story": s.get("signal_story", ""),
+            })
 
         confidence = float((s.get("confidence") or {}).get("score") or 0)
         prev_confidence = float((prev_obj.get("confidence") or {}).get("score") or 0)
@@ -191,6 +206,8 @@ def notify_new_signals(previous, sectors, timing, now_kst, history=None):
                 "etfs": " / ".join(s.get("etfs") or []), "action": current_action,
                 "score": s.get("score"), "confidence": s.get("confidence") or {},
                 "trend": s.get("trend") or {}, "flags": s.get("flags") or [],
+                "buy_signal_days": s.get("buy_signal_days", 0), "stage_days": s.get("stage_days", 0),
+                "signal_story": s.get("signal_story", ""),
             })
 
         trend_label = (s.get("trend") or {}).get("label")
@@ -202,6 +219,8 @@ def notify_new_signals(previous, sectors, timing, now_kst, history=None):
                 "score": s.get("score"), "raw_score": s.get("raw_score"),
                 "trend": s.get("trend") or {}, "confidence": s.get("confidence") or {},
                 "flags": s.get("flags") or [],
+                "buy_signal_days": s.get("buy_signal_days", 0), "stage_days": s.get("stage_days", 0),
+                "signal_story": s.get("signal_story", ""),
             })
 
     current_timing = timing.get("action") if isinstance(timing, dict) else None
@@ -211,6 +230,14 @@ def notify_new_signals(previous, sectors, timing, now_kst, history=None):
         alerts.append({
             "kind": "timing", "key": f"timing:{current_timing}",
             "action": current_timing, "previous": prev_timing or "이전 기록 없음",
+            "low_buy": (timing.get("low_buy") or {}).get("score"),
+            "reversal": (timing.get("reversal") or {}).get("score"),
+            "summary": timing.get("summary", ""),
+        })
+    elif prev_timing in timing_targets and current_timing not in timing_targets:
+        alerts.append({
+            "kind": "timing_exit", "key": "timing_exit",
+            "action": current_timing or "신호 확인 대기", "previous": prev_timing,
             "low_buy": (timing.get("low_buy") or {}).get("score"),
             "reversal": (timing.get("reversal") or {}).get("score"),
             "summary": timing.get("summary", ""),
@@ -237,6 +264,7 @@ def notify_new_signals(previous, sectors, timing, now_kst, history=None):
                 f"안정화 레이더: {a['score']}점 · 원점수 {a.get('raw_score', '-')}점",
                 f"추세: {tr.get('label', '-')} · 3일 {tr.get('delta_3d', 0):+}점",
                 f"신뢰도: {conf.get('score', '-')}점 ({conf.get('grade', '-')}) · 순위 #{a.get('rank') or '-'}",
+                f"신호 흐름: {a.get('signal_story') or '오늘 판단 변경'}",
                 f"이전 판단: {a['previous']}",
             ]
             m = a.get("metrics") or {}
@@ -246,6 +274,25 @@ def notify_new_signals(previous, sectors, timing, now_kst, history=None):
                           f"SPY 대비: {float(m.get('extended_vs_spy_pctp') or 0):+.2f}%p · 보정 {float(m.get('extended_score_adjustment') or 0):+.1f}점"]
             if a.get("flags"):
                 lines += ["", "주의: " + " · ".join(a["flags"][:3])]
+        elif a["kind"] == "sector_exit":
+            tr = a.get("trend") or {}; conf = a.get("confidence") or {}
+            score = a.get('score', '-')
+            reasons = []
+            if tr.get('label'): reasons.append(f"추세 {tr.get('label')}")
+            delta3 = tr.get('delta_3d')
+            if delta3 is not None: reasons.append(f"3일 {delta3:+}점")
+            peak = tr.get('peak_drop_5d')
+            if peak is not None: reasons.append(f"고점 대비 {peak:+}점")
+            if a.get('flags'): reasons.append(" / ".join((a.get('flags') or [])[:2]))
+            if not reasons and a.get('reason'): reasons.append(a['reason'])
+            lines = [
+                "⚪ 매수형 신호 종료", "",
+                f"{a['name']}  {a['etfs']}",
+                f"이전 판단: {a['previous']} → 현재 {a['action']}",
+                f"신호 흐름: {a.get('signal_story') or ('⚪ 오늘 매수 신호 종료 · ' + str(a['action']) + ' 전환')}",
+                f"안정화 레이더: {score}점 · 신뢰도 {conf.get('score', '-')}점 ({conf.get('grade', '-')})",
+                f"종료 사유: {' · '.join(reasons) if reasons else '추세 약화 또는 상태 이탈'}",
+            ]
         elif a["kind"] == "quality":
             conf = a.get("confidence") or {}; tr = a.get("trend") or {}
             lines = ["🔵 신호 신뢰도 강화", "", f"{a['name']}  {a['etfs']}",
@@ -258,6 +305,11 @@ def notify_new_signals(previous, sectors, timing, now_kst, history=None):
                      f"현재 판단: {a['action']} · 안정화 {a['score']}점 / 원점수 {a.get('raw_score', '-')}점",
                      f"최근 3일 변화: {tr.get('delta_3d', 0):+}점 · 고점 대비 {tr.get('peak_drop_5d', 0):+}점",
                      f"신뢰도: {conf.get('score', '-')}점 ({conf.get('grade', '-')})"]
+        elif a["kind"] == "timing_exit":
+            lines = ["⚪ 시장 타이밍 신호 종료", "", f"이전 판단: {a['previous']} → 현재 {a['action']}",
+                     f"저점매수 매력도: {a['low_buy']}점", f"반전 확인도: {a['reversal']}점"]
+            if a.get("summary"):
+                lines += ["", "종료 사유: " + a["summary"]]
         else:
             lines = ["🚨 미국 시장 타이밍 신호", "", f"판단: {a['action']}",
                      f"저점매수 매력도: {a['low_buy']}점", f"반전 확인도: {a['reversal']}점",
@@ -266,7 +318,7 @@ def notify_new_signals(previous, sectors, timing, now_kst, history=None):
                 lines += ["", a["summary"]]
 
         lines += ["", f"{now_kst.strftime('%Y-%m-%d %H:%M')} KST",
-                  "알림: 신규 진입 / 신뢰도 강화 / 급격한 약화 · 동일 유형 18시간 쿨다운"]
+                  "알림: 신규 진입 / 신호 종료 / 신뢰도 강화 / 급격한 약화 · 동일 유형 18시간 쿨다운"]
         if dashboard_url:
             lines += [f"대시보드: {dashboard_url}"]
         if telegram_send("\n".join(lines)):
@@ -1289,13 +1341,66 @@ def determine_action(status, trend, metrics, regime_label):
     return action
 
 
-def signal_duration(history, today, name, action):
-    if not action: return 0
-    records=previous_sector_records(history,today,name,30); count=1
+def signal_durations(history, today, name, action):
+    """Track the broader buy-signal streak separately from the exact action stage.
+
+    Example: 소액 진입 검토 3일 -> 분할 접근 오늘
+      buy_signal_days = 4
+      stage_days = 1
+    """
+    if not action:
+        return {"buy_signal_days": 0, "stage_days": 0}
+
+    records = previous_sector_records(history, today, name, 30)
+
+    stage_days = 1
     for r in reversed(records):
-        if r.get("action")==action: count+=1
-        else: break
-    return count
+        if r.get("action") == action:
+            stage_days += 1
+        else:
+            break
+
+    buy_targets = {"소액 진입 검토", "분할 접근"}
+    buy_signal_days = 0
+    if action in buy_targets:
+        buy_signal_days = 1
+        for r in reversed(records):
+            if r.get("action") in buy_targets:
+                buy_signal_days += 1
+            else:
+                break
+
+    return {"buy_signal_days": buy_signal_days, "stage_days": stage_days}
+
+
+def signal_story(history, today, name, action, buy_signal_days, stage_days):
+    """Human-friendly description of how the current action evolved."""
+    records = previous_sector_records(history, today, name, 5)
+    prev_action = records[-1].get("action") if records else None
+    buy_targets = {"소액 진입 검토", "분할 접근"}
+
+    if action in buy_targets:
+        if int(buy_signal_days or 0) <= 1:
+            if action == "소액 진입 검토":
+                return "🟡 오늘 신규 관심"
+            return "🟢 오늘 분할 접근 진입"
+
+        if prev_action in buy_targets and prev_action != action:
+            if prev_action == "소액 진입 검토" and action == "분할 접근":
+                return f"🟢 관심 {buy_signal_days}일째 · 오늘 분할 접근으로 상향 ↑"
+            if prev_action == "분할 접근" and action == "소액 진입 검토":
+                return f"🟡 관심 흐름 {buy_signal_days}일째 · 오늘 소액 진입으로 하향 ↓"
+
+        if action == "소액 진입 검토":
+            return f"🟡 관심 신호 {buy_signal_days}일째"
+        return f"🟢 분할 접근 {stage_days}일째 · 관심 흐름 {buy_signal_days}일 지속"
+
+    if prev_action in buy_targets:
+        return f"⚪ 오늘 매수 신호 종료 · {action} 전환"
+
+    if int(stage_days or 0) > 1:
+        return f"현재 판단 {stage_days}일째 유지"
+    return "오늘 판단 변경"
 
 
 def enrich_sector_signal(s, history, today, now_et, regime, event_risk, participation):
@@ -1316,7 +1421,13 @@ def enrich_sector_signal(s, history, today, now_et, regime, event_risk, particip
 
     metrics=s.get("metrics") or {}; quality=data_quality_profile(metrics,now_et)
     action=determine_action(status,tr_label,metrics,regime.get("label"))
-    duration=signal_duration(history,today,s["name"],action)
+    durations=signal_durations(history,today,s["name"],action)
+    buy_signal_days=int(durations.get("buy_signal_days") or 0)
+    stage_days=int(durations.get("stage_days") or 0)
+    # For confidence persistence, keep continuity across a strengthening buy-stage
+    # transition (소액 진입 검토 -> 분할 접근) instead of resetting to day 1.
+    persistence_days=buy_signal_days if buy_signal_days>0 else stage_days
+    story=signal_story(history,today,s["name"],action,buy_signal_days,stage_days)
 
     base_raw=float(metrics.get("regular_base_score") or raw)
     base_series=historical_raw+[base_raw]; base_avg3=sum(base_series[-3:])/len(base_series[-3:]); base_smoothed=round_int(clamp(base_raw*.60+base_avg3*.40))
@@ -1327,7 +1438,7 @@ def enrich_sector_signal(s, history, today, now_et, regime, event_risk, particip
     if status in {"상승 사이클","초기 관심"}: coherence=sum(1 for v in factor_values if v>=55)/max(1,len(factor_values))*100
     elif status=="약화": coherence=sum(1 for v in factor_values if v<=45)/max(1,len(factor_values))*100
     else: coherence=70-max(0,(max(factor_values)-min(factor_values)) if factor_values else 0)*.5
-    persistence=clamp(45+min(duration,5)*8+(8 if tr_label in {"↑ 빠른 개선","↗ 완만한 개선"} and status in {"상승 사이클","초기 관심"} else 0))
+    persistence=clamp(45+min(persistence_days,5)*8+(8 if tr_label in {"↑ 빠른 개선","↗ 완만한 개선"} and status in {"상승 사이클","초기 관심"} else 0))
     regime_fit=90 if regime.get("label")=="Risk-on" and status in {"상승 사이클","초기 관심"} else 35 if regime.get("label")=="Risk-off" and status in {"상승 사이클","초기 관심"} else 70
     confidence=quality["score"]*.30+float(participation.get("score",50))*.25+clamp(coherence)*.20+persistence*.15+regime_fit*.10
     # A sector becoming less correlated with SPY while its relative strength is positive
@@ -1350,7 +1461,9 @@ def enrich_sector_signal(s, history, today, now_et, regime, event_risk, particip
     metrics["event_risk"]=event_risk.get("label") if event_risk.get("active") else None
     return {**s,"raw_score":round_int(raw),"score":smoothed,"status":status,"action":action,"metrics":metrics,
             "trend":{"avg3":round(avg3,1),"avg5":round(avg5,1),"delta_3d":delta3,"peak_drop_5d":peak_drop,"label":tr_label,"series":[round(x,1) for x in series[-5:]]},
-            "signal_days":duration,"confidence":{"score":conf,"grade":grade},"data_quality":quality,"participation":participation,
+            "signal_days":(buy_signal_days if buy_signal_days>0 else stage_days),
+            "buy_signal_days":buy_signal_days,"stage_days":stage_days,"signal_story":story,
+            "confidence":{"score":conf,"grade":grade},"data_quality":quality,"participation":participation,
             "provisional":provisional,"flags":list(dict.fromkeys(flags))[:6]}
 
 
@@ -1461,7 +1574,9 @@ def signal_scorecard(history, calibration):
 def save_history(history, today, sectors, regime=None):
     days=history.setdefault("days",{})
     days[today]={"regime":regime or {},"sectors":[{"name":s["name"],"status":s["status"],"score":s["score"],"raw_score":s.get("raw_score",s["score"]),
-        "action":s.get("action"),"etfs":s["etfs"],"rank":s.get("rank"),"confidence":s.get("confidence"),"trend":s.get("trend"),"factors":s.get("factors")} for s in sectors]}
+        "action":s.get("action"),"etfs":s["etfs"],"rank":s.get("rank"),"confidence":s.get("confidence"),"trend":s.get("trend"),
+        "buy_signal_days":s.get("buy_signal_days",0),"stage_days":s.get("stage_days",0),
+        "signal_story":s.get("signal_story",""),"factors":s.get("factors")} for s in sectors]}
     for old in sorted(days.keys())[:-120]: days.pop(old,None)
     HISTORY.write_text(json.dumps(history,ensure_ascii=False,indent=2),encoding="utf-8")
 
