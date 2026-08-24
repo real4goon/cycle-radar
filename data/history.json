@@ -463,20 +463,20 @@
         "score": 73,
         "guidance": "시장 추세와 참여도가 비교적 우호적입니다. 섹터 강도 신호를 정상 해석합니다.",
         "metrics": {
-          "spy_vs_ma50_pct": 1.48,
-          "spy_vs_ma200_pct": 8.19,
-          "trend_score": 82,
-          "breadth_score": 60.3,
+          "spy_vs_ma50_pct": 1.64,
+          "spy_vs_ma200_pct": 8.36,
+          "trend_score": 83,
+          "breadth_score": 59.6,
           "environment_score": 58,
-          "vix": 15.81
+          "vix": 15.75
         }
       },
       "sectors": [
         {
           "name": "반도체/AI 하드웨어",
           "status": "약화",
-          "score": 35,
-          "raw_score": 34,
+          "score": 36,
+          "raw_score": 35,
           "action": "추가매수 보류",
           "etfs": [
             "SMH",
@@ -488,24 +488,24 @@
             "grade": "C"
           },
           "trend": {
-            "avg3": 37.7,
-            "avg5": 37.7,
-            "delta_3d": -6.0,
-            "peak_drop_5d": -6.0,
+            "avg3": 38.0,
+            "avg5": 38.0,
+            "delta_3d": -5.0,
+            "peak_drop_5d": -5.0,
             "label": "↘ 약화",
             "series": [
               40.0,
               39.0,
-              34.0
+              35.0
             ]
           },
           "buy_signal_days": 0,
           "stage_days": 1,
           "signal_story": "오늘 판단 변경",
           "factors": {
-            "momentum": 27,
-            "relative_strength": 26,
-            "volume": 22,
+            "momentum": 29,
+            "relative_strength": 27,
+            "volume": 23,
             "breadth": 60,
             "macro": 55
           }
@@ -522,7 +522,7 @@
           ],
           "rank": 2,
           "confidence": {
-            "score": 92,
+            "score": 91,
             "grade": "A"
           },
           "trend": {
@@ -541,7 +541,7 @@
           "stage_days": 1,
           "signal_story": "오늘 판단 변경",
           "factors": {
-            "momentum": 69,
+            "momentum": 70,
             "relative_strength": 68,
             "volume": 86,
             "breadth": 60,
@@ -578,9 +578,9 @@
           "stage_days": 1,
           "signal_story": "오늘 판단 변경",
           "factors": {
-            "momentum": 28,
+            "momentum": 29,
             "relative_strength": 35,
-            "volume": 33,
+            "volume": 34,
             "breadth": 60,
             "macro": 60
           }
@@ -615,7 +615,7 @@
           "stage_days": 1,
           "signal_story": "오늘 판단 변경",
           "factors": {
-            "momentum": 64,
+            "momentum": 65,
             "relative_strength": 60,
             "volume": 53,
             "breadth": 60,
@@ -652,9 +652,9 @@
           "stage_days": 1,
           "signal_story": "오늘 판단 변경",
           "factors": {
-            "momentum": 62,
+            "momentum": 63,
             "relative_strength": 60,
-            "volume": 50,
+            "volume": 51,
             "breadth": 60,
             "macro": 60
           }
@@ -689,7 +689,7 @@
           "stage_days": 1,
           "signal_story": "오늘 판단 변경",
           "factors": {
-            "momentum": 58,
+            "momentum": 59,
             "relative_strength": 55,
             "volume": 54,
             "breadth": 60,
@@ -738,7 +738,7 @@
           "name": "빅테크",
           "status": "중립",
           "score": 45,
-          "raw_score": 44,
+          "raw_score": 45,
           "action": "관찰",
           "etfs": [
             "QQQM"
@@ -749,22 +749,22 @@
             "grade": "C"
           },
           "trend": {
-            "avg3": 45.7,
-            "avg5": 45.7,
-            "delta_3d": -2.0,
-            "peak_drop_5d": -3.0,
+            "avg3": 46.0,
+            "avg5": 46.0,
+            "delta_3d": -1.0,
+            "peak_drop_5d": -2.0,
             "label": "→ 유지",
             "series": [
               46.0,
               47.0,
-              44.0
+              45.0
             ]
           },
           "buy_signal_days": 0,
           "stage_days": 1,
           "signal_story": "오늘 판단 변경",
           "factors": {
-            "momentum": 43,
+            "momentum": 44,
             "relative_strength": 45,
             "volume": 24,
             "breadth": 60,
@@ -801,8 +801,8 @@
           "stage_days": 1,
           "signal_story": "오늘 판단 변경",
           "factors": {
-            "momentum": 67,
-            "relative_strength": 61,
+            "momentum": 66,
+            "relative_strength": 60,
             "volume": 58,
             "breadth": 60,
             "macro": 55
@@ -811,8 +811,8 @@
         {
           "name": "리츠",
           "status": "중립",
-          "score": 50,
-          "raw_score": 51,
+          "score": 51,
+          "raw_score": 52,
           "action": "관찰",
           "etfs": [
             "VNQ"
@@ -823,23 +823,23 @@
             "grade": "A"
           },
           "trend": {
-            "avg3": 49.0,
-            "avg5": 49.0,
-            "delta_3d": 3.0,
+            "avg3": 49.3,
+            "avg5": 49.3,
+            "delta_3d": 4.0,
             "peak_drop_5d": 0.0,
             "label": "↗ 완만한 개선",
             "series": [
               48.0,
               48.0,
-              51.0
+              52.0
             ]
           },
           "buy_signal_days": 0,
           "stage_days": 1,
           "signal_story": "오늘 판단 변경",
           "factors": {
-            "momentum": 50,
-            "relative_strength": 50,
+            "momentum": 52,
+            "relative_strength": 51,
             "volume": 46,
             "breadth": 60,
             "macro": 55
