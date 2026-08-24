@@ -466,7 +466,7 @@
           "spy_vs_ma50_pct": 1.59,
           "spy_vs_ma200_pct": 8.31,
           "trend_score": 83,
-          "breadth_score": 68.3,
+          "breadth_score": 68.8,
           "environment_score": 58,
           "vix": 15.84
         }
@@ -506,7 +506,7 @@
             "momentum": 27,
             "relative_strength": 26,
             "volume": 26,
-            "breadth": 68,
+            "breadth": 69,
             "macro": 55
           }
         },
@@ -544,7 +544,7 @@
             "momentum": 69,
             "relative_strength": 68,
             "volume": 91,
-            "breadth": 68,
+            "breadth": 69,
             "macro": 55
           }
         },
@@ -552,7 +552,7 @@
           "name": "산업재",
           "status": "약화",
           "score": 42,
-          "raw_score": 41,
+          "raw_score": 42,
           "action": "추가매수 보류",
           "etfs": [
             "XLI"
@@ -563,15 +563,15 @@
             "grade": "C"
           },
           "trend": {
-            "avg3": 42.3,
-            "avg5": 42.3,
-            "delta_3d": -1.0,
-            "peak_drop_5d": -3.0,
+            "avg3": 42.7,
+            "avg5": 42.7,
+            "delta_3d": 0.0,
+            "peak_drop_5d": -2.0,
             "label": "→ 유지",
             "series": [
               42.0,
               44.0,
-              41.0
+              42.0
             ]
           },
           "buy_signal_days": 0,
@@ -581,15 +581,15 @@
             "momentum": 30,
             "relative_strength": 36,
             "volume": 39,
-            "breadth": 68,
+            "breadth": 69,
             "macro": 60
           }
         },
         {
           "name": "소재/원자재",
           "status": "초기 관심",
-          "score": 62,
-          "raw_score": 63,
+          "score": 63,
+          "raw_score": 64,
           "action": "추격주의 · 조정 대기",
           "etfs": [
             "XLB"
@@ -600,15 +600,15 @@
             "grade": "B"
           },
           "trend": {
-            "avg3": 60.7,
-            "avg5": 60.7,
-            "delta_3d": 3.0,
+            "avg3": 61.0,
+            "avg5": 61.0,
+            "delta_3d": 4.0,
             "peak_drop_5d": 0.0,
             "label": "↗ 완만한 개선",
             "series": [
               60.0,
               59.0,
-              63.0
+              64.0
             ]
           },
           "buy_signal_days": 0,
@@ -618,7 +618,7 @@
             "momentum": 66,
             "relative_strength": 62,
             "volume": 57,
-            "breadth": 68,
+            "breadth": 69,
             "macro": 60
           }
         },
@@ -655,7 +655,7 @@
             "momentum": 63,
             "relative_strength": 61,
             "volume": 54,
-            "breadth": 68,
+            "breadth": 69,
             "macro": 60
           }
         },
@@ -692,7 +692,7 @@
             "momentum": 60,
             "relative_strength": 56,
             "volume": 61,
-            "breadth": 68,
+            "breadth": 69,
             "macro": 60
           }
         },
@@ -730,7 +730,7 @@
             "momentum": 86,
             "relative_strength": 80,
             "volume": 100,
-            "breadth": 68,
+            "breadth": 69,
             "macro": 55
           }
         },
@@ -767,7 +767,7 @@
             "momentum": 42,
             "relative_strength": 44,
             "volume": 27,
-            "breadth": 68,
+            "breadth": 69,
             "macro": 55
           }
         },
@@ -804,7 +804,7 @@
             "momentum": 68,
             "relative_strength": 63,
             "volume": 62,
-            "breadth": 68,
+            "breadth": 69,
             "macro": 55
           }
         },
@@ -841,7 +841,7 @@
             "momentum": 54,
             "relative_strength": 52,
             "volume": 50,
-            "breadth": 68,
+            "breadth": 69,
             "macro": 55
           }
         }
