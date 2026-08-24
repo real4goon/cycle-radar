@@ -463,10 +463,10 @@
         "score": 75,
         "guidance": "시장 추세와 참여도가 비교적 우호적입니다. 섹터 강도 신호를 정상 해석합니다.",
         "metrics": {
-          "spy_vs_ma50_pct": 1.59,
-          "spy_vs_ma200_pct": 8.31,
+          "spy_vs_ma50_pct": 1.51,
+          "spy_vs_ma200_pct": 8.23,
           "trend_score": 83,
-          "breadth_score": 68.3,
+          "breadth_score": 69.6,
           "environment_score": 58,
           "vix": 15.84
         }
@@ -506,7 +506,7 @@
             "momentum": 27,
             "relative_strength": 26,
             "volume": 26,
-            "breadth": 68,
+            "breadth": 70,
             "macro": 55
           }
         },
@@ -544,7 +544,7 @@
             "momentum": 69,
             "relative_strength": 68,
             "volume": 91,
-            "breadth": 68,
+            "breadth": 70,
             "macro": 55
           }
         },
@@ -581,7 +581,7 @@
             "momentum": 30,
             "relative_strength": 36,
             "volume": 39,
-            "breadth": 68,
+            "breadth": 70,
             "macro": 60
           }
         },
@@ -618,7 +618,7 @@
             "momentum": 66,
             "relative_strength": 62,
             "volume": 57,
-            "breadth": 68,
+            "breadth": 70,
             "macro": 60
           }
         },
@@ -655,7 +655,7 @@
             "momentum": 63,
             "relative_strength": 61,
             "volume": 54,
-            "breadth": 68,
+            "breadth": 70,
             "macro": 60
           }
         },
@@ -692,7 +692,7 @@
             "momentum": 60,
             "relative_strength": 56,
             "volume": 61,
-            "breadth": 68,
+            "breadth": 70,
             "macro": 60
           }
         },
@@ -700,7 +700,7 @@
           "name": "금/금광",
           "status": "상승 사이클",
           "score": 80,
-          "raw_score": 80,
+          "raw_score": 81,
           "action": "분할 접근",
           "etfs": [
             "GLD",
@@ -712,15 +712,15 @@
             "grade": "A"
           },
           "trend": {
-            "avg3": 79.0,
-            "avg5": 79.0,
-            "delta_3d": 1.0,
+            "avg3": 79.3,
+            "avg5": 79.3,
+            "delta_3d": 2.0,
             "peak_drop_5d": 0.0,
             "label": "→ 유지",
             "series": [
               79.0,
               78.0,
-              80.0
+              81.0
             ]
           },
           "buy_signal_days": 1,
@@ -730,7 +730,7 @@
             "momentum": 86,
             "relative_strength": 80,
             "volume": 100,
-            "breadth": 68,
+            "breadth": 70,
             "macro": 55
           }
         },
@@ -767,7 +767,7 @@
             "momentum": 42,
             "relative_strength": 44,
             "volume": 27,
-            "breadth": 68,
+            "breadth": 70,
             "macro": 55
           }
         },
@@ -804,7 +804,7 @@
             "momentum": 68,
             "relative_strength": 63,
             "volume": 62,
-            "breadth": 68,
+            "breadth": 70,
             "macro": 55
           }
         },
@@ -819,7 +819,7 @@
           ],
           "rank": 7,
           "confidence": {
-            "score": 81,
+            "score": 80,
             "grade": "A"
           },
           "trend": {
@@ -841,7 +841,7 @@
             "momentum": 54,
             "relative_strength": 52,
             "volume": 50,
-            "breadth": 68,
+            "breadth": 70,
             "macro": 55
           }
         }
