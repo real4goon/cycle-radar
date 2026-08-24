@@ -463,10 +463,10 @@
         "score": 75,
         "guidance": "시장 추세와 참여도가 비교적 우호적입니다. 섹터 강도 신호를 정상 해석합니다.",
         "metrics": {
-          "spy_vs_ma50_pct": 1.59,
-          "spy_vs_ma200_pct": 8.31,
+          "spy_vs_ma50_pct": 1.58,
+          "spy_vs_ma200_pct": 8.3,
           "trend_score": 83,
-          "breadth_score": 68.8,
+          "breadth_score": 68.9,
           "environment_score": 58,
           "vix": 15.84
         }
@@ -588,8 +588,8 @@
         {
           "name": "소재/원자재",
           "status": "초기 관심",
-          "score": 63,
-          "raw_score": 64,
+          "score": 62,
+          "raw_score": 63,
           "action": "추격주의 · 조정 대기",
           "etfs": [
             "XLB"
@@ -600,15 +600,15 @@
             "grade": "B"
           },
           "trend": {
-            "avg3": 61.0,
-            "avg5": 61.0,
-            "delta_3d": 4.0,
+            "avg3": 60.7,
+            "avg5": 60.7,
+            "delta_3d": 3.0,
             "peak_drop_5d": 0.0,
             "label": "↗ 완만한 개선",
             "series": [
               60.0,
               59.0,
-              64.0
+              63.0
             ]
           },
           "buy_signal_days": 0,
