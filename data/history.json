@@ -463,12 +463,12 @@
         "score": 74,
         "guidance": "시장 추세와 참여도가 비교적 우호적입니다. 섹터 강도 신호를 정상 해석합니다.",
         "metrics": {
-          "spy_vs_ma50_pct": 1.7,
-          "spy_vs_ma200_pct": 8.42,
+          "spy_vs_ma50_pct": 1.72,
+          "spy_vs_ma200_pct": 8.43,
           "trend_score": 84,
-          "breadth_score": 63.3,
+          "breadth_score": 62.7,
           "environment_score": 58,
-          "vix": 15.96
+          "vix": 15.92
         }
       },
       "sectors": [
@@ -811,8 +811,8 @@
         {
           "name": "리츠",
           "status": "중립",
-          "score": 49,
-          "raw_score": 49,
+          "score": 48,
+          "raw_score": 48,
           "action": "관찰",
           "etfs": [
             "VNQ"
@@ -823,15 +823,15 @@
             "grade": "B"
           },
           "trend": {
-            "avg3": 48.3,
-            "avg5": 48.3,
-            "delta_3d": 1.0,
+            "avg3": 48.0,
+            "avg5": 48.0,
+            "delta_3d": 0.0,
             "peak_drop_5d": 0.0,
             "label": "→ 유지",
             "series": [
               48.0,
               48.0,
-              49.0
+              48.0
             ]
           },
           "buy_signal_days": 0,
