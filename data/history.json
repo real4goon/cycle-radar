@@ -463,12 +463,12 @@
         "score": 73,
         "guidance": "시장 추세와 참여도가 비교적 우호적입니다. 섹터 강도 신호를 정상 해석합니다.",
         "metrics": {
-          "spy_vs_ma50_pct": 1.69,
-          "spy_vs_ma200_pct": 8.42,
-          "trend_score": 84,
-          "breadth_score": 60.1,
+          "spy_vs_ma50_pct": 1.59,
+          "spy_vs_ma200_pct": 8.31,
+          "trend_score": 83,
+          "breadth_score": 59.6,
           "environment_score": 58,
-          "vix": 15.75
+          "vix": 15.69
         }
       },
       "sectors": [
@@ -503,9 +503,9 @@
           "stage_days": 1,
           "signal_story": "오늘 판단 변경",
           "factors": {
-            "momentum": 28,
+            "momentum": 27,
             "relative_strength": 25,
-            "volume": 21,
+            "volume": 22,
             "breadth": 60,
             "macro": 55
           }
@@ -514,7 +514,7 @@
           "name": "바이오/헬스케어",
           "status": "초기 관심",
           "score": 69,
-          "raw_score": 68,
+          "raw_score": 67,
           "action": "관찰 · 조정 대기",
           "etfs": [
             "XBI",
@@ -526,22 +526,22 @@
             "grade": "A"
           },
           "trend": {
-            "avg3": 71.3,
-            "avg5": 71.3,
-            "delta_3d": -5.0,
-            "peak_drop_5d": -5.0,
+            "avg3": 71.0,
+            "avg5": 71.0,
+            "delta_3d": -6.0,
+            "peak_drop_5d": -6.0,
             "label": "↘ 약화",
             "series": [
               73.0,
               73.0,
-              68.0
+              67.0
             ]
           },
           "buy_signal_days": 0,
           "stage_days": 1,
           "signal_story": "오늘 판단 변경",
           "factors": {
-            "momentum": 69,
+            "momentum": 68,
             "relative_strength": 67,
             "volume": 84,
             "breadth": 60,
@@ -578,9 +578,9 @@
           "stage_days": 1,
           "signal_story": "오늘 판단 변경",
           "factors": {
-            "momentum": 30,
-            "relative_strength": 36,
-            "volume": 31,
+            "momentum": 29,
+            "relative_strength": 35,
+            "volume": 32,
             "breadth": 60,
             "macro": 60
           }
@@ -615,9 +615,9 @@
           "stage_days": 1,
           "signal_story": "오늘 판단 변경",
           "factors": {
-            "momentum": 65,
+            "momentum": 64,
             "relative_strength": 60,
-            "volume": 51,
+            "volume": 52,
             "breadth": 60,
             "macro": 60
           }
@@ -652,8 +652,8 @@
           "stage_days": 1,
           "signal_story": "오늘 판단 변경",
           "factors": {
-            "momentum": 60,
-            "relative_strength": 58,
+            "momentum": 61,
+            "relative_strength": 59,
             "volume": 49,
             "breadth": 60,
             "macro": 60
@@ -662,8 +662,8 @@
         {
           "name": "금융",
           "status": "중립",
-          "score": 57,
-          "raw_score": 58,
+          "score": 56,
+          "raw_score": 57,
           "action": "관찰",
           "etfs": [
             "XLF"
@@ -674,24 +674,24 @@
             "grade": "B"
           },
           "trend": {
-            "avg3": 54.3,
-            "avg5": 54.3,
-            "delta_3d": 6.0,
+            "avg3": 54.0,
+            "avg5": 54.0,
+            "delta_3d": 5.0,
             "peak_drop_5d": 0.0,
             "label": "↗ 완만한 개선",
             "series": [
               52.0,
               53.0,
-              58.0
+              57.0
             ]
           },
           "buy_signal_days": 0,
           "stage_days": 1,
           "signal_story": "오늘 판단 변경",
           "factors": {
-            "momentum": 60,
-            "relative_strength": 55,
-            "volume": 52,
+            "momentum": 58,
+            "relative_strength": 54,
+            "volume": 53,
             "breadth": 60,
             "macro": 60
           }
@@ -699,8 +699,8 @@
         {
           "name": "금/금광",
           "status": "상승 사이클",
-          "score": 79,
-          "raw_score": 79,
+          "score": 78,
+          "raw_score": 78,
           "action": "분할 접근",
           "etfs": [
             "GLD",
@@ -712,22 +712,22 @@
             "grade": "A"
           },
           "trend": {
-            "avg3": 78.7,
-            "avg5": 78.7,
-            "delta_3d": 0.0,
-            "peak_drop_5d": 0.0,
+            "avg3": 78.3,
+            "avg5": 78.3,
+            "delta_3d": -1.0,
+            "peak_drop_5d": -1.0,
             "label": "→ 유지",
             "series": [
               79.0,
               78.0,
-              79.0
+              78.0
             ]
           },
           "buy_signal_days": 1,
           "stage_days": 1,
           "signal_story": "🟢 오늘 분할 접근 진입",
           "factors": {
-            "momentum": 86,
+            "momentum": 85,
             "relative_strength": 79,
             "volume": 100,
             "breadth": 60,
@@ -764,9 +764,9 @@
           "stage_days": 1,
           "signal_story": "오늘 판단 변경",
           "factors": {
-            "momentum": 44,
-            "relative_strength": 44,
-            "volume": 22,
+            "momentum": 43,
+            "relative_strength": 45,
+            "volume": 23,
             "breadth": 60,
             "macro": 55
           }
@@ -801,9 +801,9 @@
           "stage_days": 1,
           "signal_story": "오늘 판단 변경",
           "factors": {
-            "momentum": 67,
+            "momentum": 66,
             "relative_strength": 61,
-            "volume": 56,
+            "volume": 57,
             "breadth": 60,
             "macro": 55
           }
@@ -839,8 +839,8 @@
           "signal_story": "오늘 판단 변경",
           "factors": {
             "momentum": 50,
-            "relative_strength": 49,
-            "volume": 44,
+            "relative_strength": 50,
+            "volume": 45,
             "breadth": 60,
             "macro": 55
           }
