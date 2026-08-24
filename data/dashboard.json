@@ -1,10 +1,10 @@
 {
-  "updated_at_kst": "2026-08-25 04:07",
+  "updated_at_kst": "2026-08-25 04:50",
   "meta": {
-    "updated_at_iso": "2026-08-25T04:07:48+09:00",
-    "updated_at_utc_iso": "2026-08-24T19:07:48+00:00",
-    "updated_at_kst": "2026-08-25 04:07",
-    "updated_at_et": "2026-08-24 15:07",
+    "updated_at_iso": "2026-08-25T04:50:59+09:00",
+    "updated_at_utc_iso": "2026-08-24T19:50:59+00:00",
+    "updated_at_kst": "2026-08-25 04:50",
+    "updated_at_et": "2026-08-24 15:50",
     "market_session": "regular",
     "perspective": "미국장 정규장 진행 중 관점",
     "update_policy": "서버: 미국 거래일 기준 KST 20:00~익일 09:00, 30분 간격 · 정규장 종료 후 애프터마켓까지 수집 · 화면: 5분마다 새 데이터 자동 확인 · GitHub Actions는 지연 가능",
@@ -31,39 +31,39 @@
     {
       "name": "나스닥 선물",
       "symbol": "NQ=F",
-      "value": "29,161.75",
-      "change_pct": -0.77,
-      "change_text": "-0.77%",
-      "change_direction": -0.769,
+      "value": "29,135.00",
+      "change_pct": -0.86,
+      "change_text": "-0.86%",
+      "change_direction": -0.8601,
       "spark": [
-        29211.5,
-        29230.0,
-        29203.5,
         29206.0,
         29208.25,
-        29235.0,
+        29235.25,
         28978.75,
-        29021.75,
+        29022.0,
         28993.25,
         29012.25,
         29085.5,
-        29082.75,
+        29083.25,
         29048.5,
-        29121.25,
+        29122.0,
         29175.75,
         29168.75,
         29180.75,
-        29203.75,
+        29203.5,
         29185.25,
-        29171.0,
-        29194.25,
-        29140.0,
-        29119.25,
-        29123.0,
+        29170.75,
+        29194.75,
+        29138.5,
+        29119.0,
+        29124.0,
         29187.0,
         29218.25,
         29190.0,
-        29161.75
+        29153.75,
+        29155.25,
+        29158.5,
+        29134.25
       ],
       "sources": [
         {
@@ -81,16 +81,13 @@
     {
       "name": "S&P500 선물",
       "symbol": "ES=F",
-      "value": "7,676.00",
-      "change_pct": -0.2,
-      "change_text": "-0.20%",
-      "change_direction": -0.1983,
+      "value": "7,671.50",
+      "change_pct": -0.26,
+      "change_text": "-0.26%",
+      "change_direction": -0.2568,
       "spark": [
-        7677.0,
-        7680.75,
-        7676.25,
         7678.0,
-        7677.0,
+        7677.25,
         7681.75,
         7656.0,
         7668.5,
@@ -98,22 +95,25 @@
         7663.25,
         7671.25,
         7670.75,
-        7661.25,
+        7661.5,
         7671.5,
         7676.75,
         7679.5,
         7680.75,
-        7683.25,
-        7677.25,
+        7683.0,
+        7677.0,
         7676.0,
         7679.25,
         7668.25,
-        7665.25,
+        7665.0,
         7667.0,
         7676.75,
-        7682.0,
+        7682.25,
         7677.5,
-        7676.25
+        7674.25,
+        7675.5,
+        7674.25,
+        7671.5
       ],
       "sources": [
         {
@@ -131,10 +131,10 @@
     {
       "name": "SOX 지수",
       "symbol": "^SOX",
-      "value": "11,464.04",
-      "change_pct": -2.35,
-      "change_text": "-2.35%",
-      "change_direction": -2.3537,
+      "value": "11,409.33",
+      "change_pct": -2.82,
+      "change_text": "-2.82%",
+      "change_direction": -2.8197,
       "spark": [
         11331.547852,
         11324.874023,
@@ -158,7 +158,11 @@
         11486.226562,
         11483.945312,
         11457.732422,
-        11464.036133
+        11459.380859,
+        11462.905273,
+        11431.607422,
+        11410.43457,
+        11409.330078
       ],
       "sources": [
         {
@@ -176,15 +180,12 @@
     {
       "name": "WTI 원유",
       "symbol": "CL=F",
-      "value": "85.20",
-      "change_pct": -2.14,
-      "change_text": "-2.14%",
-      "change_direction": -2.1365,
+      "value": "85.06",
+      "change_pct": -2.3,
+      "change_text": "-2.30%",
+      "change_direction": -2.2973,
       "spark": [
-        85.519997,
-        85.459999,
-        85.620003,
-        85.540001,
+        85.529999,
         85.510002,
         85.910004,
         85.660004,
@@ -194,8 +195,8 @@
         85.169998,
         85.0,
         85.0,
-        84.480003,
-        84.82,
+        84.440002,
+        84.809998,
         84.800003,
         84.989998,
         85.279999,
@@ -206,9 +207,12 @@
         84.889999,
         84.809998,
         84.830002,
-        84.980003,
+        84.970001,
         85.169998,
-        85.199997
+        85.18,
+        85.239998,
+        85.190002,
+        85.059998
       ],
       "sources": [
         {
@@ -226,10 +230,10 @@
     {
       "name": "미 10년물",
       "symbol": "^TNX",
-      "value": "4.696%",
-      "change_pct": -0.89,
-      "change_text": "-4.2bp",
-      "change_direction": -4.2,
+      "value": "4.704%",
+      "change_pct": -0.72,
+      "change_text": "-3.4bp",
+      "change_direction": -3.4,
       "spark": [
         4.708,
         4.712,
@@ -257,7 +261,7 @@
         4.698,
         4.7,
         4.698,
-        4.696
+        4.704
       ],
       "sources": [
         {
@@ -278,11 +282,8 @@
       "value": "99.02",
       "change_pct": 0.22,
       "change_text": "+0.22%",
-      "change_direction": 0.2196,
+      "change_direction": 0.2217,
       "spark": [
-        98.984001,
-        98.910004,
-        98.948997,
         98.945999,
         98.915001,
         98.942001,
@@ -307,7 +308,10 @@
         99.032997,
         98.991997,
         99.011002,
-        99.016998
+        99.001999,
+        99.017998,
+        99.035004,
+        99.018997
       ],
       "sources": [
         {
@@ -325,39 +329,39 @@
     {
       "name": "비트코인",
       "symbol": "BTC-USD",
-      "value": "78,830",
-      "change_pct": 1.38,
-      "change_text": "+1.38%",
-      "change_direction": 1.3825,
+      "value": "78,758",
+      "change_pct": 1.29,
+      "change_text": "+1.29%",
+      "change_direction": 1.2895,
       "spark": [
-        78430.476562,
-        78719.140625,
-        79136.367188,
-        79191.046875,
-        78996.953125,
+        79201.640625,
+        78995.351562,
         78262.53125,
         78562.398438,
-        79177.84375,
-        79378.148438,
+        79173.09375,
+        79361.117188,
         79643.851562,
         79484.320312,
         79544.351562,
         79888.25,
-        79266.15625,
-        79071.007812,
-        79479.882812,
-        79672.890625,
-        79367.203125,
-        79035.046875,
-        79085.046875,
-        78516.789062,
-        78620.929688,
-        78744.890625,
-        78992.203125,
-        79006.46875,
-        78967.117188,
-        78931.046875,
-        78830.226562
+        79258.390625,
+        79079.5,
+        79485.046875,
+        79658.609375,
+        79361.226562,
+        79041.039062,
+        79096.921875,
+        78515.398438,
+        78647.992188,
+        78744.9375,
+        78985.742188,
+        79016.0,
+        78970.0,
+        78926.492188,
+        79018.8125,
+        78870.632812,
+        78875.960938,
+        78757.953125
       ],
       "sources": [
         {
@@ -375,14 +379,11 @@
     {
       "name": "달러/원",
       "symbol": "KRW=X",
-      "value": "1,382.9",
-      "change_pct": -0.57,
-      "change_text": "-0.57%",
-      "change_direction": -0.5702,
+      "value": "1,382.8",
+      "change_pct": -0.58,
+      "change_text": "-0.58%",
+      "change_direction": -0.5781,
       "spark": [
-        1382.199951,
-        1382.180054,
-        1382.550049,
         1382.430054,
         1382.780029,
         1383.75,
@@ -407,7 +408,10 @@
         1382.209961,
         1382.170044,
         1382.170044,
-        1382.859985
+        1382.47998,
+        1382.869995,
+        1383.01001,
+        1382.75
       ],
       "sources": [
         {
@@ -435,19 +439,19 @@
       "score": 74,
       "guidance": "시장 추세와 참여도가 비교적 우호적입니다. 섹터 강도 신호를 정상 해석합니다.",
       "metrics": {
-        "spy_vs_ma50_pct": 1.58,
-        "spy_vs_ma200_pct": 8.3,
+        "spy_vs_ma50_pct": 1.54,
+        "spy_vs_ma200_pct": 8.26,
         "trend_score": 83,
-        "breadth_score": 61.1,
+        "breadth_score": 61.8,
         "environment_score": 58,
-        "vix": 15.76
+        "vix": 15.82
       }
     },
     "reasons": [
       "시장 레짐 · Risk-on 74점",
       "고용 · 실업률 4.1% · 3개월 -0.2%p",
       "물가 · CPI YoY 3.54% · 이전 3.73%",
-      "금리 · 10년물 4.696% · 당일 -4.2bp",
+      "금리 · 10년물 4.704% · 당일 -3.4bp",
       "위험선호 · VIX 15.8"
     ]
   },
@@ -495,7 +499,7 @@
     {
       "name": "금리",
       "state": "부담",
-      "summary": "10년물 4.696% · 당일 -4.2bp",
+      "summary": "10년물 4.704% · 당일 -3.4bp",
       "investment_grade": "주의",
       "investment_score": 35,
       "investment_hint": "장기금리가 높거나 상승하면 QQQ·반도체·바이오·리츠 같은 금리민감 자산에 부담.",
@@ -577,36 +581,36 @@
     "low_buy": {
       "score": 32,
       "label": "낮음",
-      "note": "SPY 고점 대비 -1.8% · RSI 52.7",
+      "note": "SPY 고점 대비 -1.8% · RSI 52.4",
       "components": {
-        "fear_greed_inverse": 44.5,
-        "drawdown": 19.7,
-        "rsi": 39.6,
-        "vix": 18.0,
-        "breadth_stress": 32.8
+        "fear_greed_inverse": 44.8,
+        "drawdown": 19.9,
+        "rsi": 40.2,
+        "vix": 18.3,
+        "breadth_stress": 32.3
       }
     },
     "reversal": {
       "score": 46,
       "label": "대기",
-      "note": "SPY 5일 -1.1% · 20일선 대비 +0.1%",
+      "note": "SPY 5일 -1.2% · 20일선 대비 +0.0%",
       "components": {
-        "momentum_5d": 37.9,
-        "ma20_recovery": 55.3,
-        "vix_stabilization": 44.4,
-        "breadth_confirmation": 64.3,
-        "volume_confirmation": 27.8
+        "momentum_5d": 37.6,
+        "ma20_recovery": 55.1,
+        "vix_stabilization": 43.8,
+        "breadth_confirmation": 64.8,
+        "volume_confirmation": 28.5
       }
     },
     "fear_greed": {
       "available": true,
-      "score": 55.5,
+      "score": 55.2,
       "rating": "greed",
       "rating_ko": "탐욕",
       "previous_close": 55.1714285714286,
       "previous_1_week": 58.4,
       "previous_1_month": 41.3428571428571,
-      "timestamp": "2026-08-24T19:06:50+00:00",
+      "timestamp": "2026-08-24T19:46:43+00:00",
       "source": "CNN",
       "source_url": "https://production.dataviz.cnn.io/index/fearandgreed/graphdata/2026-08-24",
       "fallback": false,
@@ -614,14 +618,14 @@
       "note": "CNN 직접 수집 · 1주 전 58.4 · 낮을수록 공포"
     },
     "metrics": {
-      "spy_drawdown_pct": 1.78,
-      "spy_rsi14": 52.7,
-      "spy_5d_pct": -1.12,
-      "spy_vs_ma20_pct": 0.06,
-      "vix": 15.76,
-      "vix_5d_pct": 3.75,
-      "rsp_vs_spy_20d_pctp": -0.28,
-      "rsp_vs_spy_5d_pctp": 1.59
+      "spy_drawdown_pct": 1.82,
+      "spy_rsi14": 52.4,
+      "spy_5d_pct": -1.16,
+      "spy_vs_ma20_pct": 0.02,
+      "vix": 15.82,
+      "vix_5d_pct": 4.15,
+      "rsp_vs_spy_20d_pctp": -0.23,
+      "rsp_vs_spy_5d_pctp": 1.64
     },
     "summary": "공포·낙폭 기준 저점 매력은 크지 않습니다.",
     "action": "선별 관찰",
@@ -649,12 +653,12 @@
     ]
   },
   "breadth": {
-    "score": 61.1,
+    "score": 61.8,
     "metrics": {
-      "RSP_vs_SPY_5d": 1.59,
-      "RSP_vs_SPY_20d": -0.28,
-      "QQQE_vs_QQQ_5d": 1.6,
-      "QQQE_vs_QQQ_20d": 1.3
+      "RSP_vs_SPY_5d": 1.64,
+      "RSP_vs_SPY_20d": -0.23,
+      "QQQE_vs_QQQ_5d": 1.69,
+      "QQQE_vs_QQQ_20d": 1.4
     },
     "note": "RSP/SPY + QQQE/QQQ 동일가중 대비 시총가중 상대강도 프록시"
   },
@@ -744,45 +748,45 @@
         }
       ],
       "status": "약화",
-      "score": 36,
-      "base_score": 35,
+      "score": 35,
+      "base_score": 34,
       "action": "추가매수 보류",
-      "reason": "정규장 최신가 확인 · 5일 -7.7% · 20일 -0.0% · SPY 대비 5일 -6.6%p / 20일 -3.4%p · 상대강도 변화 -3.2%p · 거래량 0.76배 · 변동성조정 5일 z -1.20 · Breadth 61점",
+      "reason": "정규장 최신가 확인 · 5일 -8.1% · 20일 -0.5% · SPY 대비 5일 -6.9%p / 20일 -3.8%p · 상대강도 변화 -3.1%p · 거래량 0.78배 · 변동성조정 5일 z -1.26 · Breadth 62점",
       "factors": {
-        "momentum": 28,
-        "relative_strength": 27,
+        "momentum": 27,
+        "relative_strength": 25,
         "volume": 24,
-        "breadth": 61,
+        "breadth": 62,
         "macro": 55
       },
       "metrics": {
-        "return_5d_pct": -7.67,
-        "return_20d_pct": -0.01,
-        "rs_vs_spy_5d_pctp": -6.55,
-        "rs_vs_spy_20d_pctp": -3.38,
-        "rs_acceleration_pctp": -3.17,
-        "volume_expansion_ratio": 0.76,
-        "breadth_score": 61.1,
+        "return_5d_pct": -8.08,
+        "return_20d_pct": -0.45,
+        "rs_vs_spy_5d_pctp": -6.92,
+        "rs_vs_spy_20d_pctp": -3.78,
+        "rs_acceleration_pctp": -3.14,
+        "volume_expansion_ratio": 0.78,
+        "breadth_score": 61.8,
         "session": "regular",
         "extended_change_pct": 0.0,
         "extended_vs_spy_pctp": 0.0,
         "extended_score_adjustment": 0.0,
-        "regular_base_score": 35,
-        "regular_close": 548.5,
-        "latest_price": 548.5,
+        "regular_base_score": 34,
+        "regular_close": 546.059998,
+        "latest_price": 546.059998,
         "daily_bar_date": "2026-08-24",
         "history_points": 126,
-        "daily_volatility_pct": 2.851,
-        "volatility_z5": -1.2,
-        "volatility_z20": -0.0,
-        "distance_ma20_pct": -2.56,
-        "distance_20d_high_pct": -7.67,
+        "daily_volatility_pct": 2.87,
+        "volatility_z5": -1.26,
+        "volatility_z20": -0.04,
+        "distance_ma20_pct": -2.98,
+        "distance_20d_high_pct": -8.08,
         "overheat": false,
         "breakout_failure": false,
         "gap_pct": -1.23,
-        "gap_hold_ratio": 1.74,
+        "gap_hold_ratio": 2.09,
         "corr20_spy": 0.747,
-        "corr60_spy": 0.747,
+        "corr60_spy": 0.746,
         "corr_change": 0.0,
         "latest_quote_available": true,
         "factor_weights": {
@@ -798,17 +802,17 @@
         "provisional": false,
         "event_risk": null
       },
-      "raw_score": 35,
+      "raw_score": 34,
       "trend": {
-        "avg3": 38.0,
-        "avg5": 38.0,
-        "delta_3d": -5.0,
-        "peak_drop_5d": -5.0,
+        "avg3": 37.7,
+        "avg5": 37.7,
+        "delta_3d": -6.0,
+        "peak_drop_5d": -6.0,
         "label": "↘ 약화",
         "series": [
           40.0,
           39.0,
-          35.0
+          34.0
         ]
       },
       "signal_days": 1,
@@ -828,22 +832,22 @@
         "score": 0,
         "positive_pct": 0.0,
         "outperform_pct": 0.0,
-        "avg_rs5_pctp": -8.51,
+        "avg_rs5_pctp": -8.83,
         "members": [
           {
             "symbol": "SMH",
-            "return_5d_pct": -7.67,
-            "rs5_pctp": -6.55
+            "return_5d_pct": -8.08,
+            "rs5_pctp": -6.93
           },
           {
             "symbol": "SOXX",
-            "return_5d_pct": -9.15,
-            "rs5_pctp": -8.04
+            "return_5d_pct": -9.55,
+            "rs5_pctp": -8.4
           },
           {
             "symbol": "XSD",
-            "return_5d_pct": -12.06,
-            "rs5_pctp": -10.94
+            "return_5d_pct": -12.31,
+            "rs5_pctp": -11.15
           }
         ],
         "failures": []
@@ -885,42 +889,42 @@
       "score": 70,
       "base_score": 69,
       "action": "관찰 · 조정 대기",
-      "reason": "정규장 최신가 확인 · 5일 +3.0% · 20일 +9.1% · SPY 대비 5일 +4.1%p / 20일 +5.8%p · 상대강도 변화 -1.6%p · 거래량 1.39배 · 변동성조정 5일 z +0.64 · Breadth 61점",
+      "reason": "정규장 최신가 확인 · 5일 +3.1% · 20일 +9.2% · SPY 대비 5일 +4.3%p / 20일 +5.9%p · 상대강도 변화 -1.6%p · 거래량 1.41배 · 변동성조정 5일 z +0.67 · Breadth 62점",
       "factors": {
         "momentum": 70,
-        "relative_strength": 68,
-        "volume": 87,
-        "breadth": 61,
+        "relative_strength": 69,
+        "volume": 89,
+        "breadth": 62,
         "macro": 55
       },
       "metrics": {
-        "return_5d_pct": 3.01,
-        "return_20d_pct": 9.13,
-        "rs_vs_spy_5d_pctp": 4.13,
-        "rs_vs_spy_20d_pctp": 5.75,
-        "rs_acceleration_pctp": -1.62,
-        "volume_expansion_ratio": 1.39,
-        "breadth_score": 61.1,
+        "return_5d_pct": 3.11,
+        "return_20d_pct": 9.23,
+        "rs_vs_spy_5d_pctp": 4.27,
+        "rs_vs_spy_20d_pctp": 5.9,
+        "rs_acceleration_pctp": -1.63,
+        "volume_expansion_ratio": 1.41,
+        "breadth_score": 61.8,
         "session": "regular",
         "extended_change_pct": 0.0,
         "extended_vs_spy_pctp": 0.0,
         "extended_score_adjustment": 0.0,
         "regular_base_score": 69,
-        "regular_close": 164.335007,
-        "latest_price": 164.335007,
+        "regular_close": 164.494995,
+        "latest_price": 164.494995,
         "daily_bar_date": "2026-08-24",
         "history_points": 126,
-        "daily_volatility_pct": 2.089,
-        "volatility_z5": 0.64,
-        "volatility_z20": 0.98,
-        "distance_ma20_pct": 4.92,
-        "distance_20d_high_pct": -3.08,
+        "daily_volatility_pct": 2.086,
+        "volatility_z5": 0.67,
+        "volatility_z20": 0.99,
+        "distance_ma20_pct": 5.02,
+        "distance_20d_high_pct": -2.98,
         "overheat": false,
         "breakout_failure": false,
         "gap_pct": -0.45,
         "gap_hold_ratio": null,
-        "corr20_spy": 0.364,
-        "corr60_spy": 0.304,
+        "corr20_spy": 0.365,
+        "corr60_spy": 0.305,
         "corr_change": 0.06,
         "latest_quote_available": true,
         "factor_weights": {
@@ -966,22 +970,22 @@
         "score": 99,
         "positive_pct": 100.0,
         "outperform_pct": 100.0,
-        "avg_rs5_pctp": 5.39,
+        "avg_rs5_pctp": 5.52,
         "members": [
           {
             "symbol": "XBI",
-            "return_5d_pct": 3.01,
-            "rs5_pctp": 4.13
+            "return_5d_pct": 3.11,
+            "rs5_pctp": 4.27
           },
           {
             "symbol": "IBB",
-            "return_5d_pct": 5.26,
-            "rs5_pctp": 6.38
+            "return_5d_pct": 5.38,
+            "rs5_pctp": 6.54
           },
           {
             "symbol": "XLV",
-            "return_5d_pct": 4.54,
-            "rs5_pctp": 5.66
+            "return_5d_pct": 4.61,
+            "rs5_pctp": 5.77
           }
         ],
         "failures": []
@@ -1022,36 +1026,36 @@
       "score": 41,
       "base_score": 40,
       "action": "추가매수 보류",
-      "reason": "정규장 최신가 확인 · 5일 -4.1% · 20일 -2.4% · SPY 대비 5일 -2.9%p / 20일 -5.8%p · 상대강도 변화 +2.9%p · 거래량 0.92배 · 변동성조정 5일 z -1.59 · Breadth 61점",
+      "reason": "정규장 최신가 확인 · 5일 -4.0% · 20일 -2.3% · SPY 대비 5일 -2.8%p / 20일 -5.7%p · 상대강도 변화 +2.9%p · 거래량 0.94배 · 변동성조정 5일 z -1.56 · Breadth 62점",
       "factors": {
-        "momentum": 29,
-        "relative_strength": 35,
-        "volume": 34,
-        "breadth": 61,
+        "momentum": 30,
+        "relative_strength": 36,
+        "volume": 36,
+        "breadth": 62,
         "macro": 60
       },
       "metrics": {
-        "return_5d_pct": -4.06,
-        "return_20d_pct": -2.42,
-        "rs_vs_spy_5d_pctp": -2.94,
-        "rs_vs_spy_20d_pctp": -5.8,
+        "return_5d_pct": -3.99,
+        "return_20d_pct": -2.35,
+        "rs_vs_spy_5d_pctp": -2.82,
+        "rs_vs_spy_20d_pctp": -5.68,
         "rs_acceleration_pctp": 2.86,
-        "volume_expansion_ratio": 0.92,
-        "breadth_score": 61.1,
+        "volume_expansion_ratio": 0.94,
+        "breadth_score": 61.8,
         "session": "regular",
         "extended_change_pct": 0.0,
         "extended_vs_spy_pctp": 0.0,
         "extended_score_adjustment": 0.0,
         "regular_base_score": 40,
-        "regular_close": 178.759995,
-        "latest_price": 178.759995,
+        "regular_close": 178.895004,
+        "latest_price": 178.895004,
         "daily_bar_date": "2026-08-24",
         "history_points": 126,
-        "daily_volatility_pct": 1.142,
-        "volatility_z5": -1.59,
-        "volatility_z20": -0.47,
-        "distance_ma20_pct": -2.38,
-        "distance_20d_high_pct": -4.16,
+        "daily_volatility_pct": 1.14,
+        "volatility_z5": -1.56,
+        "volatility_z20": -0.46,
+        "distance_ma20_pct": -2.31,
+        "distance_20d_high_pct": -4.08,
         "overheat": false,
         "breakout_failure": false,
         "gap_pct": -0.09,
@@ -1103,22 +1107,22 @@
         "score": 3,
         "positive_pct": 0.0,
         "outperform_pct": 0.0,
-        "avg_rs5_pctp": -4.26,
+        "avg_rs5_pctp": -4.15,
         "members": [
           {
             "symbol": "XLI",
-            "return_5d_pct": -4.06,
-            "rs5_pctp": -2.94
+            "return_5d_pct": -3.99,
+            "rs5_pctp": -2.83
           },
           {
             "symbol": "PAVE",
-            "return_5d_pct": -4.84,
-            "rs5_pctp": -3.72
+            "return_5d_pct": -4.78,
+            "rs5_pctp": -3.62
           },
           {
             "symbol": "ITA",
-            "return_5d_pct": -7.24,
-            "rs5_pctp": -6.12
+            "return_5d_pct": -7.14,
+            "rs5_pctp": -5.99
           }
         ],
         "failures": []
@@ -1157,45 +1161,45 @@
       ],
       "status": "중립",
       "score": 61,
-      "base_score": 61,
+      "base_score": 62,
       "action": "관찰",
-      "reason": "정규장 최신가 확인 · 5일 +2.2% · 20일 +3.9% · SPY 대비 5일 +3.3%p / 20일 +0.5%p · 상대강도 변화 +2.8%p · 거래량 0.91배 · 변동성조정 5일 z +0.81 · Breadth 61점",
+      "reason": "정규장 최신가 확인 · 5일 +2.4% · 20일 +4.1% · SPY 대비 5일 +3.5%p / 20일 +0.7%p · 상대강도 변화 +2.8%p · 거래량 0.93배 · 변동성조정 5일 z +0.87 · Breadth 62점",
       "factors": {
         "momentum": 65,
         "relative_strength": 61,
-        "volume": 54,
-        "breadth": 61,
+        "volume": 55,
+        "breadth": 62,
         "macro": 60
       },
       "metrics": {
-        "return_5d_pct": 2.23,
-        "return_20d_pct": 3.92,
-        "rs_vs_spy_5d_pctp": 3.35,
-        "rs_vs_spy_20d_pctp": 0.55,
+        "return_5d_pct": 2.38,
+        "return_20d_pct": 4.08,
+        "rs_vs_spy_5d_pctp": 3.54,
+        "rs_vs_spy_20d_pctp": 0.75,
         "rs_acceleration_pctp": 2.8,
-        "volume_expansion_ratio": 0.91,
-        "breadth_score": 61.1,
+        "volume_expansion_ratio": 0.93,
+        "breadth_score": 61.8,
         "session": "regular",
         "extended_change_pct": 0.0,
         "extended_vs_spy_pctp": 0.0,
         "extended_score_adjustment": 0.0,
-        "regular_base_score": 61,
-        "regular_close": 53.404999,
-        "latest_price": 53.404999,
+        "regular_base_score": 62,
+        "regular_close": 53.485001,
+        "latest_price": 53.485001,
         "daily_bar_date": "2026-08-24",
         "history_points": 126,
-        "daily_volatility_pct": 1.231,
-        "volatility_z5": 0.81,
-        "volatility_z20": 0.71,
-        "distance_ma20_pct": 2.06,
-        "distance_20d_high_pct": -0.25,
+        "daily_volatility_pct": 1.229,
+        "volatility_z5": 0.87,
+        "volatility_z20": 0.74,
+        "distance_ma20_pct": 2.2,
+        "distance_20d_high_pct": -0.1,
         "overheat": false,
         "breakout_failure": true,
         "gap_pct": 0.87,
         "gap_hold_ratio": null,
-        "corr20_spy": 0.349,
+        "corr20_spy": 0.347,
         "corr60_spy": 0.422,
-        "corr_change": -0.074,
+        "corr_change": -0.075,
         "latest_quote_available": true,
         "factor_weights": {
           "momentum": 0.3,
@@ -1204,23 +1208,23 @@
           "breadth": 0.1,
           "macro": 0.15
         },
-        "sector_participation_score": 96,
+        "sector_participation_score": 97,
         "sector_participation_positive_pct": 100.0,
         "sector_participation_outperform_pct": 100.0,
         "provisional": false,
         "event_risk": null
       },
-      "raw_score": 61,
+      "raw_score": 62,
       "trend": {
-        "avg3": 60.0,
-        "avg5": 60.0,
-        "delta_3d": 1.0,
+        "avg3": 60.3,
+        "avg5": 60.3,
+        "delta_3d": 2.0,
         "peak_drop_5d": 0.0,
         "label": "→ 유지",
         "series": [
           60.0,
           59.0,
-          61.0
+          62.0
         ]
       },
       "signal_days": 1,
@@ -1237,25 +1241,25 @@
         "flags": []
       },
       "participation": {
-        "score": 96,
+        "score": 97,
         "positive_pct": 100.0,
         "outperform_pct": 100.0,
-        "avg_rs5_pctp": 3.89,
+        "avg_rs5_pctp": 4.07,
         "members": [
           {
             "symbol": "XLB",
-            "return_5d_pct": 2.23,
-            "rs5_pctp": 3.35
+            "return_5d_pct": 2.38,
+            "rs5_pctp": 3.54
           },
           {
             "symbol": "VAW",
-            "return_5d_pct": 1.78,
-            "rs5_pctp": 2.9
+            "return_5d_pct": 1.99,
+            "rs5_pctp": 3.15
           },
           {
             "symbol": "PICK",
-            "return_5d_pct": 4.3,
-            "rs5_pctp": 5.42
+            "return_5d_pct": 4.36,
+            "rs5_pctp": 5.52
           }
         ],
         "failures": []
@@ -1298,43 +1302,43 @@
       "score": 61,
       "base_score": 60,
       "action": "관찰 · 조정 대기",
-      "reason": "정규장 최신가 확인 · 5일 +0.8% · 20일 +8.1% · SPY 대비 5일 +2.0%p / 20일 +4.8%p · 상대강도 변화 -2.8%p · 거래량 0.87배 · 변동성조정 5일 z +0.25 · Breadth 61점",
+      "reason": "정규장 최신가 확인 · 5일 +0.8% · 20일 +8.1% · SPY 대비 5일 +2.0%p / 20일 +4.8%p · 상대강도 변화 -2.8%p · 거래량 0.89배 · 변동성조정 5일 z +0.24 · Breadth 62점",
       "factors": {
         "momentum": 63,
         "relative_strength": 61,
-        "volume": 51,
-        "breadth": 61,
+        "volume": 52,
+        "breadth": 62,
         "macro": 60
       },
       "metrics": {
-        "return_5d_pct": 0.84,
-        "return_20d_pct": 8.13,
+        "return_5d_pct": 0.8,
+        "return_20d_pct": 8.09,
         "rs_vs_spy_5d_pctp": 1.96,
         "rs_vs_spy_20d_pctp": 4.76,
         "rs_acceleration_pctp": -2.8,
-        "volume_expansion_ratio": 0.87,
-        "breadth_score": 61.1,
+        "volume_expansion_ratio": 0.89,
+        "breadth_score": 61.8,
         "session": "regular",
         "extended_change_pct": 0.0,
         "extended_vs_spy_pctp": 0.0,
         "extended_score_adjustment": 0.0,
         "regular_base_score": 60,
-        "regular_close": 63.099998,
-        "latest_price": 63.105,
+        "regular_close": 63.080002,
+        "latest_price": 63.080002,
         "daily_bar_date": "2026-08-24",
         "history_points": 126,
-        "daily_volatility_pct": 1.51,
-        "volatility_z5": 0.25,
+        "daily_volatility_pct": 1.512,
+        "volatility_z5": 0.24,
         "volatility_z20": 1.2,
-        "distance_ma20_pct": 4.27,
-        "distance_20d_high_pct": -1.01,
+        "distance_ma20_pct": 4.23,
+        "distance_20d_high_pct": -1.05,
         "overheat": false,
         "breakout_failure": false,
         "gap_pct": -0.63,
         "gap_hold_ratio": null,
-        "corr20_spy": -0.364,
-        "corr60_spy": -0.313,
-        "corr_change": -0.051,
+        "corr20_spy": -0.36,
+        "corr60_spy": -0.312,
+        "corr_change": -0.048,
         "latest_quote_available": true,
         "factor_weights": {
           "momentum": 0.3,
@@ -1379,22 +1383,22 @@
         "score": 64,
         "positive_pct": 66.7,
         "outperform_pct": 66.7,
-        "avg_rs5_pctp": 0.48,
+        "avg_rs5_pctp": 0.57,
         "members": [
           {
             "symbol": "XLE",
-            "return_5d_pct": 0.83,
+            "return_5d_pct": 0.8,
             "rs5_pctp": 1.95
           },
           {
             "symbol": "XOP",
-            "return_5d_pct": 1.41,
-            "rs5_pctp": 2.52
+            "return_5d_pct": 1.45,
+            "rs5_pctp": 2.61
           },
           {
             "symbol": "OIH",
-            "return_5d_pct": -4.14,
-            "rs5_pctp": -3.03
+            "return_5d_pct": -4.0,
+            "rs5_pctp": -2.84
           }
         ],
         "failures": []
@@ -1435,43 +1439,43 @@
       "score": 57,
       "base_score": 58,
       "action": "관찰",
-      "reason": "정규장 최신가 확인 · 5일 +1.0% · 20일 +2.2% · SPY 대비 5일 +2.1%p / 20일 -1.2%p · 상대강도 변화 +3.2%p · 거래량 0.93배 · 변동성조정 5일 z +0.58 · Breadth 61점",
+      "reason": "정규장 최신가 확인 · 5일 +1.0% · 20일 +2.3% · SPY 대비 5일 +2.2%p / 20일 -1.1%p · 상대강도 변화 +3.2%p · 거래량 0.95배 · 변동성조정 5일 z +0.60 · Breadth 62점",
       "factors": {
-        "momentum": 59,
-        "relative_strength": 55,
-        "volume": 55,
-        "breadth": 61,
+        "momentum": 60,
+        "relative_strength": 56,
+        "volume": 57,
+        "breadth": 62,
         "macro": 60
       },
       "metrics": {
-        "return_5d_pct": 0.98,
-        "return_20d_pct": 2.22,
-        "rs_vs_spy_5d_pctp": 2.1,
-        "rs_vs_spy_20d_pctp": -1.15,
+        "return_5d_pct": 1.03,
+        "return_20d_pct": 2.28,
+        "rs_vs_spy_5d_pctp": 2.19,
+        "rs_vs_spy_20d_pctp": -1.05,
         "rs_acceleration_pctp": 3.25,
-        "volume_expansion_ratio": 0.93,
-        "breadth_score": 61.1,
+        "volume_expansion_ratio": 0.95,
+        "breadth_score": 61.8,
         "session": "regular",
         "extended_change_pct": 0.0,
         "extended_vs_spy_pctp": 0.0,
         "extended_score_adjustment": 0.0,
         "regular_base_score": 58,
-        "regular_close": 58.145,
-        "latest_price": 58.145,
+        "regular_close": 58.174999,
+        "latest_price": 58.174999,
         "daily_bar_date": "2026-08-24",
         "history_points": 126,
-        "daily_volatility_pct": 0.763,
-        "volatility_z5": 0.58,
-        "volatility_z20": 0.65,
-        "distance_ma20_pct": 0.92,
-        "distance_20d_high_pct": -0.2,
+        "daily_volatility_pct": 0.767,
+        "volatility_z5": 0.6,
+        "volatility_z20": 0.66,
+        "distance_ma20_pct": 0.97,
+        "distance_20d_high_pct": -0.15,
         "overheat": false,
         "breakout_failure": false,
         "gap_pct": 0.38,
         "gap_hold_ratio": null,
-        "corr20_spy": 0.59,
-        "corr60_spy": 0.298,
-        "corr_change": 0.292,
+        "corr20_spy": 0.581,
+        "corr60_spy": 0.296,
+        "corr_change": 0.284,
         "latest_quote_available": true,
         "factor_weights": {
           "momentum": 0.3,
@@ -1516,22 +1520,22 @@
         "score": 36,
         "positive_pct": 33.3,
         "outperform_pct": 33.3,
-        "avg_rs5_pctp": -0.64,
+        "avg_rs5_pctp": -0.68,
         "members": [
           {
             "symbol": "XLF",
-            "return_5d_pct": 0.98,
-            "rs5_pctp": 2.1
+            "return_5d_pct": 1.03,
+            "rs5_pctp": 2.19
           },
           {
             "symbol": "KRE",
-            "return_5d_pct": -3.2,
-            "rs5_pctp": -2.09
+            "return_5d_pct": -3.38,
+            "rs5_pctp": -2.22
           },
           {
             "symbol": "KBE",
-            "return_5d_pct": -3.05,
-            "rs5_pctp": -1.94
+            "return_5d_pct": -3.16,
+            "rs5_pctp": -2.0
           }
         ],
         "failures": []
@@ -1570,46 +1574,46 @@
         }
       ],
       "status": "상승 사이클",
-      "score": 78,
-      "base_score": 78,
+      "score": 79,
+      "base_score": 79,
       "action": "분할 접근",
-      "reason": "정규장 최신가 확인 · 5일 +4.9% · 20일 +13.5% · SPY 대비 5일 +6.0%p / 20일 +10.2%p · 상대강도 변화 -4.1%p · 거래량 1.78배 · 변동성조정 5일 z +1.37 · Breadth 61점",
+      "reason": "정규장 최신가 확인 · 5일 +5.2% · 20일 +13.9% · SPY 대비 5일 +6.4%p / 20일 +10.6%p · 상대강도 변화 -4.2%p · 거래량 1.81배 · 변동성조정 5일 z +1.46 · Breadth 62점",
       "factors": {
-        "momentum": 84,
-        "relative_strength": 78,
+        "momentum": 86,
+        "relative_strength": 80,
         "volume": 100,
-        "breadth": 61,
+        "breadth": 62,
         "macro": 55
       },
       "metrics": {
-        "return_5d_pct": 4.9,
-        "return_20d_pct": 13.54,
-        "rs_vs_spy_5d_pctp": 6.02,
-        "rs_vs_spy_20d_pctp": 10.16,
-        "rs_acceleration_pctp": -4.15,
-        "volume_expansion_ratio": 1.78,
-        "breadth_score": 61.1,
+        "return_5d_pct": 5.24,
+        "return_20d_pct": 13.91,
+        "rs_vs_spy_5d_pctp": 6.4,
+        "rs_vs_spy_20d_pctp": 10.58,
+        "rs_acceleration_pctp": -4.18,
+        "volume_expansion_ratio": 1.81,
+        "breadth_score": 61.8,
         "session": "regular",
         "extended_change_pct": 0.0,
         "extended_vs_spy_pctp": 0.0,
         "extended_score_adjustment": 0.0,
-        "regular_base_score": 78,
-        "regular_close": 425.355011,
-        "latest_price": 425.355011,
+        "regular_base_score": 79,
+        "regular_close": 426.730011,
+        "latest_price": 426.730011,
         "daily_bar_date": "2026-08-24",
         "history_points": 126,
         "daily_volatility_pct": 1.603,
-        "volatility_z5": 1.37,
-        "volatility_z20": 1.89,
-        "distance_ma20_pct": 7.64,
+        "volatility_z5": 1.46,
+        "volatility_z20": 1.94,
+        "distance_ma20_pct": 7.97,
         "distance_20d_high_pct": 0.0,
         "overheat": false,
         "breakout_failure": false,
         "gap_pct": 1.23,
-        "gap_hold_ratio": 0.38,
-        "corr20_spy": 0.052,
-        "corr60_spy": 0.482,
-        "corr_change": -0.43,
+        "gap_hold_ratio": 0.65,
+        "corr20_spy": 0.047,
+        "corr60_spy": 0.48,
+        "corr_change": -0.433,
         "latest_quote_available": true,
         "factor_weights": {
           "momentum": 0.3,
@@ -1624,17 +1628,17 @@
         "provisional": false,
         "event_risk": null
       },
-      "raw_score": 78,
+      "raw_score": 79,
       "trend": {
-        "avg3": 78.3,
-        "avg5": 78.3,
-        "delta_3d": -1.0,
-        "peak_drop_5d": -1.0,
+        "avg3": 78.7,
+        "avg5": 78.7,
+        "delta_3d": 0.0,
+        "peak_drop_5d": 0.0,
         "label": "→ 유지",
         "series": [
           79.0,
           78.0,
-          78.0
+          79.0
         ]
       },
       "signal_days": 1,
@@ -1654,22 +1658,22 @@
         "score": 100,
         "positive_pct": 100.0,
         "outperform_pct": 100.0,
-        "avg_rs5_pctp": 10.25,
+        "avg_rs5_pctp": 10.76,
         "members": [
           {
             "symbol": "GLD",
-            "return_5d_pct": 4.9,
-            "rs5_pctp": 6.02
+            "return_5d_pct": 5.26,
+            "rs5_pctp": 6.41
           },
           {
             "symbol": "GDX",
-            "return_5d_pct": 12.08,
-            "rs5_pctp": 13.2
+            "return_5d_pct": 12.6,
+            "rs5_pctp": 13.76
           },
           {
             "symbol": "GDXJ",
-            "return_5d_pct": 10.43,
-            "rs5_pctp": 11.54
+            "return_5d_pct": 10.96,
+            "rs5_pctp": 12.12
           }
         ],
         "failures": []
@@ -1710,36 +1714,36 @@
       "score": 45,
       "base_score": 44,
       "action": "관찰",
-      "reason": "정규장 최신가 확인 · 5일 -3.1% · 20일 +3.7% · SPY 대비 5일 -1.9%p / 20일 +0.4%p · 상대강도 변화 -2.3%p · 거래량 0.78배 · 변동성조정 5일 z -0.96 · Breadth 61점",
+      "reason": "정규장 최신가 확인 · 5일 -3.2% · 20일 +3.6% · SPY 대비 5일 -2.0%p / 20일 +0.3%p · 상대강도 변화 -2.3%p · 거래량 0.80배 · 변동성조정 5일 z -0.99 · Breadth 62점",
       "factors": {
         "momentum": 43,
-        "relative_strength": 45,
-        "volume": 25,
-        "breadth": 61,
+        "relative_strength": 44,
+        "volume": 26,
+        "breadth": 62,
         "macro": 55
       },
       "metrics": {
-        "return_5d_pct": -3.05,
-        "return_20d_pct": 3.73,
-        "rs_vs_spy_5d_pctp": -1.93,
-        "rs_vs_spy_20d_pctp": 0.36,
+        "return_5d_pct": -3.16,
+        "return_20d_pct": 3.62,
+        "rs_vs_spy_5d_pctp": -2.0,
+        "rs_vs_spy_20d_pctp": 0.29,
         "rs_acceleration_pctp": -2.29,
-        "volume_expansion_ratio": 0.78,
-        "breadth_score": 61.1,
+        "volume_expansion_ratio": 0.8,
+        "breadth_score": 61.8,
         "session": "regular",
         "extended_change_pct": 0.0,
         "extended_vs_spy_pctp": 0.0,
         "extended_score_adjustment": 0.0,
         "regular_base_score": 44,
-        "regular_close": 291.350006,
-        "latest_price": 291.350006,
+        "regular_close": 291.029999,
+        "latest_price": 291.029999,
         "daily_bar_date": "2026-08-24",
         "history_points": 126,
-        "daily_volatility_pct": 1.422,
-        "volatility_z5": -0.96,
-        "volatility_z20": 0.59,
-        "distance_ma20_pct": -0.41,
-        "distance_20d_high_pct": -3.34,
+        "daily_volatility_pct": 1.426,
+        "volatility_z5": -0.99,
+        "volatility_z20": 0.57,
+        "distance_ma20_pct": -0.51,
+        "distance_20d_high_pct": -3.44,
         "overheat": false,
         "breakout_failure": false,
         "gap_pct": -0.55,
@@ -1755,7 +1759,7 @@
           "breadth": 0.1,
           "macro": 0.15
         },
-        "sector_participation_score": 35,
+        "sector_participation_score": 34,
         "sector_participation_positive_pct": 33.3,
         "sector_participation_outperform_pct": 33.3,
         "provisional": false,
@@ -1788,25 +1792,25 @@
         "flags": []
       },
       "participation": {
-        "score": 35,
+        "score": 34,
         "positive_pct": 33.3,
         "outperform_pct": 33.3,
-        "avg_rs5_pctp": -1.34,
+        "avg_rs5_pctp": -1.43,
         "members": [
           {
             "symbol": "QQQM",
-            "return_5d_pct": -3.05,
-            "rs5_pctp": -1.93
+            "return_5d_pct": -3.16,
+            "rs5_pctp": -2.0
           },
           {
             "symbol": "XLK",
-            "return_5d_pct": -5.11,
-            "rs5_pctp": -3.99
+            "return_5d_pct": -5.38,
+            "rs5_pctp": -4.23
           },
           {
             "symbol": "IGV",
             "return_5d_pct": 0.78,
-            "rs5_pctp": 1.9
+            "rs5_pctp": 1.94
           }
         ],
         "failures": []
@@ -1843,47 +1847,47 @@
           "url": "https://www.bloomberg.com/quote/XLP:US"
         }
       ],
-      "status": "중립",
-      "score": 59,
-      "base_score": 61,
-      "action": "관찰",
-      "reason": "정규장 최신가 확인 · 5일 +2.9% · 20일 +2.0% · SPY 대비 5일 +4.0%p / 20일 -1.3%p · 상대강도 변화 +5.3%p · 거래량 0.98배 · 변동성조정 5일 z +1.24 · Breadth 61점",
+      "status": "초기 관심",
+      "score": 60,
+      "base_score": 62,
+      "action": "소액 진입 검토",
+      "reason": "정규장 최신가 확인 · 5일 +3.1% · 20일 +2.3% · SPY 대비 5일 +4.3%p / 20일 -1.0%p · 상대강도 변화 +5.3%p · 거래량 1.01배 · 변동성조정 5일 z +1.34 · Breadth 62점",
       "factors": {
-        "momentum": 66,
-        "relative_strength": 61,
-        "volume": 59,
-        "breadth": 61,
+        "momentum": 68,
+        "relative_strength": 62,
+        "volume": 60,
+        "breadth": 62,
         "macro": 55
       },
       "metrics": {
-        "return_5d_pct": 2.86,
-        "return_20d_pct": 2.04,
-        "rs_vs_spy_5d_pctp": 3.98,
-        "rs_vs_spy_20d_pctp": -1.34,
+        "return_5d_pct": 3.13,
+        "return_20d_pct": 2.31,
+        "rs_vs_spy_5d_pctp": 4.29,
+        "rs_vs_spy_20d_pctp": -1.02,
         "rs_acceleration_pctp": 5.31,
-        "volume_expansion_ratio": 0.98,
-        "breadth_score": 61.1,
+        "volume_expansion_ratio": 1.01,
+        "breadth_score": 61.8,
         "session": "regular",
         "extended_change_pct": 0.0,
         "extended_vs_spy_pctp": 0.0,
         "extended_score_adjustment": 0.0,
-        "regular_base_score": 61,
-        "regular_close": 87.099998,
-        "latest_price": 87.099998,
+        "regular_base_score": 62,
+        "regular_close": 87.330002,
+        "latest_price": 87.330002,
         "daily_bar_date": "2026-08-24",
         "history_points": 126,
-        "daily_volatility_pct": 1.029,
-        "volatility_z5": 1.24,
-        "volatility_z20": 0.44,
-        "distance_ma20_pct": 1.71,
-        "distance_20d_high_pct": -0.3,
+        "daily_volatility_pct": 1.047,
+        "volatility_z5": 1.34,
+        "volatility_z20": 0.49,
+        "distance_ma20_pct": 1.96,
+        "distance_20d_high_pct": -0.03,
         "overheat": false,
         "breakout_failure": false,
         "gap_pct": 0.53,
         "gap_hold_ratio": null,
-        "corr20_spy": -0.068,
+        "corr20_spy": -0.076,
         "corr60_spy": -0.277,
-        "corr_change": 0.209,
+        "corr_change": 0.201,
         "latest_quote_available": true,
         "factor_weights": {
           "momentum": 0.3,
@@ -1898,25 +1902,25 @@
         "provisional": false,
         "event_risk": null
       },
-      "raw_score": 61,
+      "raw_score": 62,
       "trend": {
-        "avg3": 56.0,
-        "avg5": 56.0,
-        "delta_3d": 7.0,
+        "avg3": 56.3,
+        "avg5": 56.3,
+        "delta_3d": 8.0,
         "peak_drop_5d": 0.0,
-        "label": "↗ 완만한 개선",
+        "label": "↑ 빠른 개선",
         "series": [
           54.0,
           53.0,
-          61.0
+          62.0
         ]
       },
       "signal_days": 1,
-      "buy_signal_days": 0,
+      "buy_signal_days": 1,
       "stage_days": 1,
-      "signal_story": "오늘 판단 변경",
+      "signal_story": "🟡 오늘 신규 관심",
       "confidence": {
-        "score": 82,
+        "score": 92,
         "grade": "A"
       },
       "data_quality": {
@@ -1928,22 +1932,22 @@
         "score": 96,
         "positive_pct": 100.0,
         "outperform_pct": 100.0,
-        "avg_rs5_pctp": 3.46,
+        "avg_rs5_pctp": 3.73,
         "members": [
           {
             "symbol": "XLP",
-            "return_5d_pct": 2.86,
-            "rs5_pctp": 3.98
+            "return_5d_pct": 3.13,
+            "rs5_pctp": 4.29
           },
           {
             "symbol": "VDC",
-            "return_5d_pct": 2.05,
-            "rs5_pctp": 3.17
+            "return_5d_pct": 2.24,
+            "rs5_pctp": 3.39
           },
           {
             "symbol": "FSTA",
-            "return_5d_pct": 2.13,
-            "rs5_pctp": 3.25
+            "return_5d_pct": 2.37,
+            "rs5_pctp": 3.52
           }
         ],
         "failures": []
@@ -1981,46 +1985,46 @@
         }
       ],
       "status": "중립",
-      "score": 51,
-      "base_score": 52,
+      "score": 52,
+      "base_score": 53,
       "action": "관찰",
-      "reason": "정규장 최신가 확인 · 5일 +0.9% · 20일 -1.7% · SPY 대비 5일 +2.0%p / 20일 -5.1%p · 상대강도 변화 +7.1%p · 거래량 0.82배 · 변동성조정 5일 z +0.54 · Breadth 61점",
+      "reason": "정규장 최신가 확인 · 5일 +0.9% · 20일 -1.6% · SPY 대비 5일 +2.1%p / 20일 -5.0%p · 상대강도 변화 +7.1%p · 거래량 0.84배 · 변동성조정 5일 z +0.58 · Breadth 62점",
       "factors": {
         "momentum": 52,
         "relative_strength": 51,
-        "volume": 47,
-        "breadth": 61,
+        "volume": 49,
+        "breadth": 62,
         "macro": 55
       },
       "metrics": {
-        "return_5d_pct": 0.87,
-        "return_20d_pct": -1.7,
-        "rs_vs_spy_5d_pctp": 1.99,
-        "rs_vs_spy_20d_pctp": -5.07,
+        "return_5d_pct": 0.93,
+        "return_20d_pct": -1.64,
+        "rs_vs_spy_5d_pctp": 2.09,
+        "rs_vs_spy_20d_pctp": -4.97,
         "rs_acceleration_pctp": 7.06,
-        "volume_expansion_ratio": 0.82,
-        "breadth_score": 61.1,
+        "volume_expansion_ratio": 0.84,
+        "breadth_score": 61.8,
         "session": "regular",
         "extended_change_pct": 0.0,
         "extended_vs_spy_pctp": 0.0,
         "extended_score_adjustment": 0.0,
-        "regular_base_score": 52,
-        "regular_close": 98.834999,
-        "latest_price": 98.834999,
+        "regular_base_score": 53,
+        "regular_close": 98.889999,
+        "latest_price": 98.889999,
         "daily_bar_date": "2026-08-24",
         "history_points": 126,
-        "daily_volatility_pct": 0.719,
-        "volatility_z5": 0.54,
-        "volatility_z20": -0.53,
-        "distance_ma20_pct": 0.25,
-        "distance_20d_high_pct": -2.1,
+        "daily_volatility_pct": 0.721,
+        "volatility_z5": 0.58,
+        "volatility_z20": -0.51,
+        "distance_ma20_pct": 0.3,
+        "distance_20d_high_pct": -2.04,
         "overheat": false,
         "breakout_failure": false,
         "gap_pct": 0.22,
         "gap_hold_ratio": null,
-        "corr20_spy": 0.08,
+        "corr20_spy": 0.076,
         "corr60_spy": -0.137,
-        "corr_change": 0.216,
+        "corr_change": 0.213,
         "latest_quote_available": true,
         "factor_weights": {
           "momentum": 0.3,
@@ -2035,17 +2039,17 @@
         "provisional": false,
         "event_risk": null
       },
-      "raw_score": 52,
+      "raw_score": 53,
       "trend": {
-        "avg3": 49.3,
-        "avg5": 49.3,
-        "delta_3d": 4.0,
+        "avg3": 49.7,
+        "avg5": 49.7,
+        "delta_3d": 5.0,
         "peak_drop_5d": 0.0,
         "label": "↗ 완만한 개선",
         "series": [
           48.0,
           48.0,
-          52.0
+          53.0
         ]
       },
       "signal_days": 1,
@@ -2065,22 +2069,22 @@
         "score": 93,
         "positive_pct": 100.0,
         "outperform_pct": 100.0,
-        "avg_rs5_pctp": 1.99,
+        "avg_rs5_pctp": 2.09,
         "members": [
           {
             "symbol": "VNQ",
-            "return_5d_pct": 0.87,
-            "rs5_pctp": 1.99
+            "return_5d_pct": 0.93,
+            "rs5_pctp": 2.08
           },
           {
             "symbol": "XLRE",
-            "return_5d_pct": 0.88,
-            "rs5_pctp": 2.0
+            "return_5d_pct": 0.95,
+            "rs5_pctp": 2.1
           },
           {
             "symbol": "SCHH",
-            "return_5d_pct": 0.86,
-            "rs5_pctp": 1.97
+            "return_5d_pct": 0.94,
+            "rs5_pctp": 2.1
           }
         ],
         "failures": []
@@ -2097,9 +2101,9 @@
         "name": "필수소비재",
         "symbol": "XLP",
         "from_status": "중립",
-        "to_status": "중립",
-        "delta": 6,
-        "trend": "↗ 완만한 개선",
+        "to_status": "초기 관심",
+        "delta": 7,
+        "trend": "↑ 빠른 개선",
         "rank": 5,
         "rank_change": 1
       }
