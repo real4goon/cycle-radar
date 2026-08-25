@@ -1699,7 +1699,7 @@ def main():
             "updated_at_et": now_et.strftime("%Y-%m-%d %H:%M"),
             "market_session": session,
             "perspective": perspective,
-            "update_policy": "서버: 미국 거래일 기준 KST 20:00~익일 09:00, 30분 간격 · 정규장 종료 후 애프터마켓까지 수집 · 화면: 5분마다 새 데이터 자동 확인 · GitHub Actions는 지연 가능",
+            "update_policy": "서버: 미국 거래일 기준 KST 17:00~익일 09:00, 30분 간격 · 프리마켓 시작부터 정규장·애프터마켓까지 수집 · 화면: 5분마다 새 데이터 자동 확인 · GitHub Actions는 지연 가능",
             "cautions": [
                 "수집 시점과 미국장 세션을 먼저 확인하세요.",
                 "Yahoo Finance extended-hours는 무료 비공식 데이터로 지연·누락이 있을 수 있습니다.",
