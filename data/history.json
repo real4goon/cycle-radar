@@ -853,12 +853,12 @@
         "score": 73,
         "guidance": "시장 추세와 참여도가 비교적 우호적입니다. 섹터 강도 신호를 정상 해석합니다.",
         "metrics": {
-          "spy_vs_ma50_pct": 1.85,
-          "spy_vs_ma200_pct": 8.59,
+          "spy_vs_ma50_pct": 1.91,
+          "spy_vs_ma200_pct": 8.66,
           "trend_score": 85,
-          "breadth_score": 57.9,
+          "breadth_score": 57.7,
           "environment_score": 58,
-          "vix": 15.81
+          "vix": 15.77
         }
       },
       "sectors": [
@@ -982,7 +982,7 @@
           "name": "소재/원자재",
           "status": "초기 관심",
           "score": 62,
-          "raw_score": 62,
+          "raw_score": 63,
           "action": "추격주의 · 조정 대기",
           "etfs": [
             "XLB"
@@ -993,16 +993,16 @@
             "grade": "B"
           },
           "trend": {
-            "avg3": 61.0,
-            "avg5": 60.8,
-            "delta_3d": 3.0,
+            "avg3": 61.3,
+            "avg5": 61.0,
+            "delta_3d": 4.0,
             "peak_drop_5d": 0.0,
             "label": "↗ 완만한 개선",
             "series": [
               60.0,
               59.0,
               62.0,
-              62.0
+              63.0
             ]
           },
           "buy_signal_days": 0,
@@ -1210,8 +1210,8 @@
         {
           "name": "리츠",
           "status": "중립",
-          "score": 53,
-          "raw_score": 54,
+          "score": 52,
+          "raw_score": 53,
           "action": "관찰",
           "etfs": [
             "VNQ"
@@ -1222,16 +1222,16 @@
             "grade": "A"
           },
           "trend": {
-            "avg3": 52.0,
-            "avg5": 51.0,
-            "delta_3d": 6.0,
-            "peak_drop_5d": 0.0,
+            "avg3": 51.7,
+            "avg5": 50.8,
+            "delta_3d": 5.0,
+            "peak_drop_5d": -1.0,
             "label": "↗ 완만한 개선",
             "series": [
               48.0,
               48.0,
               54.0,
-              54.0
+              53.0
             ]
           },
           "buy_signal_days": 0,

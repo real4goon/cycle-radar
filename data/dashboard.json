@@ -1,10 +1,10 @@
 {
-  "updated_at_kst": "2026-08-25 17:36",
+  "updated_at_kst": "2026-08-25 18:31",
   "meta": {
-    "updated_at_iso": "2026-08-25T17:36:55+09:00",
-    "updated_at_utc_iso": "2026-08-25T08:36:55+00:00",
-    "updated_at_kst": "2026-08-25 17:36",
-    "updated_at_et": "2026-08-25 04:36",
+    "updated_at_iso": "2026-08-25T18:31:30+09:00",
+    "updated_at_utc_iso": "2026-08-25T09:31:30+00:00",
+    "updated_at_kst": "2026-08-25 18:31",
+    "updated_at_et": "2026-08-25 05:31",
     "market_session": "premarket",
     "perspective": "미국장 프리마켓 관점",
     "update_policy": "서버: 미국 거래일 기준 KST 17:00~익일 09:00, 30분 간격 · 프리마켓 시작부터 정규장·애프터마켓까지 수집 · 화면: 5분마다 새 데이터 자동 확인 · GitHub Actions는 지연 가능",
@@ -31,10 +31,10 @@
     {
       "name": "나스닥 선물",
       "symbol": "NQ=F",
-      "value": "29,283.50",
-      "change_pct": 0.61,
-      "change_text": "+0.61%",
-      "change_direction": 0.6107,
+      "value": "29,332.50",
+      "change_pct": 0.78,
+      "change_text": "+0.78%",
+      "change_direction": 0.7791,
       "spark": [
         29196.25,
         29201.25,
@@ -53,7 +53,11 @@
         29255.75,
         29233.0,
         29216.75,
-        29283.5
+        29276.5,
+        29282.0,
+        29301.75,
+        29323.0,
+        29332.5
       ],
       "sources": [
         {
@@ -71,10 +75,10 @@
     {
       "name": "S&P500 선물",
       "symbol": "ES=F",
-      "value": "7,693.00",
-      "change_pct": 0.3,
-      "change_text": "+0.30%",
-      "change_direction": 0.3031,
+      "value": "7,700.00",
+      "change_pct": 0.39,
+      "change_text": "+0.39%",
+      "change_direction": 0.3944,
       "spark": [
         7678.25,
         7677.75,
@@ -93,7 +97,11 @@
         7685.5,
         7682.75,
         7681.5,
-        7693.0
+        7691.5,
+        7692.75,
+        7697.0,
+        7699.0,
+        7700.0
       ],
       "sources": [
         {
@@ -132,10 +140,10 @@
     {
       "name": "WTI 원유",
       "symbol": "CL=F",
-      "value": "83.82",
-      "change_pct": -1.4,
-      "change_text": "-1.40%",
-      "change_direction": -1.3998,
+      "value": "82.75",
+      "change_pct": -2.66,
+      "change_text": "-2.66%",
+      "change_direction": -2.6585,
       "spark": [
         85.360001,
         85.269997,
@@ -154,7 +162,11 @@
         84.370003,
         84.550003,
         84.589996,
-        83.82
+        83.93,
+        83.43,
+        83.019997,
+        82.879997,
+        82.75
       ],
       "sources": [
         {
@@ -221,10 +233,10 @@
     {
       "name": "DXY",
       "symbol": "DX-Y.NYB",
-      "value": "99.03",
-      "change_pct": 0.03,
-      "change_text": "+0.03%",
-      "change_direction": 0.0333,
+      "value": "98.97",
+      "change_pct": -0.03,
+      "change_text": "-0.03%",
+      "change_direction": -0.0333,
       "spark": [
         99.064003,
         99.075996,
@@ -243,7 +255,11 @@
         99.074997,
         99.068001,
         99.072998,
-        99.032997
+        99.045998,
+        99.026001,
+        99.003998,
+        98.952003,
+        98.967003
       ],
       "sources": [
         {
@@ -261,15 +277,11 @@
     {
       "name": "비트코인",
       "symbol": "BTC-USD",
-      "value": "80,166",
-      "change_pct": 1.52,
-      "change_text": "+1.52%",
-      "change_direction": 1.5212,
+      "value": "79,825",
+      "change_pct": 1.09,
+      "change_text": "+1.09%",
+      "change_direction": 1.09,
       "spark": [
-        79821.898438,
-        79851.796875,
-        81010.453125,
-        80834.328125,
         80634.398438,
         80781.953125,
         80634.390625,
@@ -293,7 +305,11 @@
         79674.210938,
         79902.320312,
         80168.023438,
-        80165.71875
+        80086.390625,
+        79905.8125,
+        79820.4375,
+        79798.421875,
+        79825.1875
       ],
       "sources": [
         {
@@ -311,14 +327,11 @@
     {
       "name": "달러/원",
       "symbol": "KRW=X",
-      "value": "1,384.6",
-      "change_pct": -0.02,
-      "change_text": "-0.02%",
-      "change_direction": -0.0245,
+      "value": "1,384.5",
+      "change_pct": -0.04,
+      "change_text": "-0.04%",
+      "change_direction": -0.0368,
       "spark": [
-        1382.819946,
-        1381.630005,
-        1381.969971,
         1382.380005,
         1382.579956,
         1382.099976,
@@ -343,7 +356,10 @@
         1385.079956,
         1385.829956,
         1385.319946,
-        1384.640015
+        1384.910034,
+        1384.650024,
+        1383.579956,
+        1384.469971
       ],
       "sources": [
         {
@@ -371,12 +387,12 @@
       "score": 73,
       "guidance": "시장 추세와 참여도가 비교적 우호적입니다. 섹터 강도 신호를 정상 해석합니다.",
       "metrics": {
-        "spy_vs_ma50_pct": 1.85,
-        "spy_vs_ma200_pct": 8.59,
+        "spy_vs_ma50_pct": 1.91,
+        "spy_vs_ma200_pct": 8.66,
         "trend_score": 85,
-        "breadth_score": 57.9,
+        "breadth_score": 57.7,
         "environment_score": 58,
-        "vix": 15.81
+        "vix": 15.77
       }
     },
     "reasons": [
@@ -471,7 +487,7 @@
     {
       "name": "유동성",
       "state": "중립",
-      "summary": "DXY 당일 +0.03%",
+      "summary": "DXY 당일 -0.03%",
       "investment_grade": "중립",
       "investment_score": 55,
       "investment_hint": "달러 흐름이 중립 범위.",
@@ -511,26 +527,26 @@
   ],
   "timing": {
     "low_buy": {
-      "score": 32,
+      "score": 31,
       "label": "낮음",
-      "note": "SPY 고점 대비 -1.5% · RSI 54.6",
+      "note": "SPY 고점 대비 -1.5% · RSI 54.9",
       "components": {
         "fear_greed_inverse": 45.4,
-        "drawdown": 18.6,
-        "rsi": 35.9,
-        "vix": 18.2,
-        "breadth_stress": 34.3
+        "drawdown": 18.3,
+        "rsi": 35.1,
+        "vix": 18.1,
+        "breadth_stress": 33.7
       }
     },
     "reversal": {
-      "score": 48,
+      "score": 49,
       "label": "대기",
-      "note": "SPY 5일 -0.9% · 20일선 대비 +0.3%",
+      "note": "SPY 5일 -0.8% · 20일선 대비 +0.4%",
       "components": {
-        "momentum_5d": 40.3,
-        "ma20_recovery": 56.8,
-        "vix_stabilization": 50.3,
-        "breadth_confirmation": 63.0,
+        "momentum_5d": 40.9,
+        "ma20_recovery": 57.1,
+        "vix_stabilization": 50.7,
+        "breadth_confirmation": 63.6,
         "volume_confirmation": 30.4
       }
     },
@@ -542,7 +558,7 @@
       "previous_close": 55.0285714285714,
       "previous_1_week": 55.0857142857143,
       "previous_1_month": 41.3428571428571,
-      "timestamp": "2026-08-25T08:19:16+00:00",
+      "timestamp": "2026-08-25T09:14:16+00:00",
       "source": "CNN",
       "source_url": "https://production.dataviz.cnn.io/index/fearandgreed/graphdata/2026-08-25",
       "fallback": false,
@@ -550,14 +566,14 @@
       "note": "CNN 직접 수집 · 1주 전 55.0857142857143 · 낮을수록 공포"
     },
     "metrics": {
-      "spy_drawdown_pct": 1.52,
-      "spy_rsi14": 54.56,
-      "spy_5d_pct": -0.86,
-      "spy_vs_ma20_pct": 0.31,
-      "vix": 15.81,
-      "vix_5d_pct": -0.19,
-      "rsp_vs_spy_20d_pctp": -0.43,
-      "rsp_vs_spy_5d_pctp": 1.45
+      "spy_drawdown_pct": 1.46,
+      "spy_rsi14": 54.94,
+      "spy_5d_pct": -0.79,
+      "spy_vs_ma20_pct": 0.37,
+      "vix": 15.77,
+      "vix_5d_pct": -0.44,
+      "rsp_vs_spy_20d_pctp": -0.37,
+      "rsp_vs_spy_5d_pctp": 1.51
     },
     "summary": "공포·낙폭 기준 저점 매력은 크지 않습니다.",
     "action": "선별 관찰",
@@ -585,12 +601,12 @@
     ]
   },
   "breadth": {
-    "score": 57.9,
+    "score": 57.7,
     "metrics": {
-      "RSP_vs_SPY_5d": 1.45,
-      "RSP_vs_SPY_20d": -0.43,
-      "QQQE_vs_QQQ_5d": 1.04,
-      "QQQE_vs_QQQ_20d": 0.7
+      "RSP_vs_SPY_5d": 1.51,
+      "RSP_vs_SPY_20d": -0.37,
+      "QQQE_vs_QQQ_5d": 0.95,
+      "QQQE_vs_QQQ_20d": 0.6
     },
     "note": "RSP/SPY + QQQE/QQQ 동일가중 대비 시총가중 상대강도 프록시"
   },
@@ -683,7 +699,7 @@
       "score": 36,
       "base_score": 34,
       "action": "추가매수 보류",
-      "reason": "프리마켓 최신가 확인 · 5일 -8.0% · 20일 -0.3% · SPY 대비 5일 -6.8%p / 20일 -3.6%p · 상대강도 변화 -3.1%p · 거래량 0.80배 · 변동성조정 5일 z -1.24 · Breadth 58점 · 프리마켓 +1.44% · SPY 대비 +1.10%p · 보정 +1.9점",
+      "reason": "프리마켓 최신가 확인 · 5일 -8.0% · 20일 -0.3% · SPY 대비 5일 -6.8%p / 20일 -3.6%p · 상대강도 변화 -3.1%p · 거래량 0.80배 · 변동성조정 5일 z -1.24 · Breadth 58점 · 프리마켓 +1.55% · SPY 대비 +1.14%p · 보정 +2.0점",
       "factors": {
         "momentum": 27,
         "relative_strength": 26,
@@ -698,14 +714,14 @@
         "rs_vs_spy_20d_pctp": -3.62,
         "rs_acceleration_pctp": -3.15,
         "volume_expansion_ratio": 0.8,
-        "breadth_score": 57.9,
+        "breadth_score": 57.7,
         "session": "premarket",
-        "extended_change_pct": 1.44,
-        "extended_vs_spy_pctp": 1.1,
-        "extended_score_adjustment": 1.9,
+        "extended_change_pct": 1.55,
+        "extended_vs_spy_pctp": 1.14,
+        "extended_score_adjustment": 2.0,
         "regular_base_score": 34,
         "regular_close": 546.799988,
-        "latest_price": 554.6806,
+        "latest_price": 555.25,
         "daily_bar_date": "2026-08-24",
         "history_points": 125,
         "daily_volatility_pct": 2.864,
@@ -822,7 +838,7 @@
       "score": 70,
       "base_score": 69,
       "action": "관찰 · 조정 대기",
-      "reason": "프리마켓 최신가 확인 · 5일 +2.9% · 20일 +9.0% · SPY 대비 5일 +4.1%p / 20일 +5.7%p · 상대강도 변화 -1.6%p · 거래량 1.44배 · 변동성조정 5일 z +0.62 · Breadth 58점 · 프리마켓 +0.34% · SPY 대비 -0.00%p · 보정 +0.2점",
+      "reason": "프리마켓 최신가 확인 · 5일 +2.9% · 20일 +9.0% · SPY 대비 5일 +4.1%p / 20일 +5.7%p · 상대강도 변화 -1.6%p · 거래량 1.44배 · 변동성조정 5일 z +0.62 · Breadth 58점 · 프리마켓 +0.63% · SPY 대비 +0.23%p · 보정 +0.6점",
       "factors": {
         "momentum": 69,
         "relative_strength": 68,
@@ -837,14 +853,14 @@
         "rs_vs_spy_20d_pctp": 5.72,
         "rs_acceleration_pctp": -1.62,
         "volume_expansion_ratio": 1.44,
-        "breadth_score": 57.9,
+        "breadth_score": 57.7,
         "session": "premarket",
-        "extended_change_pct": 0.34,
-        "extended_vs_spy_pctp": -0.0,
-        "extended_score_adjustment": 0.2,
+        "extended_change_pct": 0.63,
+        "extended_vs_spy_pctp": 0.23,
+        "extended_score_adjustment": 0.6,
         "regular_base_score": 69,
         "regular_close": 164.169998,
-        "latest_price": 164.72,
+        "latest_price": 165.2,
         "daily_bar_date": "2026-08-24",
         "history_points": 125,
         "daily_volatility_pct": 2.092,
@@ -960,7 +976,7 @@
       "score": 41,
       "base_score": 40,
       "action": "추가매수 보류",
-      "reason": "프리마켓 최신가 확인 · 5일 -3.9% · 20일 -2.3% · SPY 대비 5일 -2.7%p / 20일 -5.6%p · 상대강도 변화 +2.9%p · 거래량 0.99배 · 변동성조정 5일 z -1.54 · Breadth 58점 · 프리마켓 +0.18% · SPY 대비 -0.16%p · 보정 -0.0점",
+      "reason": "프리마켓 최신가 확인 · 5일 -3.9% · 20일 -2.3% · SPY 대비 5일 -2.7%p / 20일 -5.6%p · 상대강도 변화 +2.9%p · 거래량 0.99배 · 변동성조정 5일 z -1.54 · Breadth 58점 · 프리마켓 +0.18% · SPY 대비 -0.22%p · 보정 -0.1점",
       "factors": {
         "momentum": 30,
         "relative_strength": 36,
@@ -975,11 +991,11 @@
         "rs_vs_spy_20d_pctp": -5.59,
         "rs_acceleration_pctp": 2.85,
         "volume_expansion_ratio": 0.99,
-        "breadth_score": 57.9,
+        "breadth_score": 57.7,
         "session": "premarket",
         "extended_change_pct": 0.18,
-        "extended_vs_spy_pctp": -0.16,
-        "extended_score_adjustment": -0.0,
+        "extended_vs_spy_pctp": -0.22,
+        "extended_score_adjustment": -0.1,
         "regular_base_score": 40,
         "regular_close": 179.0,
         "latest_price": 179.32,
@@ -1098,7 +1114,7 @@
       "score": 62,
       "base_score": 62,
       "action": "추격주의 · 조정 대기",
-      "reason": "프리마켓 최신가 확인 · 5일 +2.6% · 20일 +4.3% · SPY 대비 5일 +3.8%p / 20일 +1.0%p · 상대강도 변화 +2.8%p · 거래량 0.97배 · 변동성조정 5일 z +0.93 · Breadth 58점 · 프리마켓 -0.00% · SPY 대비 -0.34%p · 보정 -0.3점",
+      "reason": "프리마켓 최신가 확인 · 5일 +2.6% · 20일 +4.3% · SPY 대비 5일 +3.8%p / 20일 +1.0%p · 상대강도 변화 +2.8%p · 거래량 0.97배 · 변동성조정 5일 z +0.93 · Breadth 58점 · 프리마켓 +0.78% · SPY 대비 +0.38%p · 보정 +0.9점",
       "factors": {
         "momentum": 66,
         "relative_strength": 62,
@@ -1113,14 +1129,14 @@
         "rs_vs_spy_20d_pctp": 0.96,
         "rs_acceleration_pctp": 2.79,
         "volume_expansion_ratio": 0.97,
-        "breadth_score": 57.9,
+        "breadth_score": 57.7,
         "session": "premarket",
-        "extended_change_pct": -0.0,
-        "extended_vs_spy_pctp": -0.34,
-        "extended_score_adjustment": -0.3,
+        "extended_change_pct": 0.78,
+        "extended_vs_spy_pctp": 0.38,
+        "extended_score_adjustment": 0.9,
         "regular_base_score": 62,
         "regular_close": 53.580002,
-        "latest_price": 53.58,
+        "latest_price": 54.0,
         "daily_bar_date": "2026-08-24",
         "history_points": 125,
         "daily_volatility_pct": 1.227,
@@ -1149,18 +1165,18 @@
         "provisional": true,
         "event_risk": null
       },
-      "raw_score": 62,
+      "raw_score": 63,
       "trend": {
-        "avg3": 61.0,
-        "avg5": 60.8,
-        "delta_3d": 3.0,
+        "avg3": 61.3,
+        "avg5": 61.0,
+        "delta_3d": 4.0,
         "peak_drop_5d": 0.0,
         "label": "↗ 완만한 개선",
         "series": [
           60.0,
           59.0,
           62.0,
-          62.0
+          63.0
         ]
       },
       "signal_days": 1,
@@ -1239,7 +1255,7 @@
       "score": 60,
       "base_score": 60,
       "action": "관찰 · 조정 대기",
-      "reason": "프리마켓 최신가 확인 · 5일 +0.8% · 20일 +8.1% · SPY 대비 5일 +2.0%p / 20일 +4.8%p · 상대강도 변화 -2.8%p · 거래량 0.93배 · 변동성조정 5일 z +0.25 · Breadth 58점 · 프리마켓 -0.65% · SPY 대비 -0.99%p · 보정 -1.2점",
+      "reason": "프리마켓 최신가 확인 · 5일 +0.8% · 20일 +8.1% · SPY 대비 5일 +2.0%p / 20일 +4.8%p · 상대강도 변화 -2.8%p · 거래량 0.93배 · 변동성조정 5일 z +0.25 · Breadth 58점 · 프리마켓 -0.70% · SPY 대비 -1.10%p · 보정 -1.4점",
       "factors": {
         "momentum": 63,
         "relative_strength": 61,
@@ -1254,14 +1270,14 @@
         "rs_vs_spy_20d_pctp": 4.84,
         "rs_acceleration_pctp": -2.8,
         "volume_expansion_ratio": 0.93,
-        "breadth_score": 57.9,
+        "breadth_score": 57.7,
         "session": "premarket",
-        "extended_change_pct": -0.65,
-        "extended_vs_spy_pctp": -0.99,
-        "extended_score_adjustment": -1.2,
+        "extended_change_pct": -0.7,
+        "extended_vs_spy_pctp": -1.1,
+        "extended_score_adjustment": -1.4,
         "regular_base_score": 60,
         "regular_close": 63.110001,
-        "latest_price": 62.7,
+        "latest_price": 62.67,
         "daily_bar_date": "2026-08-24",
         "history_points": 125,
         "daily_volatility_pct": 1.51,
@@ -1377,7 +1393,7 @@
       "score": 57,
       "base_score": 59,
       "action": "관찰",
-      "reason": "프리마켓 최신가 확인 · 5일 +1.1% · 20일 +2.4% · SPY 대비 5일 +2.3%p / 20일 -0.9%p · 상대강도 변화 +3.2%p · 거래량 1.01배 · 변동성조정 5일 z +0.64 · Breadth 58점 · 프리마켓 -0.00% · SPY 대비 -0.34%p · 보정 -0.3점",
+      "reason": "프리마켓 최신가 확인 · 5일 +1.1% · 20일 +2.4% · SPY 대비 5일 +2.3%p / 20일 -0.9%p · 상대강도 변화 +3.2%p · 거래량 1.01배 · 변동성조정 5일 z +0.64 · Breadth 58점 · 프리마켓 -0.00% · SPY 대비 -0.40%p · 보정 -0.3점",
       "factors": {
         "momentum": 60,
         "relative_strength": 56,
@@ -1392,10 +1408,10 @@
         "rs_vs_spy_20d_pctp": -0.94,
         "rs_acceleration_pctp": 3.24,
         "volume_expansion_ratio": 1.01,
-        "breadth_score": 57.9,
+        "breadth_score": 57.7,
         "session": "premarket",
         "extended_change_pct": -0.0,
-        "extended_vs_spy_pctp": -0.34,
+        "extended_vs_spy_pctp": -0.4,
         "extended_score_adjustment": -0.3,
         "regular_base_score": 59,
         "regular_close": 58.220001,
@@ -1516,7 +1532,7 @@
       "score": 78,
       "base_score": 79,
       "action": "분할 접근",
-      "reason": "프리마켓 최신가 확인 · 5일 +5.2% · 20일 +13.9% · SPY 대비 5일 +6.4%p / 20일 +10.6%p · 상대강도 변화 -4.2%p · 거래량 1.84배 · 변동성조정 5일 z +1.46 · Breadth 58점 · 프리마켓 -0.41% · SPY 대비 -0.75%p · 보정 -0.9점",
+      "reason": "프리마켓 최신가 확인 · 5일 +5.2% · 20일 +13.9% · SPY 대비 5일 +6.4%p / 20일 +10.6%p · 상대강도 변화 -4.2%p · 거래량 1.84배 · 변동성조정 5일 z +1.46 · Breadth 58점 · 프리마켓 -0.56% · SPY 대비 -0.96%p · 보정 -1.2점",
       "factors": {
         "momentum": 86,
         "relative_strength": 80,
@@ -1531,14 +1547,14 @@
         "rs_vs_spy_20d_pctp": 10.6,
         "rs_acceleration_pctp": -4.18,
         "volume_expansion_ratio": 1.84,
-        "breadth_score": 57.9,
+        "breadth_score": 57.7,
         "session": "premarket",
-        "extended_change_pct": -0.41,
-        "extended_vs_spy_pctp": -0.75,
-        "extended_score_adjustment": -0.9,
+        "extended_change_pct": -0.56,
+        "extended_vs_spy_pctp": -0.96,
+        "extended_score_adjustment": -1.2,
         "regular_base_score": 79,
         "regular_close": 426.690002,
-        "latest_price": 424.92,
+        "latest_price": 424.317,
         "daily_bar_date": "2026-08-24",
         "history_points": 125,
         "daily_volatility_pct": 1.603,
@@ -1654,7 +1670,7 @@
       "score": 45,
       "base_score": 44,
       "action": "관찰",
-      "reason": "프리마켓 최신가 확인 · 5일 -3.2% · 20일 +3.5% · SPY 대비 5일 -2.0%p / 20일 +0.2%p · 상대강도 변화 -2.3%p · 거래량 0.81배 · 변동성조정 5일 z -1.01 · Breadth 58점 · 프리마켓 +0.65% · SPY 대비 +0.31%p · 보정 +0.7점",
+      "reason": "프리마켓 최신가 확인 · 5일 -3.2% · 20일 +3.5% · SPY 대비 5일 -2.0%p / 20일 +0.2%p · 상대강도 변화 -2.3%p · 거래량 0.81배 · 변동성조정 5일 z -1.01 · Breadth 58점 · 프리마켓 +0.76% · SPY 대비 +0.36%p · 보정 +0.8점",
       "factors": {
         "momentum": 42,
         "relative_strength": 44,
@@ -1669,14 +1685,14 @@
         "rs_vs_spy_20d_pctp": 0.24,
         "rs_acceleration_pctp": -2.28,
         "volume_expansion_ratio": 0.81,
-        "breadth_score": 57.9,
+        "breadth_score": 57.7,
         "session": "premarket",
-        "extended_change_pct": 0.65,
-        "extended_vs_spy_pctp": 0.31,
-        "extended_score_adjustment": 0.7,
+        "extended_change_pct": 0.76,
+        "extended_vs_spy_pctp": 0.36,
+        "extended_score_adjustment": 0.8,
         "regular_base_score": 44,
         "regular_close": 290.809998,
-        "latest_price": 292.6995,
+        "latest_price": 293.0221,
         "daily_bar_date": "2026-08-24",
         "history_points": 125,
         "daily_volatility_pct": 1.429,
@@ -1792,7 +1808,7 @@
       "score": 61,
       "base_score": 63,
       "action": "소액 진입 검토",
-      "reason": "프리마켓 최신가 확인 · 5일 +3.3% · 20일 +2.4% · SPY 대비 5일 +4.5%p / 20일 -0.9%p · 상대강도 변화 +5.3%p · 거래량 1.04배 · 변동성조정 5일 z +1.38 · Breadth 58점 · 프리마켓 -0.47% · SPY 대비 -0.81%p · 보정 -1.0점",
+      "reason": "프리마켓 최신가 확인 · 5일 +3.3% · 20일 +2.4% · SPY 대비 5일 +4.5%p / 20일 -0.9%p · 상대강도 변화 +5.3%p · 거래량 1.04배 · 변동성조정 5일 z +1.38 · Breadth 58점 · 프리마켓 -0.22% · SPY 대비 -0.62%p · 보정 -0.6점",
       "factors": {
         "momentum": 68,
         "relative_strength": 63,
@@ -1807,14 +1823,14 @@
         "rs_vs_spy_20d_pctp": -0.85,
         "rs_acceleration_pctp": 5.31,
         "volume_expansion_ratio": 1.04,
-        "breadth_score": 57.9,
+        "breadth_score": 57.7,
         "session": "premarket",
-        "extended_change_pct": -0.47,
-        "extended_vs_spy_pctp": -0.81,
-        "extended_score_adjustment": -1.0,
+        "extended_change_pct": -0.22,
+        "extended_vs_spy_pctp": -0.62,
+        "extended_score_adjustment": -0.6,
         "regular_base_score": 63,
         "regular_close": 87.449997,
-        "latest_price": 87.038,
+        "latest_price": 87.26,
         "daily_bar_date": "2026-08-24",
         "history_points": 125,
         "daily_volatility_pct": 1.058,
@@ -1927,10 +1943,10 @@
         }
       ],
       "status": "중립",
-      "score": 53,
+      "score": 52,
       "base_score": 53,
       "action": "관찰",
-      "reason": "프리마켓 최신가 확인 · 5일 +1.1% · 20일 -1.4% · SPY 대비 5일 +2.3%p / 20일 -4.7%p · 상대강도 변화 +7.1%p · 거래량 0.86배 · 변동성조정 5일 z +0.70 · Breadth 58점 · 프리마켓 +0.38% · SPY 대비 +0.04%p · 보정 +0.3점",
+      "reason": "프리마켓 최신가 확인 · 5일 +1.1% · 20일 -1.4% · SPY 대비 5일 +2.3%p / 20일 -4.7%p · 상대강도 변화 +7.1%p · 거래량 0.86배 · 변동성조정 5일 z +0.70 · Breadth 58점 · 프리마켓 -0.01% · SPY 대비 -0.41%p · 보정 -0.3점",
       "factors": {
         "momentum": 54,
         "relative_strength": 52,
@@ -1945,14 +1961,14 @@
         "rs_vs_spy_20d_pctp": -4.73,
         "rs_acceleration_pctp": 7.06,
         "volume_expansion_ratio": 0.86,
-        "breadth_score": 57.9,
+        "breadth_score": 57.7,
         "session": "premarket",
-        "extended_change_pct": 0.38,
-        "extended_vs_spy_pctp": 0.04,
-        "extended_score_adjustment": 0.3,
+        "extended_change_pct": -0.01,
+        "extended_vs_spy_pctp": -0.41,
+        "extended_score_adjustment": -0.3,
         "regular_base_score": 53,
         "regular_close": 99.099998,
-        "latest_price": 99.48,
+        "latest_price": 99.09,
         "daily_bar_date": "2026-08-24",
         "history_points": 125,
         "daily_volatility_pct": 0.73,
@@ -1981,18 +1997,18 @@
         "provisional": false,
         "event_risk": null
       },
-      "raw_score": 54,
+      "raw_score": 53,
       "trend": {
-        "avg3": 52.0,
-        "avg5": 51.0,
-        "delta_3d": 6.0,
-        "peak_drop_5d": 0.0,
+        "avg3": 51.7,
+        "avg5": 50.8,
+        "delta_3d": 5.0,
+        "peak_drop_5d": -1.0,
         "label": "↗ 완만한 개선",
         "series": [
           48.0,
           48.0,
           54.0,
-          54.0
+          53.0
         ]
       },
       "signal_days": 2,
