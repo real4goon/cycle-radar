@@ -853,10 +853,10 @@
         "score": 72,
         "guidance": "시장 추세와 참여도가 비교적 우호적입니다. 섹터 강도 신호를 정상 해석합니다.",
         "metrics": {
-          "spy_vs_ma50_pct": 1.77,
-          "spy_vs_ma200_pct": 8.5,
+          "spy_vs_ma50_pct": 1.75,
+          "spy_vs_ma200_pct": 8.48,
           "trend_score": 84,
-          "breadth_score": 52.1,
+          "breadth_score": 52.6,
           "environment_score": 58,
           "vix": 15.45
         }
@@ -866,7 +866,7 @@
           "name": "반도체/AI 하드웨어",
           "status": "약화",
           "score": 43,
-          "raw_score": 46,
+          "raw_score": 45,
           "action": "추가매수 보류",
           "etfs": [
             "SMH",
@@ -878,16 +878,16 @@
             "grade": "C"
           },
           "trend": {
-            "avg3": 39.7,
-            "avg5": 39.8,
-            "delta_3d": 7.0,
+            "avg3": 39.3,
+            "avg5": 39.5,
+            "delta_3d": 6.0,
             "peak_drop_5d": 0.0,
             "label": "↗ 완만한 개선",
             "series": [
               40.0,
               39.0,
               34.0,
-              46.0
+              45.0
             ]
           },
           "buy_signal_days": 0,
@@ -897,7 +897,7 @@
             "momentum": 48,
             "relative_strength": 45,
             "volume": 18,
-            "breadth": 52,
+            "breadth": 53,
             "macro": 62
           }
         },
@@ -936,7 +936,7 @@
             "momentum": 82,
             "relative_strength": 77,
             "volume": 98,
-            "breadth": 52,
+            "breadth": 53,
             "macro": 62
           }
         },
@@ -974,7 +974,7 @@
             "momentum": 35,
             "relative_strength": 37,
             "volume": 44,
-            "breadth": 52,
+            "breadth": 53,
             "macro": 60
           }
         },
@@ -989,8 +989,8 @@
           ],
           "rank": 3,
           "confidence": {
-            "score": 83,
-            "grade": "A"
+            "score": 73,
+            "grade": "B"
           },
           "trend": {
             "avg3": 60.7,
@@ -1012,7 +1012,7 @@
             "momentum": 68,
             "relative_strength": 60,
             "volume": 59,
-            "breadth": 52,
+            "breadth": 53,
             "macro": 60
           }
         },
@@ -1050,7 +1050,7 @@
             "momentum": 50,
             "relative_strength": 47,
             "volume": 34,
-            "breadth": 52,
+            "breadth": 53,
             "macro": 60
           }
         },
@@ -1088,7 +1088,7 @@
             "momentum": 57,
             "relative_strength": 51,
             "volume": 60,
-            "breadth": 52,
+            "breadth": 53,
             "macro": 60
           }
         },
@@ -1127,7 +1127,7 @@
             "momentum": 96,
             "relative_strength": 85,
             "volume": 100,
-            "breadth": 52,
+            "breadth": 53,
             "macro": 55
           }
         },
@@ -1165,7 +1165,7 @@
             "momentum": 53,
             "relative_strength": 50,
             "volume": 33,
-            "breadth": 52,
+            "breadth": 53,
             "macro": 62
           }
         },
@@ -1203,7 +1203,7 @@
             "momentum": 54,
             "relative_strength": 50,
             "volume": 57,
-            "breadth": 52,
+            "breadth": 53,
             "macro": 55
           }
         },
@@ -1241,7 +1241,7 @@
             "momentum": 57,
             "relative_strength": 51,
             "volume": 47,
-            "breadth": 52,
+            "breadth": 53,
             "macro": 62
           }
         }
