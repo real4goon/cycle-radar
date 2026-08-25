@@ -853,10 +853,10 @@
         "score": 71,
         "guidance": "시장 추세와 참여도가 비교적 우호적입니다. 섹터 강도 신호를 정상 해석합니다.",
         "metrics": {
-          "spy_vs_ma50_pct": 1.76,
-          "spy_vs_ma200_pct": 8.5,
+          "spy_vs_ma50_pct": 1.77,
+          "spy_vs_ma200_pct": 8.51,
           "trend_score": 84,
-          "breadth_score": 49.7,
+          "breadth_score": 50.3,
           "environment_score": 58,
           "vix": 15.45
         }
