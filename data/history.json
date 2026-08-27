@@ -1253,10 +1253,10 @@
         "score": 70,
         "guidance": "시장 추세와 참여도가 비교적 우호적입니다. 섹터 강도 신호를 정상 해석합니다.",
         "metrics": {
-          "spy_vs_ma50_pct": 1.81,
-          "spy_vs_ma200_pct": 8.5,
-          "trend_score": 84,
-          "breadth_score": 46.2,
+          "spy_vs_ma50_pct": 2.34,
+          "spy_vs_ma200_pct": 9.08,
+          "trend_score": 88,
+          "breadth_score": 40.9,
           "environment_score": 58,
           "vix": 15.21
         }
@@ -1298,7 +1298,7 @@
             "momentum": 58,
             "relative_strength": 54,
             "volume": 21,
-            "breadth": 46,
+            "breadth": 41,
             "macro": 55
           }
         },
@@ -1338,28 +1338,28 @@
             "momentum": 63,
             "relative_strength": 58,
             "volume": 73,
-            "breadth": 46,
+            "breadth": 41,
             "macro": 55
           }
         },
         {
           "name": "산업재",
           "status": "중립",
-          "score": 48,
-          "raw_score": 50,
+          "score": 47,
+          "raw_score": 49,
           "action": "관찰",
           "etfs": [
             "XLI"
           ],
-          "rank": 8,
+          "rank": 9,
           "confidence": {
             "score": 59,
             "grade": "C"
           },
           "trend": {
-            "avg3": 44.3,
-            "avg5": 43.8,
-            "delta_3d": 9.0,
+            "avg3": 44.0,
+            "avg5": 43.6,
+            "delta_3d": 8.0,
             "peak_drop_5d": 0.0,
             "label": "↑ 빠른 개선",
             "series": [
@@ -1367,7 +1367,7 @@
               44.0,
               41.0,
               42.0,
-              50.0
+              49.0
             ]
           },
           "buy_signal_days": 0,
@@ -1377,7 +1377,7 @@
             "momentum": 49,
             "relative_strength": 46,
             "volume": 51,
-            "breadth": 46,
+            "breadth": 41,
             "macro": 60
           }
         },
@@ -1416,7 +1416,7 @@
             "momentum": 65,
             "relative_strength": 56,
             "volume": 54,
-            "breadth": 46,
+            "breadth": 41,
             "macro": 60
           }
         },
@@ -1424,7 +1424,7 @@
           "name": "에너지",
           "status": "중립",
           "score": 51,
-          "raw_score": 50,
+          "raw_score": 49,
           "action": "관찰",
           "etfs": [
             "XLE"
@@ -1435,17 +1435,17 @@
             "grade": "C"
           },
           "trend": {
-            "avg3": 53.3,
-            "avg5": 57.0,
-            "delta_3d": -11.0,
-            "peak_drop_5d": -13.0,
+            "avg3": 53.0,
+            "avg5": 56.8,
+            "delta_3d": -12.0,
+            "peak_drop_5d": -14.0,
             "label": "↓ 급격한 약화",
             "series": [
               63.0,
               62.0,
               61.0,
               49.0,
-              50.0
+              49.0
             ]
           },
           "buy_signal_days": 0,
@@ -1454,8 +1454,8 @@
           "factors": {
             "momentum": 51,
             "relative_strength": 47,
-            "volume": 43,
-            "breadth": 46,
+            "volume": 44,
+            "breadth": 41,
             "macro": 60
           }
         },
@@ -1470,7 +1470,7 @@
           ],
           "rank": 4,
           "confidence": {
-            "score": 69,
+            "score": 68,
             "grade": "B"
           },
           "trend": {
@@ -1493,8 +1493,8 @@
           "factors": {
             "momentum": 64,
             "relative_strength": 53,
-            "volume": 51,
-            "breadth": 46,
+            "volume": 52,
+            "breadth": 41,
             "macro": 60
           }
         },
@@ -1533,8 +1533,8 @@
           "factors": {
             "momentum": 73,
             "relative_strength": 65,
-            "volume": 98,
-            "breadth": 46,
+            "volume": 99,
+            "breadth": 41,
             "macro": 55
           }
         },
@@ -1573,7 +1573,7 @@
             "momentum": 57,
             "relative_strength": 52,
             "volume": 31,
-            "breadth": 46,
+            "breadth": 41,
             "macro": 55
           }
         },
@@ -1612,7 +1612,7 @@
             "momentum": 47,
             "relative_strength": 44,
             "volume": 40,
-            "breadth": 46,
+            "breadth": 41,
             "macro": 55
           }
         },
@@ -1625,7 +1625,7 @@
           "etfs": [
             "VNQ"
           ],
-          "rank": 9,
+          "rank": 8,
           "confidence": {
             "score": 79,
             "grade": "B"
@@ -1651,7 +1651,7 @@
             "momentum": 46,
             "relative_strength": 44,
             "volume": 32,
-            "breadth": 46,
+            "breadth": 41,
             "macro": 55
           }
         }
