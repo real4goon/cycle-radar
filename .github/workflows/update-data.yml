@@ -45,6 +45,20 @@ jobs:
           TELEGRAM_TEST: ${{ github.event_name == 'workflow_dispatch' && inputs.telegram_test || false }}
         run: python scripts/update_data.py
 
+      - name: Validate dashboard JSON
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          for name in ["data/dashboard.json", "data/history.json"]:
+              p = Path(name)
+              if not p.exists():
+                  raise SystemExit(f"missing {name}")
+              with p.open(encoding="utf-8") as f:
+                  json.load(f)
+              print(f"valid JSON: {name}")
+          PY
+
       - name: Commit updated data
         run: |
           git config user.name "cycle-radar-bot"
