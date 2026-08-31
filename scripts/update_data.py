@@ -325,6 +325,34 @@ def notify_new_signals(previous, sectors, timing, now_kst, history=None):
             mark_alert(history or {}, key, now_kst)
 
 
+def sanitize_json_value(value):
+    """Convert NaN/Infinity and numpy/pandas scalars into strict JSON-safe values."""
+    if isinstance(value, dict):
+        return {str(k): sanitize_json_value(v) for k, v in value.items()}
+    if isinstance(value, (list, tuple)):
+        return [sanitize_json_value(v) for v in value]
+    # numpy/pandas scalar -> Python scalar
+    if hasattr(value, "item") and not isinstance(value, (str, bytes, bytearray)):
+        try:
+            value = value.item()
+        except Exception:
+            pass
+    if isinstance(value, float):
+        return value if math.isfinite(value) else None
+    return value
+
+
+def write_json_atomic(path, data):
+    """Write strict JSON atomically so a partial/invalid dashboard is never published."""
+    safe = sanitize_json_value(data)
+    payload = json.dumps(safe, ensure_ascii=False, indent=2, allow_nan=False)
+    # Parse once before replacement as an additional integrity check.
+    json.loads(payload)
+    tmp = path.with_suffix(path.suffix + ".tmp")
+    tmp.write_text(payload, encoding="utf-8")
+    tmp.replace(path)
+
+
 def clamp(x, lo=0, hi=100):
     return max(lo, min(hi, x))
 
@@ -1578,7 +1606,7 @@ def save_history(history, today, sectors, regime=None):
         "buy_signal_days":s.get("buy_signal_days",0),"stage_days":s.get("stage_days",0),
         "signal_story":s.get("signal_story",""),"factors":s.get("factors")} for s in sectors]}
     for old in sorted(days.keys())[:-120]: days.pop(old,None)
-    HISTORY.write_text(json.dumps(history,ensure_ascii=False,indent=2),encoding="utf-8")
+    write_json_atomic(HISTORY, history)
 
 def main():
     previous_dashboard = load_previous_dashboard()
@@ -1737,7 +1765,7 @@ def main():
         notify_new_signals(previous_dashboard, sectors, timing, now_kst, history)
 
     save_history(history, today, sectors, market_regime)
-    OUT.write_text(json.dumps(out, ensure_ascii=False, indent=2), encoding="utf-8")
+    write_json_atomic(OUT, out)
     print(f"Wrote {OUT}")
     print(f"Wrote {HISTORY}")
     print(f"Perspective: {perspective}")
