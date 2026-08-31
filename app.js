@@ -147,7 +147,37 @@ function renderScorecard(d){const sc=d.signal_scorecard||{},h=sc.horizons||{},ca
 function renderCautions(d){$('#cautionList').innerHTML=(d.meta?.cautions||[]).map(x=>`<li>${escapeHtml(x)}</li>`).join('');}
 function renderMeta(d){const m=d.meta||{};$('#updatedAt').textContent=`수집 ${m.updated_at_kst||d.updated_at_kst||'-'} KST · ${m.updated_at_et||'-'} ET`;$('#marketViewpoint').textContent=m.perspective||'데이터 수집 시점 기준';updateFreshness(m,d);}
 function renderAll(d){lastData=d;renderMeta(d);renderMarket(d);renderEnvironment(d);renderTiming(d);renderRadar(d);renderChanges(d);renderScorecard(d);renderEvents(d);renderMacro(d);renderCautions(d);}
-async function loadData(manual=false){const btn=$('#manualRefresh');if(manual){btn.disabled=true;btn.textContent='확인 중…'}try{const r=await fetch(`data/dashboard.json?t=${Date.now()}`,{cache:'no-store'});if(!r.ok)throw new Error(`HTTP ${r.status}`);const d=await r.json();renderAll(d);nextBrowserRefreshAt=Date.now()+AUTO_REFRESH_MS;}catch(e){console.error(e);$('#freshLabel').textContent='데이터 로딩 오류';$('#freshDot').className='status-dot stale';}finally{if(manual){btn.disabled=false;btn.textContent='새로고침 ↻'}}}
+async function loadData(manual=false){
+  const btn=$('#manualRefresh');
+  if(manual){btn.disabled=true;btn.textContent='확인 중…'}
+  try{
+    const r=await fetch(`data/dashboard.json?t=${Date.now()}`,{cache:'no-store'});
+    if(!r.ok)throw new Error(`dashboard HTTP ${r.status}`);
+    const raw=await r.text();
+    let d;
+    try{d=JSON.parse(raw)}catch(err){throw new Error(`dashboard JSON parse failed: ${err.message}`)}
+    renderAll(d);
+    try{localStorage.setItem('radarLastGoodDashboard',JSON.stringify(d))}catch(_){/* cache optional */}
+    nextBrowserRefreshAt=Date.now()+AUTO_REFRESH_MS;
+  }catch(e){
+    console.error('Radar load error:',e);
+    let restored=false;
+    try{
+      const cached=localStorage.getItem('radarLastGoodDashboard');
+      if(cached){
+        const d=JSON.parse(cached);
+        renderAll(d);
+        restored=true;
+      }
+    }catch(cacheErr){console.error('Radar cache restore error:',cacheErr)}
+    $('#freshDot').className='status-dot stale';
+    $('#freshLabel').textContent=restored?'최신 데이터 오류 · 직전 정상 데이터 표시':'데이터 로딩 오류 · Actions 확인 필요';
+    if(!restored){$('#dataAge').textContent='dashboard.json 확인 필요'}
+    nextBrowserRefreshAt=Date.now()+AUTO_REFRESH_MS;
+  }finally{
+    if(manual){btn.disabled=false;btn.textContent='새로고침 ↻'}
+  }
+}
 function updateCountdown(){const sec=Math.max(0,Math.ceil((nextBrowserRefreshAt-Date.now())/1000));$('#refreshCountdown').textContent=`화면 자동 확인 ${Math.floor(sec/60)}:${String(sec%60).padStart(2,'0')} 후`;if(sec<=0)loadData();}
 
 $('#themeToggle').onclick=()=>{uiTheme=uiTheme==='night'?'day':'night';localStorage.setItem('radarThemeV16',uiTheme);applyUiSettings();};
