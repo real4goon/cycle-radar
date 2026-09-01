@@ -3300,45 +3300,45 @@
     "2026-09-01": {
       "regime": {
         "label": "Risk-on",
-        "score": 66,
+        "score": 67,
         "guidance": "시장 추세와 참여도가 비교적 우호적입니다. 섹터 강도 신호를 정상 해석합니다.",
         "metrics": {
-          "spy_vs_ma50_pct": 0.9,
-          "spy_vs_ma200_pct": 7.51,
+          "spy_vs_ma50_pct": 0.92,
+          "spy_vs_ma200_pct": 7.53,
           "trend_score": 79,
-          "breadth_score": 49.3,
+          "breadth_score": 49.5,
           "environment_score": 58,
-          "vix": 16.4
+          "vix": 16.33
         }
       },
       "sectors": [
         {
           "name": "반도체/AI 하드웨어",
           "status": "중립",
-          "score": 47,
-          "raw_score": 47,
+          "score": 46,
+          "raw_score": 46,
           "action": "관찰",
           "etfs": [
             "SMH",
             "SOXX"
           ],
-          "rank": 4,
+          "rank": 7,
           "confidence": {
             "score": 66,
             "grade": "B"
           },
           "trend": {
-            "avg3": 47.0,
-            "avg5": 47.4,
-            "delta_3d": -4.0,
-            "peak_drop_5d": -6.0,
+            "avg3": 46.7,
+            "avg5": 47.2,
+            "delta_3d": -5.0,
+            "peak_drop_5d": -7.0,
             "label": "↘ 약화",
             "series": [
               53.0,
               43.0,
               51.0,
               43.0,
-              47.0
+              46.0
             ]
           },
           "buy_signal_days": 0,
@@ -3347,8 +3347,8 @@
           "factors": {
             "momentum": 49,
             "relative_strength": 52,
-            "volume": 20,
-            "breadth": 49,
+            "volume": 21,
+            "breadth": 50,
             "macro": 55
           }
         },
@@ -3388,7 +3388,7 @@
             "momentum": 61,
             "relative_strength": 62,
             "volume": 45,
-            "breadth": 49,
+            "breadth": 50,
             "macro": 55
           }
         },
@@ -3426,37 +3426,37 @@
           "factors": {
             "momentum": 24,
             "relative_strength": 37,
-            "volume": 53,
-            "breadth": 49,
+            "volume": 54,
+            "breadth": 50,
             "macro": 60
           }
         },
         {
           "name": "소재/원자재",
           "status": "중립",
-          "score": 46,
-          "raw_score": 44,
+          "score": 47,
+          "raw_score": 45,
           "action": "관찰",
           "etfs": [
             "XLB"
           ],
-          "rank": 7,
+          "rank": 4,
           "confidence": {
-            "score": 62,
+            "score": 63,
             "grade": "C"
           },
           "trend": {
-            "avg3": 48.7,
-            "avg5": 50.4,
-            "delta_3d": -10.0,
-            "peak_drop_5d": -11.0,
+            "avg3": 49.0,
+            "avg5": 50.6,
+            "delta_3d": -9.0,
+            "peak_drop_5d": -10.0,
             "label": "↓ 급격한 약화",
             "series": [
               55.0,
               51.0,
               54.0,
               48.0,
-              44.0
+              45.0
             ]
           },
           "buy_signal_days": 0,
@@ -3464,9 +3464,9 @@
           "signal_story": "현재 판단 5일째 유지",
           "factors": {
             "momentum": 40,
-            "relative_strength": 47,
-            "volume": 29,
-            "breadth": 49,
+            "relative_strength": 46,
+            "volume": 31,
+            "breadth": 50,
             "macro": 60
           }
         },
@@ -3504,8 +3504,8 @@
           "factors": {
             "momentum": 80,
             "relative_strength": 77,
-            "volume": 61,
-            "breadth": 49,
+            "volume": 62,
+            "breadth": 50,
             "macro": 60
           }
         },
@@ -3513,7 +3513,7 @@
           "name": "금융",
           "status": "중립",
           "score": 46,
-          "raw_score": 44,
+          "raw_score": 45,
           "action": "관찰",
           "etfs": [
             "XLF"
@@ -3524,17 +3524,17 @@
             "grade": "C"
           },
           "trend": {
-            "avg3": 48.0,
-            "avg5": 50.6,
-            "delta_3d": -10.0,
-            "peak_drop_5d": -11.0,
+            "avg3": 48.3,
+            "avg5": 50.8,
+            "delta_3d": -9.0,
+            "peak_drop_5d": -10.0,
             "label": "↓ 급격한 약화",
             "series": [
               55.0,
               54.0,
               54.0,
               46.0,
-              44.0
+              45.0
             ]
           },
           "buy_signal_days": 0,
@@ -3543,8 +3543,8 @@
           "factors": {
             "momentum": 36,
             "relative_strength": 46,
-            "volume": 39,
-            "breadth": 49,
+            "volume": 41,
+            "breadth": 50,
             "macro": 60
           }
         },
@@ -3583,8 +3583,8 @@
           "factors": {
             "momentum": 33,
             "relative_strength": 37,
-            "volume": 52,
-            "breadth": 49,
+            "volume": 53,
+            "breadth": 50,
             "macro": 55
           }
         },
@@ -3623,7 +3623,7 @@
             "momentum": 52,
             "relative_strength": 55,
             "volume": 49,
-            "breadth": 49,
+            "breadth": 50,
             "macro": 55
           }
         },
@@ -3631,7 +3631,7 @@
           "name": "필수소비재",
           "status": "약화",
           "score": 42,
-          "raw_score": 42,
+          "raw_score": 41,
           "action": "추가매수 보류",
           "etfs": [
             "XLP"
@@ -3642,17 +3642,17 @@
             "grade": "C"
           },
           "trend": {
-            "avg3": 43.0,
-            "avg5": 43.6,
-            "delta_3d": -2.0,
-            "peak_drop_5d": -3.0,
-            "label": "→ 유지",
+            "avg3": 42.7,
+            "avg5": 43.4,
+            "delta_3d": -3.0,
+            "peak_drop_5d": -4.0,
+            "label": "↘ 약화",
             "series": [
               45.0,
               44.0,
               44.0,
               43.0,
-              42.0
+              41.0
             ]
           },
           "buy_signal_days": 0,
@@ -3662,7 +3662,7 @@
             "momentum": 38,
             "relative_strength": 46,
             "volume": 21,
-            "breadth": 49,
+            "breadth": 50,
             "macro": 55
           }
         },
@@ -3701,7 +3701,7 @@
             "momentum": 29,
             "relative_strength": 42,
             "volume": 27,
-            "breadth": 49,
+            "breadth": 50,
             "macro": 55
           }
         }
