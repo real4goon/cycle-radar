@@ -88,6 +88,12 @@ function renderEnvironment(d){
   }else if(Number.isFinite(envScore) && Number.isFinite(mrScore) && Math.abs(envScore-mrScore)>=12){
     relation=mrScore>envScore?'시장 흐름이 거시환경보다 앞서 개선되고 있습니다.':'거시환경에 비해 시장 가격 반응은 아직 약합니다.';
   }
+  const vx=d.volatility||{};
+  if(vx.vix!==null&&vx.vix!==undefined){
+    const v5=Number(vx.vix_5d_pct);
+    const v5txt=Number.isFinite(v5)?` · 5일 ${v5>=0?'+':''}${v5.toFixed(1)}%`:'';
+    relation += `  VIX ${Number(vx.vix).toFixed(1)} · ${vx.trend_label||'-'}${v5txt} · ${vx.term_structure||'-'}.`;
+  }
   $('#environmentRelation').textContent=relation;
   $('#environmentGuidance').textContent=env.guidance||'시장 환경 해석 중';
   $('#environmentReasons').innerHTML=(d.regime?.reasons||[]).map(x=>`<div>• ${escapeHtml(x)}</div>`).join('');
@@ -184,7 +190,7 @@ $('#themeToggle').onclick=()=>{uiTheme=uiTheme==='night'?'day':'night';localStor
 $('#fontSmaller').onclick=()=>setFontScale(uiFontScale-.1);$('#fontReset').onclick=()=>setFontScale(1);$('#fontLarger').onclick=()=>setFontScale(uiFontScale+.1);$('#manualRefresh').onclick=()=>loadData(true);
 $('#sectorFilters').onclick=e=>{const b=e.target.closest('[data-filter]');if(!b)return;currentFilter=b.dataset.filter;$$('.filter-btn').forEach(x=>x.classList.remove('active'));b.classList.add('active');if(lastData)renderRadar(lastData);};
 $('#environmentDetailBtn').onclick=()=>{if(!lastData)return;const src=(lastData.macro||[]).flatMap(m=>(m.sources||[]).slice(0,1));openSourceModal('거시 투자환경 vs 시장 레짐','거시 투자환경은 고용·물가·금리·경기·유동성·위험선호를 종합한 점수입니다. 시장 레짐은 SPY 추세·시장 Breadth·VIX와 거시환경 일부를 함께 봐 실제 위험자산 선호 흐름을 판단합니다. 따라서 두 점수는 서로 다를 수 있습니다.',src);};
-$('#timingDetailBtn').onclick=()=>{if(!lastData)return;const t=lastData.timing||{};const src=t.sources||[];const formula='저점매수 매력도 = Fear & Greed 역산 30% + S&P500 고점 대비 낙폭 25% + RSI 15% + VIX 15% + 시장 폭 스트레스 15% · 반전 확인도 = 5일 모멘텀 25% + 20일선 회복 25% + VIX 안정 20% + 시장 폭 개선 15% + 거래량 확인 15%';openSourceModal('시장 타이밍 신호 계산 기준',formula,src);};
+$('#timingDetailBtn').onclick=()=>{if(!lastData)return;const t=lastData.timing||{};const src=t.sources||[];const formula='저점매수 매력도 = Fear & Greed 역산 30% + S&P500 고점 대비 낙폭 25% + RSI 15% + VIX 15% + 시장 폭 스트레스 15% · 반전 확인도 = 5일 모멘텀 25% + 20일선 회복 25% + VIX 안정 20% + 시장 폭 개선 15% + 거래량 확인 15% · VIX 안정 항목은 VIX 5일 방향에 VIX/VIX3M 기간구조 확인을 일부 결합';openSourceModal('시장 타이밍 신호 계산 기준',formula,src);};
 $$('[data-close-modal]').forEach(x=>x.onclick=closeSourceModal);$$('[data-close-sector]').forEach(x=>x.onclick=closeSectorModal);
 document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeSourceModal();closeSectorModal();}});
 applyUiSettings();loadData();setInterval(updateCountdown,1000);
