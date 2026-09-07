@@ -36,6 +36,12 @@
 
     <section id="macroCards" class="macro-grid top-macro-grid"></section>
 
+    <nav class="radar-view-tabs" aria-label="레이더 화면 전환">
+      <button class="radar-view-tab active" type="button" data-radar-view="sector">산업 사이클</button>
+      <button class="radar-view-tab" type="button" data-radar-view="leverage">레버리지 레이더</button>
+    </nav>
+
+    <div id="sectorView" class="radar-view active">
     <section class="main-grid">
       <div class="panel radar-panel">
         <div class="panel-head radar-head">
@@ -127,6 +133,34 @@
         </section>
       </aside>
     </section>
+    </div>
+
+    <div id="leverageView" class="radar-view" hidden>
+      <section class="panel leverage-panel">
+        <div class="panel-head leverage-head">
+          <div>
+            <div class="section-label">LEVERAGE RADAR</div>
+            <h2>레버리지 진입 환경 레이더</h2>
+            <p class="leverage-subtitle">계좌 정보 없이 고정 관심 ETF의 기초자산·시장 환경만 평가</p>
+          </div>
+          <div class="leverage-legend">
+            <span class="lev-good">75+ 우호</span>
+            <span class="lev-select">60~74 선별</span>
+            <span class="lev-watch">45~59 주의</span>
+            <span class="lev-risk">44↓ 위험</span>
+          </div>
+        </div>
+        <div id="leverageFormula" class="leverage-formula">레버리지 적합도 계산 중</div>
+        <div class="desktop-table leverage-table-wrap">
+          <table class="leverage-table">
+            <thead><tr><th>상품</th><th>기초자산</th><th>적합도</th><th>판단</th><th>핵심 지표</th><th></th></tr></thead>
+            <tbody id="leverageTable"></tbody>
+          </table>
+        </div>
+        <div id="leverageCards" class="leverage-cards"></div>
+        <div id="leverageNote" class="radar-formula"></div>
+      </section>
+    </div>
 
     <section class="notice panel">
       <div class="investment-warning">투자의 책임은 반드시 본인에게 있습니다. 참고 데이터로만 사용하세요.</div>

@@ -191,3 +191,60 @@ table{width:100%;border-collapse:collapse;font-size:.72rem}th,td{text-align:left
   .environment-dual{grid-template-columns:1fr}
   .environment-metric .environment-score-big{font-size:1.75rem}
 }
+
+
+/* v1.16 Leverage Radar */
+.radar-view-tabs{display:flex;gap:8px;margin:14px 0 10px;padding:5px;border:1px solid var(--line);border-radius:13px;background:rgba(7,24,36,.72);width:max-content;max-width:100%}
+.radar-view-tab{appearance:none;border:1px solid transparent;background:transparent;color:var(--muted);font:inherit;font-weight:900;padding:9px 16px;border-radius:9px;cursor:pointer}
+.radar-view-tab.active{color:var(--text);border-color:var(--cyan);background:rgba(39,196,210,.10);box-shadow:0 0 0 1px rgba(39,196,210,.08) inset}
+.radar-view[hidden]{display:none!important}
+.leverage-panel{margin-top:0}
+.leverage-head{align-items:flex-start}
+.leverage-subtitle{margin:5px 0 0;color:var(--muted);font-size:.78rem}
+.leverage-legend{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+.leverage-legend span{padding:5px 8px;border-radius:999px;border:1px solid currentColor;font-size:.66rem;font-weight:800}
+.leverage-formula{margin:8px 0 12px;padding:9px 11px;border-radius:9px;background:rgba(10,36,51,.65);border:1px solid var(--line);color:var(--muted);font-size:.72rem;line-height:1.45}
+.leverage-table small{display:block;color:var(--muted);font-size:.68rem;margin-top:3px}
+.lev-symbol-line{display:flex;align-items:center;gap:7px}
+.lev-symbol-line b{font-size:1rem}
+.lev-badge{display:inline-flex;padding:2px 6px;border-radius:999px;background:rgba(50,190,215,.14);border:1px solid rgba(50,190,215,.35);font-size:.6rem;font-weight:900;color:#72d9ee}
+.lev-badge.reference{color:#aab7c2;border-color:#526373;background:rgba(120,135,150,.10)}
+.lev-score{font-size:1.3rem;font-weight:950;line-height:1}
+.lev-score span{font-size:.62rem;color:var(--muted);margin-left:2px}
+.lev-meter,.lev-card-meter{height:5px;background:#102b3c;border-radius:999px;overflow:hidden;margin-top:7px}
+.lev-meter i,.lev-card-meter i{display:block;height:100%;border-radius:inherit}
+.lev-good{color:#37d58a}.lev-select{color:#53d2e7}.lev-watch{color:#e6bd58}.lev-risk{color:#f16b72}
+.lev-meter i.lev-good,.lev-card-meter i.lev-good{background:#37d58a}
+.lev-meter i.lev-select,.lev-card-meter i.lev-select{background:#53d2e7}
+.lev-meter i.lev-watch,.lev-card-meter i.lev-watch{background:#e6bd58}
+.lev-meter i.lev-risk,.lev-card-meter i.lev-risk{background:#f16b72}
+.lev-action{display:inline-block;padding:5px 8px;border-radius:8px;font-size:.7rem;font-weight:900;border:1px solid var(--line)}
+.lev-action-good{color:#41db8f;border-color:rgba(65,219,143,.45);background:rgba(65,219,143,.08)}
+.lev-action-select{color:#55d8eb;border-color:rgba(85,216,235,.42);background:rgba(85,216,235,.07)}
+.lev-action-watch{color:#e7c164;border-color:rgba(231,193,100,.4);background:rgba(231,193,100,.06)}
+.lev-action-chase{color:#f0a454;border-color:rgba(240,164,84,.45);background:rgba(240,164,84,.07)}
+.lev-action-risk{color:#f2737a;border-color:rgba(242,115,122,.42);background:rgba(242,115,122,.07)}
+.lev-flag{color:#d9a35e!important;margin-top:5px!important}
+.lev-metrics{min-width:210px}
+.lev-metrics span{display:inline-block;margin:2px 8px 2px 0;font-size:.66rem;color:var(--muted)}
+.leverage-cards{display:none}
+.leverage-card{border:1px solid var(--line);border-radius:13px;padding:14px;background:rgba(8,27,40,.72)}
+.leverage-card-top{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
+.leverage-card-top small{display:block;color:var(--muted);margin-top:5px}
+.lev-card-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin:11px 0}
+.lev-card-grid span{background:rgba(14,43,60,.6);border:1px solid rgba(55,83,102,.5);border-radius:8px;padding:7px}
+.lev-card-grid small{display:block;color:var(--muted);font-size:.59rem;margin-bottom:3px}
+.lev-card-grid b{font-size:.74rem}
+.lev-card-flags{display:flex;flex-wrap:wrap;gap:5px;margin:8px 0}
+.lev-card-flags span{font-size:.62rem;padding:4px 6px;border-radius:6px;background:rgba(224,150,64,.08);color:#dca55f;border:1px solid rgba(224,150,64,.25)}
+.lev-card-flags.ok span{color:var(--muted);border-color:var(--line);background:transparent}
+.lev-reason{font-size:.66rem;color:var(--muted);line-height:1.5;margin:8px 0 10px}
+[data-theme="day"] .radar-view-tabs,[data-theme="day"] .leverage-card,[data-theme="day"] .leverage-formula{background:#e8eef2}
+[data-theme="day"] .lev-card-grid span{background:#dfe8ed}
+@media(max-width:760px){
+  .radar-view-tabs{width:100%;display:grid;grid-template-columns:1fr 1fr}
+  .radar-view-tab{padding:10px 6px}
+  .leverage-legend{justify-content:flex-start;margin-top:8px}
+  .leverage-table-wrap{display:none!important}
+  .leverage-cards{display:grid;grid-template-columns:1fr;gap:10px}
+}

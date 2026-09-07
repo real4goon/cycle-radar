@@ -146,13 +146,74 @@ function renderRadar(d){
 }
 function openSectorDetail(s){selectedSector=s;$('#sectorModalTitle').textContent=`${s.name} · ${(s.etfs||[]).join(' / ')}`;const m=s.metrics||{},tr=s.trend||{},cf=s.confidence||{},dq=s.data_quality||{},pt=s.participation||{};const ext=(m.session==='premarket'||m.session==='afterhours')?` · ${m.session==='premarket'?'프리':'애프터'} ${Number(m.extended_change_pct||0)>=0?'+':''}${Number(m.extended_change_pct||0).toFixed(2)}% · 보정 ${Number(m.extended_score_adjustment||0)>=0?'+':''}${Number(m.extended_score_adjustment||0).toFixed(1)}점`:'';$('#sectorModalMeta').textContent=`안정화 ${s.score}점 · 원점수 ${s.raw_score??s.score}점 · ${s.status} · ${rankText(s)}${ext}`;const f=s.factors||{};const factors=[['가격 모멘텀',f.momentum],['상대강도·개선',f.relative_strength],['거래량 확산',f.volume],['시장 Breadth',f.breadth],['Macro 환경',f.macro]];$('#factorBars').innerHTML=factors.map(([n,v])=>`<div class="factor"><div class="factor-name">${n}</div><div class="factor-bar"><div class="factor-fill" style="width:${Number(v||0)}%"></div></div><div class="factor-score">${v??'-'}/100</div></div>`).join('');const flags=(s.flags||[]).length?(s.flags||[]).map(x=>`<span class="intel-flag">${escapeHtml(x)}</span>`).join(''):'<span class="intel-ok">특이 경고 없음</span>';$('#signalIntel').innerHTML=`<div><small>최근 점수</small><b>${(tr.series||[]).join(' → ')||'-'}</b></div><div><small>3일 / 5일 평균</small><b>${tr.avg3??'-'} / ${tr.avg5??'-'}</b></div><div><small>추세</small><b class="${trendClass(tr.label)}">${escapeHtml(tr.label||'-')}</b></div><div><small>고점 대비</small><b>${Number(tr.peak_drop_5d||0)>=0?'+':''}${tr.peak_drop_5d??'-'}점</b></div><div><small>신뢰도</small><b class="${confidenceClass(cf.score)}">${cf.score??'-'} · ${cf.grade||'-'}</b></div><div><small>데이터 품질</small><b>${dq.score??'-'} · ${dq.grade||'-'}</b></div><div><small>산업 내부 확산</small><b>${pt.score??'-'}/100</b></div><div><small>SPY 상관 20/60일</small><b>${m.corr20_spy??'-'} / ${m.corr60_spy??'-'}</b></div><div><small>갭 / 20일선 이격</small><b>${m.gap_pct??'-'}% / ${m.distance_ma20_pct??'-'}%</b></div><div><small>신호 흐름</small><b>${escapeHtml(s.signal_story||'-')}</b></div><div><small>관심 흐름</small><b>${Number(s.buy_signal_days||0)>0?`${s.buy_signal_days}거래일째 이어지는 중`:'현재 매수형 신호 없음'}</b></div><div><small>현재 판단 유지</small><b>${s.stage_days||1}거래일째</b></div><div class="intel-flags"><small>품질 경고</small>${flags}</div>`;$('#sectorDetailReason').textContent=s.reason||'';$('#sectorDetailAction').textContent=`현재 판단: ${s.action}${s.provisional?' (장외 잠정)':''}`;$('#sectorQuoteBtn').onclick=()=>openSourceModal(`${s.etfs?.[0]||''} 시세·차트`,s.name,s.quote_sources||[]);$('#sectorModal').classList.add('open');$('#sectorModal').setAttribute('aria-hidden','false');}
 
+function leverageTone(score){
+  const n=Number(score);
+  return n>=75?'lev-good':n>=60?'lev-select':n>=45?'lev-watch':'lev-risk';
+}
+function leverageActionTone(action=''){
+  if(action.includes('분할'))return 'lev-action-good';
+  if(action.includes('소액')||action.includes('강세'))return 'lev-action-select';
+  if(action.includes('보류')||action.includes('약세'))return 'lev-action-risk';
+  if(action.includes('추격'))return 'lev-action-chase';
+  return 'lev-action-watch';
+}
+function renderLeverage(d){
+  const lr=d.leverage_radar||{},items=lr.items||[];
+  const fmt=(v,suffix='%')=>v===null||v===undefined?'-':`${Number(v)>=0?'+':''}${Number(v).toFixed(1)}${suffix}`;
+  $('#leverageFormula').textContent=lr.formula||'레버리지 적합도 계산 기준 준비 중';
+  $('#leverageNote').textContent=lr.note||'';
+  $('#leverageTable').innerHTML=items.map((x,i)=>{
+    const m=x.metrics||{},score=x.score;
+    const badge=x.reference?'<span class="lev-badge reference">1x 기준</span>':`<span class="lev-badge">${Number(x.leverage||2).toFixed(0)}x</span>`;
+    return `<tr>
+      <td><div class="lev-symbol-line"><b>${escapeHtml(x.symbol||'')}</b>${badge}</div><small>${escapeHtml(x.label||'')}</small></td>
+      <td><b>${escapeHtml(x.underlying||'-')}</b><small>${escapeHtml(x.sector||'')}</small></td>
+      <td><div class="lev-score ${leverageTone(score)}">${score??'-'}<span>/100</span></div><div class="lev-meter"><i class="${leverageTone(score)}" style="width:${score??0}%"></i></div></td>
+      <td><span class="lev-action ${leverageActionTone(x.action)}">${escapeHtml(x.action||'-')}</span>${(x.flags||[]).slice(0,2).map(f=>`<small class="lev-flag">⚠ ${escapeHtml(f)}</small>`).join('')}</td>
+      <td class="lev-metrics"><span>기초 5일 ${fmt(m.underlying_5d_pct)}</span><span>SPY대비 ${fmt(m.rs_5d_pctp,'%p')}</span><span>VIX ${m.vix_risk_on_score??'-'}점</span><span>변동성 ${m.underlying_vol20_ann_pct??'-'}%</span></td>
+      <td><button class="mini-btn lev-source-btn" data-lev-source="${i}" type="button">차트</button></td>
+    </tr>`;
+  }).join('');
+  $('#leverageCards').innerHTML=items.map((x,i)=>{
+    const m=x.metrics||{},score=x.score,badge=x.reference?'1x 기준':`${Number(x.leverage||2).toFixed(0)}x`;
+    return `<article class="leverage-card">
+      <div class="leverage-card-top">
+        <div><div class="lev-symbol-line"><b>${escapeHtml(x.symbol||'')}</b><span class="lev-badge ${x.reference?'reference':''}">${badge}</span></div><small>${escapeHtml(x.label||'')} · 기초 ${escapeHtml(x.underlying||'-')}</small></div>
+        <div class="lev-score ${leverageTone(score)}">${score??'-'}<span>/100</span></div>
+      </div>
+      <div class="lev-card-meter"><i class="${leverageTone(score)}" style="width:${score??0}%"></i></div>
+      <div class="lev-action ${leverageActionTone(x.action)}">${escapeHtml(x.action||'-')}</div>
+      <div class="lev-card-grid">
+        <span><small>기초 5일</small><b>${fmt(m.underlying_5d_pct)}</b></span>
+        <span><small>SPY 대비</small><b>${fmt(m.rs_5d_pctp,'%p')}</b></span>
+        <span><small>시장 레짐</small><b>${m.market_regime_score??'-'}</b></span>
+        <span><small>VIX 환경</small><b>${m.vix_risk_on_score??'-'}</b></span>
+        <span><small>기초 변동성</small><b>${m.underlying_vol20_ann_pct??'-'}%</b></span>
+        <span><small>20일 추적차</small><b>${fmt(m.tracking_drag_20d_pctp,'%p')}</b></span>
+      </div>
+      ${(x.flags||[]).length?`<div class="lev-card-flags">${x.flags.map(f=>`<span>⚠ ${escapeHtml(f)}</span>`).join('')}</div>`:'<div class="lev-card-flags ok"><span>특이 경고 없음</span></div>'}
+      <div class="lev-reason">${escapeHtml(x.reason||'')}</div>
+      <button class="soft-btn lev-source-btn" data-lev-source="${i}" type="button">시세·차트 보기</button>
+    </article>`;
+  }).join('');
+  $$('[data-lev-source]').forEach(btn=>btn.onclick=()=>{
+    const x=items[Number(btn.dataset.levSource)];
+    openSourceModal(`${x.symbol} · ${x.label||''}`,`기초자산 ${x.underlying} · 레버리지 적합도 ${x.score??'-'}/100`,x.sources||[]);
+  });
+}
+function setRadarView(view){
+  const leverage=view==='leverage';
+  $('#sectorView').hidden=leverage;
+  $('#leverageView').hidden=!leverage;
+  $$('.radar-view-tab').forEach(b=>b.classList.toggle('active',b.dataset.radarView===view));
+}
 function renderChanges(d){const c=d.changes||{};const improved=c.improved||[],worsened=c.worsened||[];const column=(title,arr,type)=>`<div class="change-column ${type}"><div class="change-title ${type}">${type==='improve'?'↗ 상태 개선':'↘ 상태 약화'}</div>${arr.length?arr.slice(0,3).map((x,i)=>`<div class="change-item"><span class="change-rank">${i+1}</span><div><div class="change-name">${escapeHtml(x.symbol||'')} <span class="muted">(${escapeHtml(x.name||'')})</span></div><div class="change-flow">${escapeHtml(x.from_status||'')} → <b>${escapeHtml(x.to_status||'')}</b></div></div><div class="change-delta ${x.delta>=0?'positive':'negative'}">${x.delta>=0?'+':''}${x.delta}점</div></div>`).join(''):'<div class="unchanged-summary">뚜렷한 변화 없음</div>'}</div>`;$('#changesGrid').innerHTML=column('개선',improved,'improve')+column('악화',worsened,'worsen');$('#unchangedSummary').textContent=c.note||`변화 없음: ${(c.unchanged||[]).join(', ')||'-'}`;}
 function renderEvents(d){$('#events').innerHTML=(d.events||[]).map((e,i)=>`<div class="event"><div class="event-name">${escapeHtml(e.name)}</div><div class="event-date">${escapeHtml(e.date_kst||e.when||'')}</div><div class="event-time">${escapeHtml(e.time_kst||'')} KST</div><div class="event-impact">${'★'.repeat(Number(e.impact||1))}${'☆'.repeat(Math.max(0,3-Number(e.impact||1)))}</div>${e.source_url?`<button class="event-source-btn" data-event-source="${i}">공식 일정 보기</button>`:''}</div>`).join('');$$('[data-event-source]').forEach(b=>b.onclick=()=>{const e=d.events[Number(b.dataset.eventSource)];openSourceModal(e.name,`${e.date_et||''} ${e.time_et||''} ET`,[{label:e.source||'공식 일정',note:e.note||'',url:e.source_url}])});}
 function renderMacro(d){$('#macroCards').innerHTML=(d.macro||[]).map((m,i)=>`<div class="macro-card panel"><div class="macro-top"><div class="macro-title">${escapeHtml(m.name)}</div><span class="macro-state ${clsForStatus(m.state)}">${escapeHtml(m.state)}</span></div><div class="macro-sub">${escapeHtml(m.summary)}</div><div class="macro-invest"><span class="macro-score">시장 영향 ${m.investment_score??'-'}/100</span><span class="chip ${m.investment_grade==='우호'?'upcycle':m.investment_grade==='주의'||m.investment_grade==='위험'?'weak':'neutral'}">${escapeHtml(m.investment_grade||'중립')}</span></div><div class="macro-hint"><b>투자 해석</b> · ${escapeHtml(m.investment_hint||'')}</div><button class="macro-source-btn" data-macro-source="${i}">근거 데이터 보기</button></div>`).join('');$$('[data-macro-source]').forEach(btn=>btn.onclick=()=>{const m=d.macro[Number(btn.dataset.macroSource)];openSourceModal(`${m.name} 근거 데이터`,m.summary,m.sources||[])});}
 function renderScorecard(d){const sc=d.signal_scorecard||{},h=sc.horizons||{},cal=sc.calibration||{};const card=(n,label)=>{const x=h[String(n)]||{};return `<div class="scorecard-item"><small>${label}</small><b>${x.count?`${x.win_rate}%`:'-'}</b><span>${x.count?`평균 ${Number(x.avg_return_pct)>=0?'+':''}${x.avg_return_pct}% · ${x.count}건`:'표본 적재 중'}</span></div>`};$('#signalScorecard').innerHTML=card(5,'5거래일 상승률')+card(10,'10거래일 상승률')+card(20,'20거래일 상승률')+`<div class="scorecard-item"><small>20일 최대낙폭 평균</small><b>${sc.avg_max_drawdown_20d_pct===null||sc.avg_max_drawdown_20d_pct===undefined?'-':sc.avg_max_drawdown_20d_pct+'%'}</b><span>누적 신호 ${sc.total_signals||0}건</span></div>`;$('#calibrationState').textContent=cal.active?`가중치 보정 ON · ${cal.sample_20d}건`:`검증 ${cal.sample_20d||0}/${cal.minimum_sample||60}`;$('#scorecardNote').textContent=sc.note||'';}
 function renderCautions(d){$('#cautionList').innerHTML=(d.meta?.cautions||[]).map(x=>`<li>${escapeHtml(x)}</li>`).join('');}
 function renderMeta(d){const m=d.meta||{};$('#updatedAt').textContent=`수집 ${m.updated_at_kst||d.updated_at_kst||'-'} KST · ${m.updated_at_et||'-'} ET`;$('#marketViewpoint').textContent=m.perspective||'데이터 수집 시점 기준';updateFreshness(m,d);}
-function renderAll(d){lastData=d;renderMeta(d);renderMarket(d);renderEnvironment(d);renderTiming(d);renderRadar(d);renderChanges(d);renderScorecard(d);renderEvents(d);renderMacro(d);renderCautions(d);}
+function renderAll(d){lastData=d;renderMeta(d);renderMarket(d);renderEnvironment(d);renderTiming(d);renderRadar(d);renderLeverage(d);renderChanges(d);renderScorecard(d);renderEvents(d);renderMacro(d);renderCautions(d);}
 async function loadData(manual=false){
   const btn=$('#manualRefresh');
   if(manual){btn.disabled=true;btn.textContent='확인 중…'}
@@ -192,5 +253,6 @@ $('#sectorFilters').onclick=e=>{const b=e.target.closest('[data-filter]');if(!b)
 $('#environmentDetailBtn').onclick=()=>{if(!lastData)return;const src=(lastData.macro||[]).flatMap(m=>(m.sources||[]).slice(0,1));openSourceModal('거시 투자환경 vs 시장 레짐','거시 투자환경은 고용·물가·금리·경기·유동성·위험선호를 종합한 점수입니다. 시장 레짐은 SPY 추세·시장 Breadth·VIX와 거시환경 일부를 함께 봐 실제 위험자산 선호 흐름을 판단합니다. 따라서 두 점수는 서로 다를 수 있습니다.',src);};
 $('#timingDetailBtn').onclick=()=>{if(!lastData)return;const t=lastData.timing||{};const src=t.sources||[];const formula='저점매수 매력도 = Fear & Greed 역산 30% + S&P500 고점 대비 낙폭 25% + RSI 15% + VIX 15% + 시장 폭 스트레스 15% · 반전 확인도 = 5일 모멘텀 25% + 20일선 회복 25% + VIX 안정 20% + 시장 폭 개선 15% + 거래량 확인 15% · VIX 안정 항목은 VIX 5일 방향에 VIX/VIX3M 기간구조 확인을 일부 결합';openSourceModal('시장 타이밍 신호 계산 기준',formula,src);};
 $$('[data-close-modal]').forEach(x=>x.onclick=closeSourceModal);$$('[data-close-sector]').forEach(x=>x.onclick=closeSectorModal);
+$$('.radar-view-tab').forEach(b=>b.onclick=()=>setRadarView(b.dataset.radarView));
 document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeSourceModal();closeSectorModal();}});
 applyUiSettings();loadData();setInterval(updateCountdown,1000);
