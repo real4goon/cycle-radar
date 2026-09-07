@@ -47,6 +47,21 @@ SECTORS = [
 ]
 BASE = "SPY"
 
+# Fixed public leverage/high-volatility watchlist.
+# No account quantities, purchase prices or P/L are stored or exposed.
+LEVERAGE_WATCH = [
+    {"symbol":"AVGX","underlying":"AVGO","leverage":2.0,"label":"Broadcom 2X","sector":"반도체/AI 하드웨어"},
+    {"symbol":"DRAM","underlying":"DRAM","leverage":1.0,"label":"Memory ETF","sector":"반도체/AI 하드웨어","reference":True},
+    {"symbol":"MVLL","underlying":"MRVL","leverage":2.0,"label":"Marvell 2X","sector":"반도체/AI 하드웨어"},
+    {"symbol":"SNXX","underlying":"SNDK","leverage":2.0,"label":"Sandisk 2X","sector":"반도체/AI 하드웨어"},
+    {"symbol":"TSMX","underlying":"TSM","leverage":2.0,"label":"TSMC 2X","sector":"반도체/AI 하드웨어"},
+    {"symbol":"INTW","underlying":"INTC","leverage":2.0,"label":"Intel 2X","sector":"반도체/AI 하드웨어"},
+    {"symbol":"RAM","underlying":"DRAM","leverage":2.0,"label":"Memory ETF 2X","sector":"반도체/AI 하드웨어"},
+    {"symbol":"SPCH","underlying":"SPCX","leverage":2.0,"label":"SpaceX 2X","sector":"우주/성장"},
+    {"symbol":"MUU","underlying":"MU","leverage":2.0,"label":"Micron 2X","sector":"반도체/AI 하드웨어"},
+    {"symbol":"QLD","underlying":"QQQ","leverage":2.0,"label":"Nasdaq-100 2X","sector":"빅테크"},
+]
+
 BASE_FACTOR_WEIGHTS = {
     "momentum": 0.30,
     "relative_strength": 0.30,
@@ -1626,6 +1641,168 @@ def assign_sector_ranks(sectors, history, today):
 def change_rank(status): return {"약화":0,"중립":1,"초기 관심":2,"상승 사이클":3}.get(status,1)
 
 
+def calc_leverage_watch_item(cfg, spy_df, sectors, market_regime, vix_ctx, timing, session):
+    """Leverage suitability score; separate from the sector-cycle score."""
+    symbol = cfg["symbol"]
+    underlying = cfg["underlying"]
+    lev = float(cfg.get("leverage", 2.0))
+    sector_name = cfg.get("sector", "")
+
+    try:
+        etf_df = daily_history(symbol, "6mo")
+        etf_close = etf_df["Close"].dropna().astype(float).copy()
+        if len(etf_close) < 6:
+            raise RuntimeError(f"{symbol} history too short")
+        etf_snap = extended_snapshot(symbol, session)
+        if session == "regular" and etf_snap.get("latest") is not None:
+            etf_close.iloc[-1] = float(etf_snap["latest"])
+    except Exception as e:
+        return {
+            "symbol":symbol,"underlying":underlying,"leverage":lev,"label":cfg.get("label",symbol),
+            "sector":sector_name,"reference":bool(cfg.get("reference")),
+            "score":None,"action":"데이터 확인","status":"수집 오류","reason":str(e),
+            "metrics":{},"flags":["시세 수집 오류"],"sources":etf_sources(symbol),
+        }
+
+    try:
+        if underlying == symbol:
+            und_close = etf_close.copy()
+        else:
+            und_df = daily_history(underlying, "6mo")
+            und_close = und_df["Close"].dropna().astype(float).copy()
+            und_snap = extended_snapshot(underlying, session)
+            if session == "regular" and und_snap.get("latest") is not None:
+                und_close.iloc[-1] = float(und_snap["latest"])
+    except Exception:
+        und_close = etf_close.copy()
+
+    spy = spy_df["Close"].dropna().astype(float).copy()
+
+    def ret(c, n):
+        return (float(c.iloc[-1]) / float(c.iloc[-1-n]) - 1) * 100 if len(c) > n else 0.0
+
+    e5, e20 = ret(etf_close,5), ret(etf_close,20)
+    u5, u20 = ret(und_close,5), ret(und_close,20)
+    s5, s20 = ret(spy,5), ret(spy,20)
+    rs5, rs20 = u5-s5, u20-s20
+
+    ma20 = float(und_close.tail(20).mean()) if len(und_close) >= 20 else float(und_close.iloc[-1])
+    ma20_gap = (float(und_close.iloc[-1])/ma20-1)*100 if ma20 else 0.0
+
+    pct = und_close.pct_change().dropna().tail(20)
+    vol20 = float(pct.std()*math.sqrt(252)*100) if len(pct) >= 10 else 50.0
+    etf_pct = etf_close.pct_change().dropna().tail(20)
+    etf_vol20 = float(etf_pct.std()*math.sqrt(252)*100) if len(etf_pct) >= 10 else vol20*lev
+
+    high20 = float(etf_close.tail(20).max())
+    dd20 = (float(etf_close.iloc[-1])/high20-1)*100 if high20 else 0.0
+    drag20 = e20 - lev*u20 if lev > 1.0 else 0.0
+
+    sector_obj = next((s for s in sectors if s.get("name")==sector_name), None)
+    sector_score = float((sector_obj or {}).get("score") or 55)
+    regime_score = float((market_regime or {}).get("score") or 50)
+    vix_score = float((vix_ctx or {}).get("risk_on_score") or 50)
+    reversal_score = float(((timing or {}).get("reversal") or {}).get("score") or 50)
+
+    trend_score = clamp(50 + u5*3.2 + u20*1.25 + (10 if ma20_gap>0 else -8))
+    rs_score = clamp(50 + rs5*4.0 + rs20*2.0)
+
+    risk_control = 86.0
+    risk_control -= max(0.0, vol20-35.0)*0.55
+    risk_control -= max(0.0, etf_vol20-75.0)*0.18
+    overheat = e5 >= 12 or u5 >= 7 or ma20_gap >= 10
+    if overheat:
+        risk_control -= 12
+    if drag20 < -3:
+        risk_control -= min(12, abs(drag20+3)*1.2)
+    risk_control = clamp(risk_control)
+
+    score = clamp(
+        trend_score*.23 + rs_score*.15 + sector_score*.18 +
+        regime_score*.14 + vix_score*.14 + reversal_score*.06 + risk_control*.10
+    )
+
+    extchg = float(etf_snap.get("extended_change_pct") or 0.0)
+    if session in {"premarket","afterhours"}:
+        score = clamp(score + max(-3.0, min(3.0, extchg*.45)))
+    score = round_int(score)
+
+    flags = []
+    if overheat: flags.append("단기 과열")
+    if vol20 >= 65: flags.append("기초 변동성 높음")
+    if etf_vol20 >= 110: flags.append("레버리지 변동성 매우 높음")
+    if drag20 <= -5: flags.append("20일 복리/추적 손실 주의")
+    if "Backwardation" in str((vix_ctx or {}).get("term_structure") or ""):
+        flags.append("VIX 단기 공포 우위")
+    if regime_score < 45: flags.append("시장 Risk-off")
+    if dd20 <= -18: flags.append("20일 고점 대비 큰 낙폭")
+
+    if lev <= 1.0:
+        action = "기준자산 강세" if score >= 70 else "기준자산 관찰" if score >= 50 else "기준자산 약세"
+    elif score >= 75 and not overheat:
+        action = "분할 접근 적합"
+    elif score >= 65 and not overheat:
+        action = "소액 접근"
+    elif overheat and score >= 58:
+        action = "추격 위험"
+    elif score >= 55:
+        action = "반전 확인 대기"
+    elif score >= 45:
+        action = "관찰"
+    else:
+        action = "레버리지 보류"
+
+    status = "우호" if score >= 75 else "선별" if score >= 60 else "주의" if score >= 45 else "위험"
+    reason = (
+        f"기초 {cfg['underlying']} 5일 {u5:+.1f}% / 20일 {u20:+.1f}% · "
+        f"SPY 대비 5일 {rs5:+.1f}%p · 섹터 {sector_score:.0f}점 · "
+        f"시장 레짐 {regime_score:.0f}점 · VIX 환경 {vix_score:.0f}점 · "
+        f"기초 20일 변동성 {vol20:.0f}% · 레버리지 20일 추적차 {drag20:+.1f}%p"
+    )
+
+    return {
+        "symbol":symbol,"underlying":cfg["underlying"],"leverage":lev,"label":cfg.get("label",symbol),
+        "sector":sector_name,"reference":bool(cfg.get("reference")),
+        "score":score,"action":action,"status":status,"reason":reason,
+        "flags":flags[:4],
+        "price":round(float(etf_snap.get("latest") or etf_close.iloc[-1]),4),
+        "day_change_pct":round(float(etf_snap.get("day_change_pct") or 0),2),
+        "extended_change_pct":round(extchg,2),
+        "metrics":{
+            "etf_5d_pct":round(e5,2),"etf_20d_pct":round(e20,2),
+            "underlying_5d_pct":round(u5,2),"underlying_20d_pct":round(u20,2),
+            "rs_5d_pctp":round(rs5,2),"rs_20d_pctp":round(rs20,2),
+            "ma20_gap_pct":round(ma20_gap,2),
+            "underlying_vol20_ann_pct":round(vol20,1),"etf_vol20_ann_pct":round(etf_vol20,1),
+            "drawdown_20d_pct":round(dd20,2),"tracking_drag_20d_pctp":round(drag20,2),
+            "sector_score":round_int(sector_score),"market_regime_score":round_int(regime_score),
+            "vix_risk_on_score":round_int(vix_score),"reversal_score":round_int(reversal_score),
+            "risk_control_score":round_int(risk_control),"session":session,
+        },
+        "sources":etf_sources(symbol) + ([{"label":"기초자산 Yahoo Finance","note":f"{cfg['underlying']} 시세·차트","url":yahoo_url(cfg["underlying"])}] if cfg["underlying"] != symbol else []),
+    }
+
+
+def build_leverage_radar(spy_df, sectors, market_regime, vix_ctx, timing, session):
+    items = []
+    for cfg in LEVERAGE_WATCH:
+        try:
+            items.append(calc_leverage_watch_item(cfg, spy_df, sectors, market_regime, vix_ctx, timing, session))
+        except Exception as e:
+            print(f"leverage radar warning {cfg.get('symbol')}: {e}")
+            items.append({
+                "symbol":cfg.get("symbol"),"underlying":cfg.get("underlying"),"leverage":cfg.get("leverage",2),
+                "label":cfg.get("label",cfg.get("symbol")),"sector":cfg.get("sector",""),
+                "reference":bool(cfg.get("reference")),"score":None,"action":"데이터 확인",
+                "status":"수집 오류","reason":str(e),"flags":["계산 오류"],"metrics":{},"sources":etf_sources(cfg.get("symbol","")),
+            })
+    return {
+        "items":items,
+        "formula":"기초자산 추세 23% + SPY 상대강도 15% + 산업 사이클 18% + 시장 레짐 14% + VIX 환경 14% + 반전 확인 6% + 레버리지 위험관리 10%",
+        "note":"계좌 연동 없이 공개 고정 목록만 계산합니다. 레버리지 ETF는 일일 목표 상품이라 장기 보유 시 기초자산의 단순 배수와 성과가 달라질 수 있습니다.",
+    }
+
+
 def compute_changes(sectors, history, today):
     days=history.get("days",{}); previous_dates=sorted([d for d in days if d<today])
     if not previous_dates: return {"improved":[],"worsened":[],"unchanged":[s["etfs"][0] for s in sectors],"note":"전일 비교 데이터 적재 중 · 다음 거래일부터 상태 변화를 표시합니다."}
@@ -1842,6 +2019,7 @@ def main():
         sectors.append(sector)
     sectors = assign_sector_ranks(sectors, history, today)
     changes = compute_changes(sectors, history, today)
+    leverage_radar = build_leverage_radar(spy, sectors, market_regime, vix_ctx, timing, session)
     record_signal_entries(history, sectors, today, market_regime)
     scorecard = signal_scorecard(history, calibration)
 
@@ -1876,6 +2054,8 @@ def main():
                 "신뢰도 점수는 데이터 품질·내부 확산·팩터 일치·지속성·시장 레짐을 합친 규칙 기반 등급이며 실제 성공확률을 뜻하지 않습니다.",
                 "장외 움직임만으로 상태가 바뀌면 잠정 신호로 표시하며 정규장 확인 전 과도한 해석을 피합니다.",
                 "Walk-forward 가중치 보정은 20거래일 결과가 60건 쌓이기 전까지 비활성화되며, 이후에도 소폭만 조정합니다.",
+                "레버리지 레이더는 계좌 정보·평단·보유수량을 사용하지 않으며, 기초자산과 시장환경을 바탕으로 레버리지 진입 환경만 평가합니다.",
+                "레버리지 ETF는 일일 목표 상품이므로 여러 거래일 보유 시 복리·변동성 효과로 기초자산의 단순 배수와 성과가 달라질 수 있습니다.",
                 "현재 버전은 뉴스·기업 실적·가이던스의 의미를 자동 점수에 완전히 반영하지 않습니다.",
             ],
         },
@@ -1889,6 +2069,7 @@ def main():
         "calibration": calibration,
         "event_risk": event_risk,
         "sectors": sectors,
+        "leverage_radar": leverage_radar,
         "changes": changes,
         "events": events,
     }
