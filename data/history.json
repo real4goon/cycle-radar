@@ -5476,7 +5476,12 @@
         "breadth": 44,
         "macro": 60
       },
-      "results": {}
+      "results": {
+        "return_5d_pct": null,
+        "return_10d_pct": null,
+        "return_20d_pct": null,
+        "max_drawdown_20d_pct": null
+      }
     }
   ],
   "alert_state": {

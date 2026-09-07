@@ -1,10 +1,10 @@
 {
-  "updated_at_kst": "2026-09-07 09:45",
+  "updated_at_kst": "2026-09-07 09:47",
   "meta": {
-    "updated_at_iso": "2026-09-07T09:45:57+09:00",
-    "updated_at_utc_iso": "2026-09-07T00:45:57+00:00",
-    "updated_at_kst": "2026-09-07 09:45",
-    "updated_at_et": "2026-09-06 20:45",
+    "updated_at_iso": "2026-09-07T09:47:13+09:00",
+    "updated_at_utc_iso": "2026-09-07T00:47:13+00:00",
+    "updated_at_kst": "2026-09-07 09:47",
+    "updated_at_et": "2026-09-06 20:47",
     "market_session": "closed",
     "perspective": "주말 · 직전 미국장 최종 데이터 관점",
     "update_policy": "서버: 미국 거래일 기준 KST 17:00~익일 09:00, 30분 간격 · 프리마켓 시작부터 정규장·애프터마켓까지 수집 · 화면: 5분마다 새 데이터 자동 확인 · GitHub Actions는 지연 가능",
@@ -196,10 +196,10 @@
     {
       "name": "DXY",
       "symbol": "DX-Y.NYB",
-      "value": "99.10",
-      "change_pct": -0.06,
-      "change_text": "-0.06%",
-      "change_direction": -0.0635,
+      "value": "99.09",
+      "change_pct": -0.07,
+      "change_text": "-0.07%",
+      "change_direction": -0.0716,
       "spark": [
         99.160004,
         99.157997,
@@ -211,7 +211,7 @@
         99.156998,
         99.142998,
         99.098999,
-        99.097
+        99.088997
       ],
       "sources": [
         {
@@ -229,15 +229,15 @@
     {
       "name": "비트코인",
       "symbol": "BTC-USD",
-      "value": "80,139",
-      "change_pct": 0.4,
-      "change_text": "+0.40%",
-      "change_direction": 0.3953,
+      "value": "80,091",
+      "change_pct": 0.33,
+      "change_text": "+0.33%",
+      "change_direction": 0.3347,
       "spark": [
         80331.046875,
         80199.460938,
         80135.992188,
-        80139.390625
+        80091.007812
       ],
       "sources": [
         {
@@ -255,10 +255,10 @@
     {
       "name": "달러/원",
       "symbol": "KRW=X",
-      "value": "1,338.6",
-      "change_pct": -1.24,
-      "change_text": "-1.24%",
-      "change_direction": -1.2417,
+      "value": "1,338.9",
+      "change_pct": -1.22,
+      "change_text": "-1.22%",
+      "change_direction": -1.2159,
       "spark": [
         1345.73999,
         1345.540039,
@@ -267,7 +267,7 @@
         1344.72998,
         1339.880005,
         1338.310059,
-        1338.579956
+        1338.930054
       ],
       "sources": [
         {
@@ -399,7 +399,7 @@
     {
       "name": "유동성",
       "state": "중립",
-      "summary": "DXY 당일 -0.06%",
+      "summary": "DXY 당일 -0.07%",
       "investment_grade": "중립",
       "investment_score": 55,
       "investment_hint": "달러 흐름이 중립 범위.",
