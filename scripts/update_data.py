@@ -540,7 +540,110 @@ def market_breadth_score(spy_df, spy_ext_price=None):
     return score, raw
 
 
-def market_regime_profile(spy_df, spy_ext_price, vix, breadth_score, env_score):
+def vix_intelligence(spy_df, vix_latest):
+    """Build a richer volatility/risk context from VIX level, trend, term structure and SPY/VIX interaction.
+
+    Fail-soft by design: ^VIX3M or history can be unavailable on Yahoo without breaking the dashboard.
+    risk_on_score is higher when volatility conditions are friendlier to risk assets.
+    """
+    out = {
+        "vix": round(float(vix_latest), 2) if vix_latest is not None else None,
+        "vix_1d_pct": None,
+        "vix_5d_pct": None,
+        "vix3m": None,
+        "vix_vix3m_ratio": None,
+        "level_label": "확인 중",
+        "trend_label": "추세 확인 중",
+        "term_structure": "기간구조 확인 중",
+        "divergence": "주가/VIX 관계 확인 중",
+        "spy_5d_pct": None,
+        "risk_on_score": 50,
+    }
+    v = float(vix_latest) if vix_latest is not None else 20.0
+
+    if v < 16:
+        level_label, level_score = "낮음", 90
+    elif v < 20:
+        level_label, level_score = "보통", 76
+    elif v < 25:
+        level_label, level_score = "불안 증가", 56
+    elif v < 30:
+        level_label, level_score = "높은 공포", 34
+    else:
+        level_label, level_score = "스트레스", 14
+    out["level_label"] = level_label
+
+    vix5 = None
+    try:
+        vh = daily_history("^VIX", "3mo")["Close"].dropna().astype(float)
+        if len(vh) >= 2:
+            out["vix_1d_pct"] = round((float(vh.iloc[-1]) / float(vh.iloc[-2]) - 1) * 100, 2)
+        if len(vh) >= 6:
+            vix5 = (float(vh.iloc[-1]) / float(vh.iloc[-6]) - 1) * 100
+            out["vix_5d_pct"] = round(vix5, 2)
+    except Exception as e:
+        print(f"VIX intelligence history warning: {e}")
+
+    if vix5 is None:
+        trend_label, trend_score = "추세 확인 중", 50
+    elif vix5 <= -20:
+        trend_label, trend_score = "빠른 안정 ↓", 92
+    elif vix5 <= -7:
+        trend_label, trend_score = "안정 ↓", 78
+    elif vix5 < 7:
+        trend_label, trend_score = "보합 →", 55
+    elif vix5 < 20:
+        trend_label, trend_score = "불안 확대 ↑", 32
+    else:
+        trend_label, trend_score = "공포 급등 ↑", 12
+    out["trend_label"] = trend_label
+
+    # VIX / VIX3M: >= 1 means short-term fear exceeds the 3-month volatility index (backwardation-like stress).
+    term_score = 50
+    try:
+        v3, _, _ = latest_extended("^VIX3M")
+        if v3 is not None and float(v3) > 0:
+            ratio = v / float(v3)
+            out["vix3m"] = round(float(v3), 2)
+            out["vix_vix3m_ratio"] = round(ratio, 3)
+            if ratio >= 1.03:
+                out["term_structure"], term_score = "Backwardation · 단기 공포 우위", 18
+            elif ratio >= 0.98:
+                out["term_structure"], term_score = "평탄 · 경계", 42
+            elif ratio <= 0.88:
+                out["term_structure"], term_score = "Contango · 안정", 82
+            else:
+                out["term_structure"], term_score = "Contango · 정상", 70
+    except Exception as e:
+        print(f"VIX3M warning: {e}")
+
+    spy5 = None
+    try:
+        sc = spy_df["Close"].dropna().astype(float)
+        if len(sc) >= 6:
+            spy5 = (float(sc.iloc[-1]) / float(sc.iloc[-6]) - 1) * 100
+            out["spy_5d_pct"] = round(spy5, 2)
+    except Exception:
+        pass
+
+    divergence_score = 50
+    if spy5 is not None and vix5 is not None:
+        if spy5 > 0 and vix5 <= -7:
+            out["divergence"], divergence_score = "건강한 Risk-on · 주가↑ VIX↓", 85
+        elif spy5 > 0 and vix5 >= 7:
+            out["divergence"], divergence_score = "불안한 상승 · 주가↑ VIX↑", 32
+        elif spy5 < 0 and vix5 >= 7:
+            out["divergence"], divergence_score = "명확한 Risk-off · 주가↓ VIX↑", 15
+        elif spy5 < 0 and vix5 <= -7:
+            out["divergence"], divergence_score = "매도압력 완화 가능 · 주가↓ VIX↓", 65
+        else:
+            out["divergence"], divergence_score = "혼조 · 추가 확인", 50
+
+    out["risk_on_score"] = round_int(clamp(level_score * .45 + trend_score * .25 + term_score * .20 + divergence_score * .10))
+    return out
+
+
+def market_regime_profile(spy_df, spy_ext_price, vix, breadth_score, env_score, vix_ctx=None):
     close = spy_df["Close"].dropna().astype(float).copy()
     if spy_ext_price is not None and len(close): close.iloc[-1] = float(spy_ext_price)
     current = float(close.iloc[-1])
@@ -549,7 +652,7 @@ def market_regime_profile(spy_df, spy_ext_price, vix, breadth_score, env_score):
     above50 = (current / ma50 - 1) * 100 if ma50 else 0
     above200 = (current / ma200 - 1) * 100 if ma200 else 0
     trend_score = clamp(50 + above50 * 4 + above200 * 2 + (10 if ma50 >= ma200 else -10))
-    vix_score = 88 if vix < 16 else 75 if vix < 20 else 58 if vix < 24 else 38 if vix < 30 else 18
+    vix_score = float((vix_ctx or {}).get("risk_on_score") or (88 if vix < 16 else 75 if vix < 20 else 58 if vix < 24 else 38 if vix < 30 else 18))
     score = round_int(trend_score * .35 + float(breadth_score) * .25 + float(env_score) * .20 + vix_score * .20)
     if score >= 65:
         label, guidance = "Risk-on", "시장 추세와 참여도가 비교적 우호적입니다. 섹터 강도 신호를 정상 해석합니다."
@@ -560,7 +663,11 @@ def market_regime_profile(spy_df, spy_ext_price, vix, breadth_score, env_score):
     return {"label": label, "score": score, "guidance": guidance,
             "metrics": {"spy_vs_ma50_pct": round(above50,2), "spy_vs_ma200_pct": round(above200,2),
                         "trend_score": round_int(trend_score), "breadth_score": round(float(breadth_score),1),
-                        "environment_score": round_int(env_score), "vix": round(float(vix),2)}}
+                        "environment_score": round_int(env_score), "vix": round(float(vix),2),
+                        "vix_risk_on_score": round_int(vix_score),
+                        "vix_trend": (vix_ctx or {}).get("trend_label"),
+                        "vix_term_structure": (vix_ctx or {}).get("term_structure"),
+                        "vix_divergence": (vix_ctx or {}).get("divergence")}}
 
 
 def sector_participation_score(name, spy_df):
@@ -953,7 +1060,7 @@ def timing_label(score, kind):
     return "확인" if score >= 70 else "개선" if score >= 55 else "대기" if score >= 40 else "미확인"
 
 
-def market_timing_signals(spy_df, spy_ext_price, vix_latest, env_score):
+def market_timing_signals(spy_df, spy_ext_price, vix_latest, env_score, vix_ctx=None):
     close = spy_df["Close"].dropna().astype(float).copy()
     vol = spy_df["Volume"].fillna(0).astype(float).copy()
     if spy_ext_price is not None and len(close):
@@ -1017,6 +1124,11 @@ def market_timing_signals(spy_df, spy_ext_price, vix_latest, env_score):
     momentum_component = interpolate_score(r5, [(-8, 5), (-5, 15), (-2, 30), (0, 48), (2, 65), (5, 82), (8, 95)])
     ma_component = interpolate_score(vs_ma20, [(-10, 5), (-5, 20), (-2, 38), (0, 55), (3, 72), (7, 90), (12, 98)])
     vix_reversal_component = interpolate_score(vix_5d_change, [(-45, 98), (-25, 82), (-10, 65), (0, 50), (10, 35), (25, 18), (50, 5)]) if vix_5d_change is not None else None
+    # Falling VIX is more convincing when the term structure is also normalizing toward contango.
+    if vix_reversal_component is not None and vix_ctx:
+        term = str(vix_ctx.get("term_structure") or "")
+        term_confirm = 75 if "Contango" in term else 45 if "평탄" in term else 20 if "Backwardation" in term else 50
+        vix_reversal_component = vix_reversal_component * .75 + term_confirm * .25
     breadth_confirm_component = interpolate_score(rsp_rs5, [(-5, 10), (-2, 30), (0, 50), (2, 68), (5, 88), (8, 98)]) if rsp_rs5 is not None else None
     volume_confirm_component = clamp(50 + (volume_ratio - 1) * 80 + (10 if r5 > 0 else -10))
 
@@ -1092,6 +1204,10 @@ def market_timing_signals(spy_df, spy_ext_price, vix_latest, env_score):
             "spy_vs_ma20_pct": round(vs_ma20, 2),
             "vix": round(float(vix_latest), 2) if vix_latest is not None else None,
             "vix_5d_pct": round(vix_5d_change, 2) if vix_5d_change is not None else None,
+            "vix3m": (vix_ctx or {}).get("vix3m"),
+            "vix_vix3m_ratio": (vix_ctx or {}).get("vix_vix3m_ratio"),
+            "vix_term_structure": (vix_ctx or {}).get("term_structure"),
+            "vix_divergence": (vix_ctx or {}).get("divergence"),
             "rsp_vs_spy_20d_pctp": round(rsp_rs20, 2) if rsp_rs20 is not None else None,
             "rsp_vs_spy_5d_pctp": round(rsp_rs5, 2) if rsp_rs5 is not None else None,
         },
@@ -1674,9 +1790,10 @@ def main():
     liq_hint = "달러 약세는 글로벌 위험자산·원자재 유동성에 상대적으로 우호." if liq_grade == "우호" else "달러 강세는 글로벌 유동성과 원자재·신흥 위험자산에 부담." if liq_grade == "주의" else "달러 흐름이 중립 범위."
 
     vix = quotes.get("VIX", (20,None,0))[0] or 20
+    # Detailed VIX context is calculated after SPY history is loaded below.
     risk_state = "위험회피" if vix >= 25 else "주의" if vix >= 20 else "강함"; risk_summary = f"VIX {vix:.1f}"
     risk_grade = "위험" if vix >= 30 else "주의" if vix >= 25 else "중립" if vix >= 18 else "우호"
-    risk_hint = "VIX가 낮을수록 위험선호에 우호. 급등 시 고베타·레버리지 자산 변동성 확대에 주의."
+    risk_hint = "VIX 절대수준뿐 아니라 5일 방향·VIX3M 기간구조·SPY와의 엇갈림까지 함께 확인합니다."
 
     macro = [
         {"name":"고용","state":emp_state,"summary":emp_summary,"investment_grade":emp_grade,"investment_score":grade_score(emp_grade),"investment_hint":emp_hint,"sources":[{"label":"FRED · UNRATE","note":"미국 실업률 공식 시계열","url":fred_url("UNRATE")},{"label":"BLS","note":"미 노동통계국 고용 원문","url":"https://www.bls.gov/cps/"}]},
@@ -1686,12 +1803,26 @@ def main():
         {"name":"유동성","state":liq_state,"summary":liq_summary,"investment_grade":liq_grade,"investment_score":grade_score(liq_grade),"investment_hint":liq_hint,"sources":[{"label":"ICE","note":"U.S. Dollar Index 공식 시장","url":"https://www.ice.com/products/194/US-Dollar-Index-Futures"},{"label":"Yahoo Finance","note":"DXY 시세","url":yahoo_url("DX-Y.NYB")}]},
         {"name":"위험선호","state":risk_state,"summary":risk_summary,"investment_grade":risk_grade,"investment_score":grade_score(risk_grade),"investment_hint":risk_hint,"sources":[{"label":"Cboe VIX","note":"VIX 공식 자료","url":"https://www.cboe.com/tradable_products/vix/"},{"label":"Yahoo Finance","note":"VIX 시세","url":yahoo_url("^VIX")}]},
     ]
-    env = investment_environment(macro)
-
     spy = daily_history(BASE, "1y"); spy_ext, _, _ = latest_extended(BASE)
-    timing = market_timing_signals(spy, spy_ext, vix, env.get("score", 55))
+    vix_ctx = vix_intelligence(spy, vix)
+
+    # Refresh the 위험선호 card with the richer VIX context before calculating the macro environment.
+    risk_state = "위험회피" if vix_ctx.get("risk_on_score",50) < 35 else "주의" if vix_ctx.get("risk_on_score",50) < 55 else "강함"
+    risk_grade = "위험" if vix_ctx.get("risk_on_score",50) < 25 else "주의" if vix_ctx.get("risk_on_score",50) < 50 else "중립" if vix_ctx.get("risk_on_score",50) < 70 else "우호"
+    v5 = vix_ctx.get("vix_5d_pct")
+    v5txt = f" · 5일 {v5:+.1f}%" if v5 is not None else ""
+    risk_summary = f"VIX {vix:.1f} · {vix_ctx.get('trend_label','-')}{v5txt} · {vix_ctx.get('term_structure','-')}"
+    risk_hint = f"{vix_ctx.get('divergence','')} · VIX 위험선호 점수 {vix_ctx.get('risk_on_score',50)}/100. 절대 수준보다 방향과 기간구조를 함께 봅니다."
+    for m in macro:
+        if m.get("name") == "위험선호":
+            m.update({"state":risk_state,"summary":risk_summary,"investment_grade":risk_grade,
+                      "investment_score":vix_ctx.get("risk_on_score",50),"investment_hint":risk_hint})
+            break
+
+    env = investment_environment(macro)
+    timing = market_timing_signals(spy, spy_ext, vix, env.get("score", 55), vix_ctx=vix_ctx)
     breadth_score, breadth_metrics = market_breadth_score(spy, spy_ext)
-    market_regime = market_regime_profile(spy, spy_ext, vix, breadth_score, env.get("score",55))
+    market_regime = market_regime_profile(spy, spy_ext, vix, breadth_score, env.get("score",55), vix_ctx=vix_ctx)
     events = official_calendar(now_et)
     event_risk = event_risk_profile(events, now_kst)
     # History is keyed by U.S. market date, not KST calendar date.
@@ -1738,6 +1869,7 @@ def main():
                 "CNN Fear & Greed는 CNN 페이지가 사용하는 공개 JSON 데이터를 읽습니다. 구조 변경·차단 시 일시적으로 미표시될 수 있습니다.",
                 "저점매수 매력도는 싸다는 보장이 아니라 공포·낙폭·과매도 정도를 정량화한 역발상 보조 지표입니다.",
                 "반전 확인도는 바닥 확정 신호가 아니라 모멘텀·20일선·VIX·시장 폭·거래량 회복 정도를 보는 보조 지표입니다.",
+                "VIX는 절대수준만 보지 않고 5일 방향·VIX/VIX3M 기간구조·SPY와의 동행/엇갈림을 함께 반영합니다. VIX3M 데이터 미수집 시 해당 요소는 중립 처리합니다.",
                 "시장 Breadth는 RSP/SPY·QQQE/QQQ 상대강도를 이용한 무료 프록시이며 전체 종목 상승/하락 종목수를 직접 집계한 값은 아닙니다.",
                 "산업 내부 확산은 대표 ETF 묶음의 참여도를 보는 프록시이며 개별 구성종목 전수 상승/하락 집계가 아닙니다.",
                 "레이더 표시는 현재 원점수 60% + 최근 3일 평균 40%로 안정화하고, 진입·이탈 기준을 다르게 둬 하루 노이즈를 줄입니다.",
@@ -1751,6 +1883,7 @@ def main():
         "regime": {"name": phase, "environment": env, "market_regime": market_regime, "reasons": reasons},
         "macro": macro,
         "timing": timing,
+        "volatility": vix_ctx,
         "breadth": {"score": round(float(breadth_score), 1), "metrics": breadth_metrics, "note": "RSP/SPY + QQQE/QQQ 동일가중 대비 시총가중 상대강도 프록시"},
         "signal_scorecard": scorecard,
         "calibration": calibration,
