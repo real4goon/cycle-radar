@@ -6599,10 +6599,10 @@
         "score": 55,
         "guidance": "시장 방향성이 혼재합니다. 섹터별 추세·신뢰도를 함께 확인합니다.",
         "metrics": {
-          "spy_vs_ma50_pct": -0.03,
-          "spy_vs_ma200_pct": 6.53,
+          "spy_vs_ma50_pct": -0.01,
+          "spy_vs_ma200_pct": 6.56,
           "trend_score": 73,
-          "breadth_score": 30.5,
+          "breadth_score": 30.7,
           "environment_score": 54,
           "vix": 17.84,
           "vix_risk_on_score": 53,
@@ -6648,7 +6648,7 @@
             "momentum": 51,
             "relative_strength": 56,
             "volume": 59,
-            "breadth": 30,
+            "breadth": 31,
             "macro": 45
           }
         },
@@ -6688,7 +6688,7 @@
             "momentum": 32,
             "relative_strength": 38,
             "volume": 25,
-            "breadth": 30,
+            "breadth": 31,
             "macro": 45
           }
         },
@@ -6727,7 +6727,7 @@
             "momentum": 29,
             "relative_strength": 43,
             "volume": 58,
-            "breadth": 30,
+            "breadth": 31,
             "macro": 60
           }
         },
@@ -6766,7 +6766,7 @@
             "momentum": 25,
             "relative_strength": 39,
             "volume": 49,
-            "breadth": 30,
+            "breadth": 31,
             "macro": 60
           }
         },
@@ -6805,7 +6805,7 @@
             "momentum": 58,
             "relative_strength": 60,
             "volume": 57,
-            "breadth": 30,
+            "breadth": 31,
             "macro": 60
           }
         },
@@ -6844,7 +6844,7 @@
             "momentum": 40,
             "relative_strength": 49,
             "volume": 57,
-            "breadth": 30,
+            "breadth": 31,
             "macro": 60
           }
         },
@@ -6884,7 +6884,7 @@
             "momentum": 42,
             "relative_strength": 48,
             "volume": 37,
-            "breadth": 30,
+            "breadth": 31,
             "macro": 55
           }
         },
@@ -6923,7 +6923,7 @@
             "momentum": 46,
             "relative_strength": 52,
             "volume": 38,
-            "breadth": 30,
+            "breadth": 31,
             "macro": 45
           }
         },
@@ -6962,7 +6962,7 @@
             "momentum": 33,
             "relative_strength": 44,
             "volume": 62,
-            "breadth": 30,
+            "breadth": 31,
             "macro": 55
           }
         },
@@ -7001,7 +7001,7 @@
             "momentum": 34,
             "relative_strength": 46,
             "volume": 84,
-            "breadth": 30,
+            "breadth": 31,
             "macro": 45
           }
         }
