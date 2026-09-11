@@ -7010,13 +7010,13 @@
     "2026-09-11": {
       "regime": {
         "label": "Neutral",
-        "score": 58,
+        "score": 59,
         "guidance": "시장 방향성이 혼재합니다. 섹터별 추세·신뢰도를 함께 확인합니다.",
         "metrics": {
-          "spy_vs_ma50_pct": 0.72,
-          "spy_vs_ma200_pct": 7.3,
-          "trend_score": 77,
-          "breadth_score": 34.3,
+          "spy_vs_ma50_pct": 0.76,
+          "spy_vs_ma200_pct": 7.35,
+          "trend_score": 78,
+          "breadth_score": 34.1,
           "environment_score": 48,
           "vix": 15.84,
           "vix_risk_on_score": 66,
@@ -7265,8 +7265,8 @@
         {
           "name": "금/금광",
           "status": "중립",
-          "score": 44,
-          "raw_score": 42,
+          "score": 43,
+          "raw_score": 41,
           "action": "관찰",
           "etfs": [
             "GLD",
@@ -7278,17 +7278,17 @@
             "grade": "C"
           },
           "trend": {
-            "avg3": 46.3,
-            "avg5": 46.8,
-            "delta_3d": -11.0,
-            "peak_drop_5d": -11.0,
+            "avg3": 46.0,
+            "avg5": 46.6,
+            "delta_3d": -12.0,
+            "peak_drop_5d": -12.0,
             "label": "↓ 급격한 약화",
             "series": [
               51.0,
               44.0,
               53.0,
               44.0,
-              42.0
+              41.0
             ]
           },
           "buy_signal_days": 0,
