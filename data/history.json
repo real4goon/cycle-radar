@@ -9084,9 +9084,9 @@
         "guidance": "시장 방향성이 혼재합니다. 섹터별 추세·신뢰도를 함께 확인합니다.",
         "metrics": {
           "spy_vs_ma50_pct": 0.41,
-          "spy_vs_ma200_pct": 6.8,
+          "spy_vs_ma200_pct": 6.81,
           "trend_score": 75,
-          "breadth_score": 30.4,
+          "breadth_score": 30.0,
           "environment_score": 49,
           "vix": 14.81,
           "vix_risk_on_score": 76,
@@ -9452,35 +9452,35 @@
         },
         {
           "name": "리츠",
-          "status": "약화",
-          "score": 42,
-          "raw_score": 40,
-          "action": "추가매수 보류",
+          "status": "중립",
+          "score": 43,
+          "raw_score": 41,
+          "action": "관찰",
           "etfs": [
             "VNQ"
           ],
           "rank": 9,
           "confidence": {
-            "score": 63,
+            "score": 51,
             "grade": "C"
           },
           "trend": {
-            "avg3": 45.0,
-            "avg5": 46.0,
-            "delta_3d": -7.0,
-            "peak_drop_5d": -8.0,
+            "avg3": 45.3,
+            "avg5": 46.2,
+            "delta_3d": -6.0,
+            "peak_drop_5d": -7.0,
             "label": "↘ 약화",
             "series": [
               48.0,
               47.0,
               47.0,
               48.0,
-              40.0
+              41.0
             ]
           },
           "buy_signal_days": 0,
-          "stage_days": 1,
-          "signal_story": "오늘 판단 변경",
+          "stage_days": 12,
+          "signal_story": "현재 판단 12일째 유지",
           "factors": {
             "momentum": 25,
             "relative_strength": 39,
