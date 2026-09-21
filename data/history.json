@@ -9497,10 +9497,10 @@
         "score": 61,
         "guidance": "시장 방향성이 혼재합니다. 섹터별 추세·신뢰도를 함께 확인합니다.",
         "metrics": {
-          "spy_vs_ma50_pct": 2.05,
-          "spy_vs_ma200_pct": 8.54,
+          "spy_vs_ma50_pct": 2.03,
+          "spy_vs_ma200_pct": 8.52,
           "trend_score": 85,
-          "breadth_score": 17.8,
+          "breadth_score": 17.9,
           "environment_score": 50,
           "vix": 14.86,
           "vix_risk_on_score": 85,
@@ -9522,8 +9522,8 @@
           ],
           "rank": 1,
           "confidence": {
-            "score": 79,
-            "grade": "B"
+            "score": 59,
+            "grade": "C"
           },
           "trend": {
             "avg3": 57.7,
@@ -9545,7 +9545,7 @@
           "factors": {
             "momentum": 88,
             "relative_strength": 80,
-            "volume": 56,
+            "volume": 59,
             "breadth": 18,
             "macro": 55
           }
@@ -9562,8 +9562,8 @@
           ],
           "rank": 3,
           "confidence": {
-            "score": 68,
-            "grade": "B"
+            "score": 58,
+            "grade": "C"
           },
           "trend": {
             "avg3": 48.0,
@@ -9585,7 +9585,7 @@
           "factors": {
             "momentum": 46,
             "relative_strength": 40,
-            "volume": 68,
+            "volume": 71,
             "breadth": 18,
             "macro": 55
           }
@@ -9601,8 +9601,8 @@
           ],
           "rank": 5,
           "confidence": {
-            "score": 70,
-            "grade": "B"
+            "score": 60,
+            "grade": "C"
           },
           "trend": {
             "avg3": 43.7,
@@ -9624,7 +9624,7 @@
           "factors": {
             "momentum": 41,
             "relative_strength": 37,
-            "volume": 71,
+            "volume": 72,
             "breadth": 18,
             "macro": 60
           }
@@ -9640,8 +9640,8 @@
           ],
           "rank": 9,
           "confidence": {
-            "score": 70,
-            "grade": "B"
+            "score": 60,
+            "grade": "C"
           },
           "trend": {
             "avg3": 40.7,
@@ -9661,9 +9661,9 @@
           "stage_days": 8,
           "signal_story": "현재 판단 8일째 유지",
           "factors": {
-            "momentum": 30,
+            "momentum": 29,
             "relative_strength": 31,
-            "volume": 41,
+            "volume": 43,
             "breadth": 18,
             "macro": 60
           }
@@ -9679,8 +9679,8 @@
           ],
           "rank": 6,
           "confidence": {
-            "score": 58,
-            "grade": "C"
+            "score": 47,
+            "grade": "D"
           },
           "trend": {
             "avg3": 49.0,
@@ -9702,7 +9702,7 @@
           "factors": {
             "momentum": 35,
             "relative_strength": 32,
-            "volume": 60,
+            "volume": 62,
             "breadth": 18,
             "macro": 60
           }
@@ -9718,8 +9718,8 @@
           ],
           "rank": 7,
           "confidence": {
-            "score": 58,
-            "grade": "C"
+            "score": 48,
+            "grade": "D"
           },
           "trend": {
             "avg3": 43.3,
@@ -9741,7 +9741,7 @@
           "factors": {
             "momentum": 35,
             "relative_strength": 34,
-            "volume": 60,
+            "volume": 63,
             "breadth": 18,
             "macro": 60
           }
@@ -9749,8 +9749,8 @@
         {
           "name": "금/금광",
           "status": "중립",
-          "score": 44,
-          "raw_score": 43,
+          "score": 45,
+          "raw_score": 44,
           "action": "관찰",
           "etfs": [
             "GLD",
@@ -9758,21 +9758,21 @@
           ],
           "rank": 4,
           "confidence": {
-            "score": 70,
-            "grade": "B"
+            "score": 60,
+            "grade": "C"
           },
           "trend": {
-            "avg3": 45.7,
-            "avg5": 44.4,
-            "delta_3d": -4.0,
-            "peak_drop_5d": -4.0,
+            "avg3": 46.0,
+            "avg5": 44.6,
+            "delta_3d": -3.0,
+            "peak_drop_5d": -3.0,
             "label": "↘ 약화",
             "series": [
               44.0,
               41.0,
               47.0,
               47.0,
-              43.0
+              44.0
             ]
           },
           "buy_signal_days": 0,
@@ -9781,7 +9781,7 @@
           "factors": {
             "momentum": 48,
             "relative_strength": 41,
-            "volume": 42,
+            "volume": 43,
             "breadth": 18,
             "macro": 55
           }
@@ -9790,20 +9790,20 @@
           "name": "빅테크",
           "status": "중립",
           "score": 59,
-          "raw_score": 60,
+          "raw_score": 61,
           "action": "관찰",
           "etfs": [
             "QQQM"
           ],
           "rank": 2,
           "confidence": {
-            "score": 78,
+            "score": 68,
             "grade": "B"
           },
           "trend": {
-            "avg3": 56.7,
-            "avg5": 52.8,
-            "delta_3d": 3.0,
+            "avg3": 57.0,
+            "avg5": 53.0,
+            "delta_3d": 4.0,
             "peak_drop_5d": 0.0,
             "label": "↗ 완만한 개선",
             "series": [
@@ -9811,16 +9811,16 @@
               48.0,
               57.0,
               53.0,
-              60.0
+              61.0
             ]
           },
           "buy_signal_days": 0,
           "stage_days": 23,
           "signal_story": "현재 판단 23일째 유지",
           "factors": {
-            "momentum": 77,
+            "momentum": 76,
             "relative_strength": 61,
-            "volume": 60,
+            "volume": 62,
             "breadth": 18,
             "macro": 55
           }
@@ -9836,7 +9836,7 @@
           ],
           "rank": 10,
           "confidence": {
-            "score": 62,
+            "score": 52,
             "grade": "C"
           },
           "trend": {
@@ -9857,9 +9857,9 @@
           "stage_days": 1,
           "signal_story": "오늘 판단 변경",
           "factors": {
-            "momentum": 27,
+            "momentum": 26,
             "relative_strength": 29,
-            "volume": 40,
+            "volume": 42,
             "breadth": 18,
             "macro": 55
           }
@@ -9875,7 +9875,7 @@
           ],
           "rank": 8,
           "confidence": {
-            "score": 60,
+            "score": 50,
             "grade": "C"
           },
           "trend": {
@@ -9898,7 +9898,7 @@
           "factors": {
             "momentum": 38,
             "relative_strength": 37,
-            "volume": 59,
+            "volume": 61,
             "breadth": 18,
             "macro": 55
           }
@@ -10032,7 +10032,7 @@
       },
       "results": {
         "return_5d_pct": 0.6,
-        "return_10d_pct": -2.56,
+        "return_10d_pct": -2.63,
         "return_20d_pct": null,
         "max_drawdown_20d_pct": null
       }
