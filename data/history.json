@@ -10325,10 +10325,10 @@
         "score": 60,
         "guidance": "시장 방향성이 혼재합니다. 섹터별 추세·신뢰도를 함께 확인합니다.",
         "metrics": {
-          "spy_vs_ma50_pct": 1.12,
-          "spy_vs_ma200_pct": 7.53,
-          "trend_score": 80,
-          "breadth_score": 21.2,
+          "spy_vs_ma50_pct": 1.08,
+          "spy_vs_ma200_pct": 7.48,
+          "trend_score": 79,
+          "breadth_score": 21.9,
           "environment_score": 48,
           "vix": 15.17,
           "vix_risk_on_score": 85,
@@ -10374,15 +10374,15 @@
             "momentum": 90,
             "relative_strength": 82,
             "volume": 64,
-            "breadth": 21,
+            "breadth": 22,
             "macro": 45
           }
         },
         {
           "name": "바이오/헬스케어",
           "status": "중립",
-          "score": 45,
-          "raw_score": 45,
+          "score": 46,
+          "raw_score": 46,
           "action": "관찰",
           "etfs": [
             "XBI",
@@ -10394,17 +10394,17 @@
             "grade": "B"
           },
           "trend": {
-            "avg3": 45.3,
-            "avg5": 46.8,
-            "delta_3d": -1.0,
-            "peak_drop_5d": -5.0,
+            "avg3": 45.7,
+            "avg5": 47.0,
+            "delta_3d": 0.0,
+            "peak_drop_5d": -4.0,
             "label": "→ 유지",
             "series": [
               50.0,
               48.0,
               46.0,
               45.0,
-              45.0
+              46.0
             ]
           },
           "buy_signal_days": 0,
@@ -10414,7 +10414,7 @@
             "momentum": 46,
             "relative_strength": 40,
             "volume": 72,
-            "breadth": 21,
+            "breadth": 22,
             "macro": 45
           }
         },
@@ -10453,7 +10453,7 @@
             "momentum": 48,
             "relative_strength": 42,
             "volume": 68,
-            "breadth": 21,
+            "breadth": 22,
             "macro": 60
           }
         },
@@ -10492,7 +10492,7 @@
             "momentum": 38,
             "relative_strength": 36,
             "volume": 43,
-            "breadth": 21,
+            "breadth": 22,
             "macro": 60
           }
         },
@@ -10531,7 +10531,7 @@
             "momentum": 43,
             "relative_strength": 38,
             "volume": 54,
-            "breadth": 21,
+            "breadth": 22,
             "macro": 60
           }
         },
@@ -10570,7 +10570,7 @@
             "momentum": 29,
             "relative_strength": 31,
             "volume": 65,
-            "breadth": 21,
+            "breadth": 22,
             "macro": 60
           }
         },
@@ -10610,7 +10610,7 @@
             "momentum": 41,
             "relative_strength": 36,
             "volume": 33,
-            "breadth": 21,
+            "breadth": 22,
             "macro": 55
           }
         },
@@ -10649,7 +10649,7 @@
             "momentum": 80,
             "relative_strength": 63,
             "volume": 67,
-            "breadth": 21,
+            "breadth": 22,
             "macro": 45
           }
         },
@@ -10688,7 +10688,7 @@
             "momentum": 35,
             "relative_strength": 35,
             "volume": 46,
-            "breadth": 21,
+            "breadth": 22,
             "macro": 55
           }
         },
@@ -10727,7 +10727,7 @@
             "momentum": 22,
             "relative_strength": 27,
             "volume": 55,
-            "breadth": 21,
+            "breadth": 22,
             "macro": 45
           }
         }
