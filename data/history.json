@@ -10325,7 +10325,7 @@
         "score": 60,
         "guidance": "시장 방향성이 혼재합니다. 섹터별 추세·신뢰도를 함께 확인합니다.",
         "metrics": {
-          "spy_vs_ma50_pct": 1.08,
+          "spy_vs_ma50_pct": 1.07,
           "spy_vs_ma200_pct": 7.48,
           "trend_score": 79,
           "breadth_score": 21.9,
@@ -10350,7 +10350,7 @@
           ],
           "rank": 1,
           "confidence": {
-            "score": 66,
+            "score": 76,
             "grade": "B"
           },
           "trend": {
@@ -10656,8 +10656,8 @@
         {
           "name": "필수소비재",
           "status": "약화",
-          "score": 37,
-          "raw_score": 38,
+          "score": 38,
+          "raw_score": 39,
           "action": "추가매수 보류",
           "etfs": [
             "XLP"
@@ -10668,17 +10668,17 @@
             "grade": "C"
           },
           "trend": {
-            "avg3": 35.7,
-            "avg5": 40.6,
-            "delta_3d": 3.0,
-            "peak_drop_5d": -12.0,
+            "avg3": 36.0,
+            "avg5": 40.8,
+            "delta_3d": 4.0,
+            "peak_drop_5d": -11.0,
             "label": "↗ 완만한 개선",
             "series": [
               50.0,
               46.0,
               35.0,
               34.0,
-              38.0
+              39.0
             ]
           },
           "buy_signal_days": 0,
