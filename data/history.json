@@ -12395,10 +12395,10 @@
         "score": 55,
         "guidance": "시장 방향성이 혼재합니다. 섹터별 추세·신뢰도를 함께 확인합니다.",
         "metrics": {
-          "spy_vs_ma50_pct": 0.48,
-          "spy_vs_ma200_pct": 6.81,
+          "spy_vs_ma50_pct": 0.56,
+          "spy_vs_ma200_pct": 6.9,
           "trend_score": 76,
-          "breadth_score": 30.7,
+          "breadth_score": 30.9,
           "environment_score": 47,
           "vix": 16.32,
           "vix_risk_on_score": 58,
@@ -12451,22 +12451,22 @@
         {
           "name": "바이오/헬스케어",
           "status": "중립",
-          "score": 50,
-          "raw_score": 52,
+          "score": 51,
+          "raw_score": 53,
           "action": "관찰",
           "etfs": [
             "XBI",
             "IBB"
           ],
-          "rank": 3,
+          "rank": 2,
           "confidence": {
             "score": 80,
             "grade": "A"
           },
           "trend": {
-            "avg3": 47.3,
-            "avg5": 46.8,
-            "delta_3d": 5.0,
+            "avg3": 47.7,
+            "avg5": 47.0,
+            "delta_3d": 6.0,
             "peak_drop_5d": 0.0,
             "label": "↗ 완만한 개선",
             "series": [
@@ -12474,7 +12474,7 @@
               43.0,
               47.0,
               43.0,
-              52.0
+              53.0
             ]
           },
           "buy_signal_days": 0,
@@ -12491,8 +12491,8 @@
         {
           "name": "산업재",
           "status": "중립",
-          "score": 43,
-          "raw_score": 42,
+          "score": 44,
+          "raw_score": 43,
           "action": "관찰",
           "etfs": [
             "XLI"
@@ -12503,17 +12503,17 @@
             "grade": "C"
           },
           "trend": {
-            "avg3": 45.0,
-            "avg5": 46.4,
-            "delta_3d": -4.0,
-            "peak_drop_5d": -7.0,
+            "avg3": 45.3,
+            "avg5": 46.6,
+            "delta_3d": -3.0,
+            "peak_drop_5d": -6.0,
             "label": "↘ 약화",
             "series": [
               48.0,
               49.0,
               46.0,
               47.0,
-              42.0
+              43.0
             ]
           },
           "buy_signal_days": 0,
@@ -12530,8 +12530,8 @@
         {
           "name": "소재/원자재",
           "status": "약화",
-          "score": 37,
-          "raw_score": 36,
+          "score": 38,
+          "raw_score": 37,
           "action": "추가매수 보류",
           "etfs": [
             "XLB"
@@ -12542,17 +12542,17 @@
             "grade": "B"
           },
           "trend": {
-            "avg3": 39.7,
-            "avg5": 41.0,
-            "delta_3d": -9.0,
-            "peak_drop_5d": -9.0,
+            "avg3": 40.0,
+            "avg5": 41.2,
+            "delta_3d": -8.0,
+            "peak_drop_5d": -8.0,
             "label": "↓ 급격한 약화",
             "series": [
               41.0,
               45.0,
               45.0,
               38.0,
-              36.0
+              37.0
             ]
           },
           "buy_signal_days": 0,
@@ -12600,7 +12600,7 @@
           "factors": {
             "momentum": 38,
             "relative_strength": 43,
-            "volume": 52,
+            "volume": 53,
             "breadth": 31,
             "macro": 60
           }
@@ -12687,29 +12687,29 @@
         {
           "name": "빅테크",
           "status": "중립",
-          "score": 51,
-          "raw_score": 52,
+          "score": 50,
+          "raw_score": 51,
           "action": "관찰",
           "etfs": [
             "QQQM"
           ],
-          "rank": 2,
+          "rank": 3,
           "confidence": {
             "score": 71,
             "grade": "B"
           },
           "trend": {
-            "avg3": 50.0,
-            "avg5": 54.2,
-            "delta_3d": 2.0,
-            "peak_drop_5d": -9.0,
+            "avg3": 49.7,
+            "avg5": 54.0,
+            "delta_3d": 1.0,
+            "peak_drop_5d": -10.0,
             "label": "→ 유지",
             "series": [
               61.0,
               60.0,
               50.0,
               48.0,
-              52.0
+              51.0
             ]
           },
           "buy_signal_days": 0,
