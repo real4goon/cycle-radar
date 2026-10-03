@@ -13220,13 +13220,13 @@
     "2026-10-02": {
       "regime": {
         "label": "Neutral",
-        "score": 61,
+        "score": 62,
         "guidance": "시장 방향성이 혼재합니다. 섹터별 추세·신뢰도를 함께 확인합니다.",
         "metrics": {
-          "spy_vs_ma50_pct": 0.96,
-          "spy_vs_ma200_pct": 7.32,
-          "trend_score": 78,
-          "breadth_score": 35.7,
+          "spy_vs_ma50_pct": 1.0,
+          "spy_vs_ma200_pct": 7.37,
+          "trend_score": 79,
+          "breadth_score": 36.6,
           "environment_score": 49,
           "vix": 15.31,
           "vix_risk_on_score": 76,
@@ -13272,7 +13272,7 @@
             "momentum": 79,
             "relative_strength": 77,
             "volume": 52,
-            "breadth": 36,
+            "breadth": 37,
             "macro": 55
           }
         },
@@ -13312,7 +13312,7 @@
             "momentum": 41,
             "relative_strength": 44,
             "volume": 49,
-            "breadth": 36,
+            "breadth": 37,
             "macro": 55
           }
         },
@@ -13351,7 +13351,7 @@
             "momentum": 45,
             "relative_strength": 48,
             "volume": 48,
-            "breadth": 36,
+            "breadth": 37,
             "macro": 60
           }
         },
@@ -13390,7 +13390,7 @@
             "momentum": 29,
             "relative_strength": 38,
             "volume": 71,
-            "breadth": 36,
+            "breadth": 37,
             "macro": 60
           }
         },
@@ -13429,15 +13429,15 @@
             "momentum": 52,
             "relative_strength": 52,
             "volume": 58,
-            "breadth": 36,
+            "breadth": 37,
             "macro": 60
           }
         },
         {
           "name": "금융",
           "status": "약화",
-          "score": 40,
-          "raw_score": 39,
+          "score": 39,
+          "raw_score": 38,
           "action": "추가매수 보류",
           "etfs": [
             "XLF"
@@ -13448,17 +13448,17 @@
             "grade": "C"
           },
           "trend": {
-            "avg3": 41.0,
-            "avg5": 41.8,
-            "delta_3d": -2.0,
-            "peak_drop_5d": -6.0,
-            "label": "→ 유지",
+            "avg3": 40.7,
+            "avg5": 41.6,
+            "delta_3d": -3.0,
+            "peak_drop_5d": -7.0,
+            "label": "↘ 약화",
             "series": [
               41.0,
               45.0,
               41.0,
               43.0,
-              39.0
+              38.0
             ]
           },
           "buy_signal_days": 0,
@@ -13468,7 +13468,7 @@
             "momentum": 21,
             "relative_strength": 35,
             "volume": 60,
-            "breadth": 36,
+            "breadth": 37,
             "macro": 60
           }
         },
@@ -13508,7 +13508,7 @@
             "momentum": 27,
             "relative_strength": 33,
             "volume": 32,
-            "breadth": 36,
+            "breadth": 37,
             "macro": 55
           }
         },
@@ -13547,7 +13547,7 @@
             "momentum": 60,
             "relative_strength": 58,
             "volume": 64,
-            "breadth": 36,
+            "breadth": 37,
             "macro": 55
           }
         },
@@ -13586,15 +13586,15 @@
             "momentum": 30,
             "relative_strength": 40,
             "volume": 67,
-            "breadth": 36,
+            "breadth": 37,
             "macro": 55
           }
         },
         {
           "name": "리츠",
           "status": "약화",
-          "score": 44,
-          "raw_score": 44,
+          "score": 43,
+          "raw_score": 43,
           "action": "추가매수 보류",
           "etfs": [
             "VNQ"
@@ -13605,17 +13605,17 @@
             "grade": "C"
           },
           "trend": {
-            "avg3": 44.0,
-            "avg5": 43.4,
-            "delta_3d": 0.0,
-            "peak_drop_5d": 0.0,
+            "avg3": 43.7,
+            "avg5": 43.2,
+            "delta_3d": -1.0,
+            "peak_drop_5d": -1.0,
             "label": "→ 유지",
             "series": [
               41.0,
               44.0,
               44.0,
               44.0,
-              44.0
+              43.0
             ]
           },
           "buy_signal_days": 0,
@@ -13625,7 +13625,7 @@
             "momentum": 27,
             "relative_strength": 39,
             "volume": 78,
-            "breadth": 36,
+            "breadth": 37,
             "macro": 55
           }
         }
