@@ -14051,12 +14051,12 @@
         "score": 64,
         "guidance": "시장 방향성이 혼재합니다. 섹터별 추세·신뢰도를 함께 확인합니다.",
         "metrics": {
-          "spy_vs_ma50_pct": 2.0,
-          "spy_vs_ma200_pct": 8.49,
-          "trend_score": 85,
-          "breadth_score": 36.1,
+          "spy_vs_ma50_pct": 2.11,
+          "spy_vs_ma200_pct": 8.61,
+          "trend_score": 86,
+          "breadth_score": 32.9,
           "environment_score": 52,
-          "vix": 15.04,
+          "vix": 15.01,
           "vix_risk_on_score": 76,
           "vix_trend": "보합 →",
           "vix_term_structure": "Contango · 안정",
@@ -14076,8 +14076,8 @@
           ],
           "rank": 1,
           "confidence": {
-            "score": 68,
-            "grade": "B"
+            "score": 58,
+            "grade": "C"
           },
           "trend": {
             "avg3": 64.3,
@@ -14097,10 +14097,10 @@
           "stage_days": 1,
           "signal_story": "오늘 판단 변경",
           "factors": {
-            "momentum": 75,
+            "momentum": 76,
             "relative_strength": 65,
-            "volume": 44,
-            "breadth": 36,
+            "volume": 45,
+            "breadth": 33,
             "macro": 55
           }
         },
@@ -14108,7 +14108,7 @@
           "name": "바이오/헬스케어",
           "status": "약화",
           "score": 38,
-          "raw_score": 35,
+          "raw_score": 36,
           "action": "추가매수 보류",
           "etfs": [
             "XBI",
@@ -14120,17 +14120,17 @@
             "grade": "C"
           },
           "trend": {
-            "avg3": 41.3,
-            "avg5": 44.4,
-            "delta_3d": -10.0,
-            "peak_drop_5d": -18.0,
+            "avg3": 41.7,
+            "avg5": 44.6,
+            "delta_3d": -9.0,
+            "peak_drop_5d": -17.0,
             "label": "↓ 급격한 약화",
             "series": [
               53.0,
               45.0,
               45.0,
               44.0,
-              35.0
+              36.0
             ]
           },
           "buy_signal_days": 0,
@@ -14139,8 +14139,8 @@
           "factors": {
             "momentum": 29,
             "relative_strength": 24,
-            "volume": 51,
-            "breadth": 36,
+            "volume": 54,
+            "breadth": 33,
             "macro": 55
           }
         },
@@ -14155,7 +14155,7 @@
           ],
           "rank": 5,
           "confidence": {
-            "score": 74,
+            "score": 73,
             "grade": "B"
           },
           "trend": {
@@ -14178,8 +14178,8 @@
           "factors": {
             "momentum": 55,
             "relative_strength": 45,
-            "volume": 53,
-            "breadth": 36,
+            "volume": 54,
+            "breadth": 33,
             "macro": 60
           }
         },
@@ -14215,10 +14215,10 @@
           "stage_days": 2,
           "signal_story": "현재 판단 2일째 유지",
           "factors": {
-            "momentum": 51,
+            "momentum": 50,
             "relative_strength": 42,
-            "volume": 84,
-            "breadth": 36,
+            "volume": 86,
+            "breadth": 33,
             "macro": 60
           }
         },
@@ -14256,8 +14256,8 @@
           "factors": {
             "momentum": 63,
             "relative_strength": 52,
-            "volume": 51,
-            "breadth": 36,
+            "volume": 53,
+            "breadth": 33,
             "macro": 60
           }
         },
@@ -14296,7 +14296,7 @@
             "momentum": 40,
             "relative_strength": 37,
             "volume": 48,
-            "breadth": 36,
+            "breadth": 33,
             "macro": 60
           }
         },
@@ -14333,10 +14333,10 @@
           "stage_days": 10,
           "signal_story": "현재 판단 10일째 유지",
           "factors": {
-            "momentum": 43,
+            "momentum": 44,
             "relative_strength": 37,
-            "volume": 29,
-            "breadth": 36,
+            "volume": 30,
+            "breadth": 33,
             "macro": 55
           }
         },
@@ -14374,8 +14374,8 @@
           "factors": {
             "momentum": 73,
             "relative_strength": 57,
-            "volume": 70,
-            "breadth": 36,
+            "volume": 72,
+            "breadth": 33,
             "macro": 55
           }
         },
@@ -14413,8 +14413,8 @@
           "factors": {
             "momentum": 46,
             "relative_strength": 40,
-            "volume": 50,
-            "breadth": 36,
+            "volume": 51,
+            "breadth": 33,
             "macro": 55
           }
         },
@@ -14422,7 +14422,7 @@
           "name": "리츠",
           "status": "약화",
           "score": 43,
-          "raw_score": 44,
+          "raw_score": 43,
           "action": "추가매수 보류",
           "etfs": [
             "VNQ"
@@ -14433,17 +14433,17 @@
             "grade": "C"
           },
           "trend": {
-            "avg3": 42.7,
-            "avg5": 43.2,
-            "delta_3d": 1.0,
-            "peak_drop_5d": 0.0,
+            "avg3": 42.3,
+            "avg5": 43.0,
+            "delta_3d": 0.0,
+            "peak_drop_5d": -1.0,
             "label": "→ 유지",
             "series": [
               44.0,
               44.0,
               43.0,
               41.0,
-              44.0
+              43.0
             ]
           },
           "buy_signal_days": 0,
@@ -14452,8 +14452,8 @@
           "factors": {
             "momentum": 36,
             "relative_strength": 35,
-            "volume": 68,
-            "breadth": 36,
+            "volume": 71,
+            "breadth": 33,
             "macro": 55
           }
         }
@@ -14664,7 +14664,7 @@
       },
       "results": {
         "return_5d_pct": -0.43,
-        "return_10d_pct": 2.48,
+        "return_10d_pct": 2.5,
         "return_20d_pct": null,
         "max_drawdown_20d_pct": null
       }
