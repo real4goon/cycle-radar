@@ -13637,10 +13637,10 @@
         "score": 62,
         "guidance": "시장 방향성이 혼재합니다. 섹터별 추세·신뢰도를 함께 확인합니다.",
         "metrics": {
-          "spy_vs_ma50_pct": 1.56,
-          "spy_vs_ma200_pct": 7.99,
+          "spy_vs_ma50_pct": 1.57,
+          "spy_vs_ma200_pct": 8.0,
           "trend_score": 82,
-          "breadth_score": 32.0,
+          "breadth_score": 34.3,
           "environment_score": 49,
           "vix": 15.52,
           "vix_risk_on_score": 76,
@@ -13686,7 +13686,7 @@
             "momentum": 82,
             "relative_strength": 74,
             "volume": 47,
-            "breadth": 32,
+            "breadth": 34,
             "macro": 55
           }
         },
@@ -13726,7 +13726,7 @@
             "momentum": 43,
             "relative_strength": 40,
             "volume": 50,
-            "breadth": 32,
+            "breadth": 34,
             "macro": 55
           }
         },
@@ -13765,7 +13765,7 @@
             "momentum": 50,
             "relative_strength": 45,
             "volume": 55,
-            "breadth": 32,
+            "breadth": 34,
             "macro": 60
           }
         },
@@ -13804,7 +13804,7 @@
             "momentum": 42,
             "relative_strength": 41,
             "volume": 85,
-            "breadth": 32,
+            "breadth": 34,
             "macro": 60
           }
         },
@@ -13812,7 +13812,7 @@
           "name": "에너지",
           "status": "중립",
           "score": 53,
-          "raw_score": 53,
+          "raw_score": 54,
           "action": "관찰",
           "etfs": [
             "XLE"
@@ -13823,17 +13823,17 @@
             "grade": "A"
           },
           "trend": {
-            "avg3": 52.3,
-            "avg5": 50.0,
-            "delta_3d": 2.0,
+            "avg3": 52.7,
+            "avg5": 50.2,
+            "delta_3d": 3.0,
             "peak_drop_5d": 0.0,
-            "label": "→ 유지",
+            "label": "↗ 완만한 개선",
             "series": [
               49.0,
               44.0,
               51.0,
               53.0,
-              53.0
+              54.0
             ]
           },
           "buy_signal_days": 0,
@@ -13843,7 +13843,7 @@
             "momentum": 58,
             "relative_strength": 52,
             "volume": 54,
-            "breadth": 32,
+            "breadth": 34,
             "macro": 60
           }
         },
@@ -13882,7 +13882,7 @@
             "momentum": 35,
             "relative_strength": 37,
             "volume": 64,
-            "breadth": 32,
+            "breadth": 34,
             "macro": 60
           }
         },
@@ -13890,7 +13890,7 @@
           "name": "금/금광",
           "status": "약화",
           "score": 41,
-          "raw_score": 42,
+          "raw_score": 43,
           "action": "추가매수 보류",
           "etfs": [
             "GLD",
@@ -13902,9 +13902,9 @@
             "grade": "B"
           },
           "trend": {
-            "avg3": 38.7,
-            "avg5": 37.4,
-            "delta_3d": 3.0,
+            "avg3": 39.0,
+            "avg5": 37.6,
+            "delta_3d": 4.0,
             "peak_drop_5d": 0.0,
             "label": "↗ 완만한 개선",
             "series": [
@@ -13912,7 +13912,7 @@
               37.0,
               39.0,
               35.0,
-              42.0
+              43.0
             ]
           },
           "buy_signal_days": 0,
@@ -13922,7 +13922,7 @@
             "momentum": 43,
             "relative_strength": 40,
             "volume": 40,
-            "breadth": 32,
+            "breadth": 34,
             "macro": 55
           }
         },
@@ -13961,7 +13961,7 @@
             "momentum": 71,
             "relative_strength": 59,
             "volume": 64,
-            "breadth": 32,
+            "breadth": 34,
             "macro": 55
           }
         },
@@ -14000,7 +14000,7 @@
             "momentum": 35,
             "relative_strength": 37,
             "volume": 57,
-            "breadth": 32,
+            "breadth": 34,
             "macro": 55
           }
         },
@@ -14039,7 +14039,7 @@
             "momentum": 27,
             "relative_strength": 34,
             "volume": 74,
-            "breadth": 32,
+            "breadth": 34,
             "macro": 55
           }
         }
