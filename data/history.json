@@ -14048,14 +14048,14 @@
     "2026-10-06": {
       "regime": {
         "label": "Neutral",
-        "score": 64,
+        "score": 63,
         "guidance": "시장 방향성이 혼재합니다. 섹터별 추세·신뢰도를 함께 확인합니다.",
         "metrics": {
-          "spy_vs_ma50_pct": 2.11,
-          "spy_vs_ma200_pct": 8.61,
+          "spy_vs_ma50_pct": 2.1,
+          "spy_vs_ma200_pct": 8.6,
           "trend_score": 86,
-          "breadth_score": 32.9,
-          "environment_score": 52,
+          "breadth_score": 33.0,
+          "environment_score": 49,
           "vix": 15.01,
           "vix_risk_on_score": 76,
           "vix_trend": "보합 →",
@@ -14076,8 +14076,8 @@
           ],
           "rank": 1,
           "confidence": {
-            "score": 58,
-            "grade": "C"
+            "score": 68,
+            "grade": "B"
           },
           "trend": {
             "avg3": 64.3,
