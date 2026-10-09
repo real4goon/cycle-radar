@@ -15290,15 +15290,15 @@
     "2026-10-09": {
       "regime": {
         "label": "Risk-on",
-        "score": 65,
+        "score": 66,
         "guidance": "시장 추세와 참여도가 비교적 우호적입니다. 섹터 강도 신호를 정상 해석합니다.",
         "metrics": {
-          "spy_vs_ma50_pct": 1.6,
-          "spy_vs_ma200_pct": 8.18,
+          "spy_vs_ma50_pct": 1.61,
+          "spy_vs_ma200_pct": 8.19,
           "trend_score": 83,
-          "breadth_score": 45.2,
+          "breadth_score": 46.2,
           "environment_score": 49,
-          "vix": 14.86,
+          "vix": 14.84,
           "vix_risk_on_score": 76,
           "vix_trend": "보합 →",
           "vix_term_structure": "Contango · 안정",
@@ -15342,7 +15342,7 @@
             "momentum": 43,
             "relative_strength": 38,
             "volume": 40,
-            "breadth": 45,
+            "breadth": 46,
             "macro": 55
           }
         },
@@ -15381,8 +15381,8 @@
           "factors": {
             "momentum": 47,
             "relative_strength": 42,
-            "volume": 73,
-            "breadth": 45,
+            "volume": 74,
+            "breadth": 46,
             "macro": 55
           }
         },
@@ -15420,8 +15420,8 @@
           "factors": {
             "momentum": 45,
             "relative_strength": 42,
-            "volume": 42,
-            "breadth": 45,
+            "volume": 43,
+            "breadth": 46,
             "macro": 60
           }
         },
@@ -15459,8 +15459,8 @@
           "factors": {
             "momentum": 52,
             "relative_strength": 45,
-            "volume": 57,
-            "breadth": 45,
+            "volume": 58,
+            "breadth": 46,
             "macro": 60
           }
         },
@@ -15497,9 +15497,9 @@
           "signal_story": "현재 판단 17일째 유지",
           "factors": {
             "momentum": 64,
-            "relative_strength": 55,
-            "volume": 55,
-            "breadth": 45,
+            "relative_strength": 56,
+            "volume": 56,
+            "breadth": 46,
             "macro": 60
           }
         },
@@ -15507,7 +15507,7 @@
           "name": "금융",
           "status": "중립",
           "score": 50,
-          "raw_score": 52,
+          "raw_score": 53,
           "action": "관찰",
           "etfs": [
             "XLF"
@@ -15518,9 +15518,9 @@
             "grade": "B"
           },
           "trend": {
-            "avg3": 46.3,
-            "avg5": 45.0,
-            "delta_3d": 11.0,
+            "avg3": 46.7,
+            "avg5": 45.2,
+            "delta_3d": 12.0,
             "peak_drop_5d": 0.0,
             "label": "↑ 빠른 개선",
             "series": [
@@ -15528,7 +15528,7 @@
               43.0,
               41.0,
               46.0,
-              52.0
+              53.0
             ]
           },
           "buy_signal_days": 0,
@@ -15537,8 +15537,8 @@
           "factors": {
             "momentum": 56,
             "relative_strength": 47,
-            "volume": 51,
-            "breadth": 45,
+            "volume": 53,
+            "breadth": 46,
             "macro": 60
           }
         },
@@ -15577,8 +15577,8 @@
           "factors": {
             "momentum": 50,
             "relative_strength": 44,
-            "volume": 46,
-            "breadth": 45,
+            "volume": 47,
+            "breadth": 46,
             "macro": 55
           }
         },
@@ -15616,8 +15616,8 @@
           "factors": {
             "momentum": 59,
             "relative_strength": 50,
-            "volume": 57,
-            "breadth": 45,
+            "volume": 58,
+            "breadth": 46,
             "macro": 55
           }
         },
@@ -15653,10 +15653,10 @@
           "stage_days": 2,
           "signal_story": "현재 판단 2일째 유지",
           "factors": {
-            "momentum": 69,
+            "momentum": 70,
             "relative_strength": 56,
             "volume": 57,
-            "breadth": 45,
+            "breadth": 46,
             "macro": 55
           }
         },
@@ -15695,7 +15695,7 @@
             "momentum": 51,
             "relative_strength": 45,
             "volume": 66,
-            "breadth": 45,
+            "breadth": 46,
             "macro": 55
           }
         }
