@@ -17360,18 +17360,18 @@
     "2026-10-16": {
       "regime": {
         "label": "Neutral",
-        "score": 57,
+        "score": 60,
         "guidance": "시장 방향성이 혼재합니다. 섹터별 추세·신뢰도를 함께 확인합니다.",
         "metrics": {
-          "spy_vs_ma50_pct": -0.54,
-          "spy_vs_ma200_pct": 5.74,
-          "trend_score": 69,
-          "breadth_score": 65.1,
-          "environment_score": 45,
-          "vix": 20.45,
-          "vix_risk_on_score": 38,
+          "spy_vs_ma50_pct": -0.75,
+          "spy_vs_ma200_pct": 5.5,
+          "trend_score": 68,
+          "breadth_score": 62.9,
+          "environment_score": 47,
+          "vix": 19.98,
+          "vix_risk_on_score": 53,
           "vix_trend": "공포 급등 ↑",
-          "vix_term_structure": "평탄 · 경계",
+          "vix_term_structure": "Contango · 정상",
           "vix_divergence": "명확한 Risk-off · 주가↓ VIX↑"
         }
       },
@@ -17380,7 +17380,7 @@
           "name": "반도체/AI 하드웨어",
           "status": "약화",
           "score": 38,
-          "raw_score": 37,
+          "raw_score": 38,
           "action": "추가매수 보류",
           "etfs": [
             "SMH",
@@ -17392,17 +17392,17 @@
             "grade": "C"
           },
           "trend": {
-            "avg3": 38.7,
-            "avg5": 40.0,
-            "delta_3d": -1.0,
-            "peak_drop_5d": -6.0,
+            "avg3": 39.0,
+            "avg5": 40.2,
+            "delta_3d": 0.0,
+            "peak_drop_5d": -5.0,
             "label": "→ 유지",
             "series": [
               41.0,
               43.0,
               38.0,
               41.0,
-              37.0
+              38.0
             ]
           },
           "buy_signal_days": 0,
@@ -17411,8 +17411,8 @@
           "factors": {
             "momentum": 9,
             "relative_strength": 18,
-            "volume": 97,
-            "breadth": 65,
+            "volume": 99,
+            "breadth": 63,
             "macro": 55
           }
         },
@@ -17451,8 +17451,8 @@
           "factors": {
             "momentum": 21,
             "relative_strength": 29,
-            "volume": 39,
-            "breadth": 65,
+            "volume": 40,
+            "breadth": 63,
             "macro": 55
           }
         },
@@ -17491,7 +17491,7 @@
             "momentum": 44,
             "relative_strength": 52,
             "volume": 52,
-            "breadth": 65,
+            "breadth": 63,
             "macro": 60
           }
         },
@@ -17530,7 +17530,7 @@
             "momentum": 69,
             "relative_strength": 67,
             "volume": 49,
-            "breadth": 65,
+            "breadth": 63,
             "macro": 60
           }
         },
@@ -17569,7 +17569,7 @@
             "momentum": 78,
             "relative_strength": 77,
             "volume": 46,
-            "breadth": 65,
+            "breadth": 63,
             "macro": 60
           }
         },
@@ -17607,8 +17607,8 @@
           "factors": {
             "momentum": 57,
             "relative_strength": 60,
-            "volume": 60,
-            "breadth": 65,
+            "volume": 61,
+            "breadth": 63,
             "macro": 60
           }
         },
@@ -17624,7 +17624,7 @@
           ],
           "rank": 7,
           "confidence": {
-            "score": 70,
+            "score": 71,
             "grade": "B"
           },
           "trend": {
@@ -17647,8 +17647,8 @@
           "factors": {
             "momentum": 41,
             "relative_strength": 49,
-            "volume": 44,
-            "breadth": 65,
+            "volume": 46,
+            "breadth": 63,
             "macro": 55
           }
         },
@@ -17686,16 +17686,16 @@
           "factors": {
             "momentum": 25,
             "relative_strength": 38,
-            "volume": 50,
-            "breadth": 65,
+            "volume": 51,
+            "breadth": 63,
             "macro": 55
           }
         },
         {
           "name": "필수소비재",
           "status": "초기 관심",
-          "score": 75,
-          "raw_score": 77,
+          "score": 74,
+          "raw_score": 76,
           "action": "추격주의 · 조정 대기",
           "etfs": [
             "XLP"
@@ -17706,17 +17706,17 @@
             "grade": "B"
           },
           "trend": {
-            "avg3": 71.0,
-            "avg5": 66.4,
-            "delta_3d": 8.0,
+            "avg3": 70.7,
+            "avg5": 66.2,
+            "delta_3d": 7.0,
             "peak_drop_5d": 0.0,
-            "label": "↑ 빠른 개선",
+            "label": "↗ 완만한 개선",
             "series": [
               61.0,
               58.0,
               69.0,
               67.0,
-              77.0
+              76.0
             ]
           },
           "buy_signal_days": 0,
@@ -17725,37 +17725,37 @@
           "factors": {
             "momentum": 84,
             "relative_strength": 77,
-            "volume": 91,
-            "breadth": 65,
+            "volume": 92,
+            "breadth": 63,
             "macro": 55
           }
         },
         {
           "name": "리츠",
           "status": "중립",
-          "score": 57,
-          "raw_score": 57,
+          "score": 58,
+          "raw_score": 58,
           "action": "관찰",
           "etfs": [
             "VNQ"
           ],
           "rank": 5,
           "confidence": {
-            "score": 86,
+            "score": 87,
             "grade": "A"
           },
           "trend": {
-            "avg3": 57.0,
-            "avg5": 55.6,
-            "delta_3d": 1.0,
-            "peak_drop_5d": -1.0,
+            "avg3": 57.3,
+            "avg5": 55.8,
+            "delta_3d": 2.0,
+            "peak_drop_5d": 0.0,
             "label": "→ 유지",
             "series": [
               55.0,
               52.0,
               56.0,
               58.0,
-              57.0
+              58.0
             ]
           },
           "buy_signal_days": 0,
@@ -17764,8 +17764,8 @@
           "factors": {
             "momentum": 56,
             "relative_strength": 59,
-            "volume": 55,
-            "breadth": 65,
+            "volume": 56,
+            "breadth": 63,
             "macro": 55
           }
         }
@@ -18079,7 +18079,7 @@
         "macro": 55
       },
       "results": {
-        "return_5d_pct": 5.66,
+        "return_5d_pct": 5.63,
         "return_10d_pct": null,
         "return_20d_pct": null,
         "max_drawdown_20d_pct": null
