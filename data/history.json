@@ -19433,10 +19433,10 @@
         "score": 62,
         "guidance": "시장 방향성이 혼재합니다. 섹터별 추세·신뢰도를 함께 확인합니다.",
         "metrics": {
-          "spy_vs_ma50_pct": -0.78,
-          "spy_vs_ma200_pct": 5.1,
+          "spy_vs_ma50_pct": -0.76,
+          "spy_vs_ma200_pct": 5.12,
           "trend_score": 67,
-          "breadth_score": 63.7,
+          "breadth_score": 63.4,
           "environment_score": 48,
           "vix": 19.45,
           "vix_risk_on_score": 67,
@@ -19482,37 +19482,37 @@
             "momentum": 28,
             "relative_strength": 33,
             "volume": 54,
-            "breadth": 64,
+            "breadth": 63,
             "macro": 55
           }
         },
         {
           "name": "바이오/헬스케어",
           "status": "초기 관심",
-          "score": 59,
-          "raw_score": 59,
+          "score": 58,
+          "raw_score": 58,
           "action": "관찰 · 조정 대기",
           "etfs": [
             "XBI",
             "IBB"
           ],
-          "rank": 3,
+          "rank": 4,
           "confidence": {
             "score": 90,
             "grade": "A"
           },
           "trend": {
-            "avg3": 58.7,
-            "avg5": 56.2,
-            "delta_3d": -1.0,
-            "peak_drop_5d": -2.0,
+            "avg3": 58.3,
+            "avg5": 56.0,
+            "delta_3d": -2.0,
+            "peak_drop_5d": -3.0,
             "label": "→ 유지",
             "series": [
               44.0,
               61.0,
               60.0,
               57.0,
-              59.0
+              58.0
             ]
           },
           "buy_signal_days": 0,
@@ -19522,36 +19522,36 @@
             "momentum": 58,
             "relative_strength": 60,
             "volume": 56,
-            "breadth": 64,
+            "breadth": 63,
             "macro": 55
           }
         },
         {
           "name": "산업재",
           "status": "중립",
-          "score": 50,
-          "raw_score": 48,
+          "score": 49,
+          "raw_score": 47,
           "action": "관찰",
           "etfs": [
             "XLI"
           ],
-          "rank": 7,
+          "rank": 8,
           "confidence": {
             "score": 63,
             "grade": "C"
           },
           "trend": {
-            "avg3": 52.7,
-            "avg5": 52.0,
-            "delta_3d": -8.0,
-            "peak_drop_5d": -8.0,
+            "avg3": 52.3,
+            "avg5": 51.8,
+            "delta_3d": -9.0,
+            "peak_drop_5d": -9.0,
             "label": "↓ 급격한 약화",
             "series": [
               50.0,
               52.0,
               56.0,
               54.0,
-              48.0
+              47.0
             ]
           },
           "buy_signal_days": 0,
@@ -19561,7 +19561,7 @@
             "momentum": 35,
             "relative_strength": 44,
             "volume": 57,
-            "breadth": 64,
+            "breadth": 63,
             "macro": 60
           }
         },
@@ -19574,7 +19574,7 @@
           "etfs": [
             "XLB"
           ],
-          "rank": 4,
+          "rank": 3,
           "confidence": {
             "score": 73,
             "grade": "B"
@@ -19600,7 +19600,7 @@
             "momentum": 59,
             "relative_strength": 58,
             "volume": 45,
-            "breadth": 64,
+            "breadth": 63,
             "macro": 60
           }
         },
@@ -19639,7 +19639,7 @@
             "momentum": 72,
             "relative_strength": 69,
             "volume": 65,
-            "breadth": 64,
+            "breadth": 63,
             "macro": 60
           }
         },
@@ -19678,7 +19678,7 @@
             "momentum": 57,
             "relative_strength": 57,
             "volume": 39,
-            "breadth": 64,
+            "breadth": 63,
             "macro": 60
           }
         },
@@ -19718,7 +19718,7 @@
             "momentum": 26,
             "relative_strength": 34,
             "volume": 52,
-            "breadth": 64,
+            "breadth": 63,
             "macro": 55
           }
         },
@@ -19731,7 +19731,7 @@
           "etfs": [
             "QQQM"
           ],
-          "rank": 8,
+          "rank": 7,
           "confidence": {
             "score": 72,
             "grade": "B"
@@ -19757,7 +19757,7 @@
             "momentum": 39,
             "relative_strength": 45,
             "volume": 58,
-            "breadth": 64,
+            "breadth": 63,
             "macro": 55
           }
         },
@@ -19795,8 +19795,8 @@
           "factors": {
             "momentum": 63,
             "relative_strength": 63,
-            "volume": 88,
-            "breadth": 64,
+            "volume": 89,
+            "breadth": 63,
             "macro": 55
           }
         },
@@ -19835,7 +19835,7 @@
             "momentum": 58,
             "relative_strength": 58,
             "volume": 48,
-            "breadth": 64,
+            "breadth": 63,
             "macro": 55
           }
         }
