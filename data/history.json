@@ -20261,10 +20261,10 @@
         "score": 63,
         "guidance": "시장 방향성이 혼재합니다. 섹터별 추세·신뢰도를 함께 확인합니다.",
         "metrics": {
-          "spy_vs_ma50_pct": 0.4,
-          "spy_vs_ma200_pct": 6.21,
+          "spy_vs_ma50_pct": 0.42,
+          "spy_vs_ma200_pct": 6.23,
           "trend_score": 74,
-          "breadth_score": 59.3,
+          "breadth_score": 57.5,
           "environment_score": 46,
           "vix": 17.52,
           "vix_risk_on_score": 67,
@@ -20310,15 +20310,15 @@
             "momentum": 48,
             "relative_strength": 47,
             "volume": 79,
-            "breadth": 59,
+            "breadth": 58,
             "macro": 55
           }
         },
         {
           "name": "바이오/헬스케어",
           "status": "중립",
-          "score": 53,
-          "raw_score": 52,
+          "score": 52,
+          "raw_score": 51,
           "action": "관찰",
           "etfs": [
             "XBI",
@@ -20330,17 +20330,17 @@
             "grade": "B"
           },
           "trend": {
-            "avg3": 54.3,
-            "avg5": 56.0,
-            "delta_3d": -6.0,
-            "peak_drop_5d": -8.0,
+            "avg3": 54.0,
+            "avg5": 55.8,
+            "delta_3d": -7.0,
+            "peak_drop_5d": -9.0,
             "label": "↘ 약화",
             "series": [
               60.0,
               57.0,
               58.0,
               53.0,
-              52.0
+              51.0
             ]
           },
           "buy_signal_days": 0,
@@ -20350,7 +20350,7 @@
             "momentum": 52,
             "relative_strength": 51,
             "volume": 44,
-            "breadth": 59,
+            "breadth": 58,
             "macro": 55
           }
         },
@@ -20389,7 +20389,7 @@
             "momentum": 52,
             "relative_strength": 50,
             "volume": 62,
-            "breadth": 59,
+            "breadth": 58,
             "macro": 60
           }
         },
@@ -20402,7 +20402,7 @@
           "etfs": [
             "XLB"
           ],
-          "rank": 3,
+          "rank": 2,
           "confidence": {
             "score": 67,
             "grade": "B"
@@ -20428,7 +20428,7 @@
             "momentum": 66,
             "relative_strength": 58,
             "volume": 46,
-            "breadth": 59,
+            "breadth": 58,
             "macro": 60
           }
         },
@@ -20467,7 +20467,7 @@
             "momentum": 65,
             "relative_strength": 61,
             "volume": 64,
-            "breadth": 59,
+            "breadth": 58,
             "macro": 60
           }
         },
@@ -20505,8 +20505,8 @@
           "factors": {
             "momentum": 57,
             "relative_strength": 53,
-            "volume": 42,
-            "breadth": 59,
+            "volume": 43,
+            "breadth": 58,
             "macro": 60
           }
         },
@@ -20545,8 +20545,8 @@
           "factors": {
             "momentum": 40,
             "relative_strength": 42,
-            "volume": 64,
-            "breadth": 59,
+            "volume": 65,
+            "breadth": 58,
             "macro": 55
           }
         },
@@ -20585,36 +20585,36 @@
             "momentum": 49,
             "relative_strength": 48,
             "volume": 67,
-            "breadth": 59,
+            "breadth": 58,
             "macro": 55
           }
         },
         {
           "name": "필수소비재",
           "status": "초기 관심",
-          "score": 60,
-          "raw_score": 58,
+          "score": 59,
+          "raw_score": 57,
           "action": "관찰 · 조정 대기",
           "etfs": [
             "XLP"
           ],
-          "rank": 2,
+          "rank": 3,
           "confidence": {
             "score": 54,
             "grade": "C"
           },
           "trend": {
-            "avg3": 63.0,
-            "avg5": 66.4,
-            "delta_3d": -8.0,
-            "peak_drop_5d": -19.0,
+            "avg3": 62.7,
+            "avg5": 66.2,
+            "delta_3d": -9.0,
+            "peak_drop_5d": -20.0,
             "label": "↓ 급격한 약화",
             "series": [
               66.0,
               77.0,
               66.0,
               65.0,
-              58.0
+              57.0
             ]
           },
           "buy_signal_days": 0,
@@ -20624,7 +20624,7 @@
             "momentum": 56,
             "relative_strength": 53,
             "volume": 71,
-            "breadth": 59,
+            "breadth": 58,
             "macro": 55
           }
         },
@@ -20639,8 +20639,8 @@
           ],
           "rank": 5,
           "confidence": {
-            "score": 79,
-            "grade": "B"
+            "score": 80,
+            "grade": "A"
           },
           "trend": {
             "avg3": 56.7,
@@ -20663,7 +20663,7 @@
             "momentum": 54,
             "relative_strength": 51,
             "volume": 52,
-            "breadth": 59,
+            "breadth": 58,
             "macro": 55
           }
         }
@@ -21444,7 +21444,12 @@
         "breadth": 59,
         "macro": 60
       },
-      "results": {}
+      "results": {
+        "return_5d_pct": null,
+        "return_10d_pct": null,
+        "return_20d_pct": null,
+        "max_drawdown_20d_pct": null
+      }
     }
   ],
   "alert_state": {

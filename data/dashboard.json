@@ -1,12 +1,12 @@
 {
-  "updated_at_kst": "2026-10-28 08:02",
+  "updated_at_kst": "2026-10-28 11:29",
   "meta": {
-    "updated_at_iso": "2026-10-28T08:02:09+09:00",
-    "updated_at_utc_iso": "2026-10-27T23:02:09+00:00",
-    "updated_at_kst": "2026-10-28 08:02",
-    "updated_at_et": "2026-10-27 19:02",
-    "market_session": "afterhours",
-    "perspective": "미국장 애프터마켓 관점",
+    "updated_at_iso": "2026-10-28T11:29:34+09:00",
+    "updated_at_utc_iso": "2026-10-28T02:29:34+00:00",
+    "updated_at_kst": "2026-10-28 11:29",
+    "updated_at_et": "2026-10-27 22:29",
+    "market_session": "closed",
+    "perspective": "미국장 마감 후 최종 데이터 관점",
     "update_policy": "서버: 미국 거래일 기준 KST 17:00~익일 09:00, 30분 간격 · 프리마켓 시작부터 정규장·애프터마켓까지 수집 · 화면: 5분마다 새 데이터 자동 확인 · GitHub Actions는 지연 가능",
     "cautions": [
       "수집 시점과 미국장 세션을 먼저 확인하세요.",
@@ -34,39 +34,39 @@
     {
       "name": "나스닥 선물",
       "symbol": "NQ=F",
-      "value": "29,821.50",
-      "change_pct": 1.31,
-      "change_text": "+1.31%",
-      "change_direction": 1.3053,
+      "value": "29,851.00",
+      "change_pct": 1.41,
+      "change_text": "+1.41%",
+      "change_direction": 1.4055,
       "spark": [
-        29748.0,
-        29767.0,
-        29815.5,
-        29842.25,
-        29830.0,
-        29845.5,
-        29798.0,
-        29812.5,
-        29808.75,
-        29788.5,
-        29813.75,
-        29788.0,
-        29790.25,
-        29775.0,
         29786.25,
-        29806.0,
+        29805.75,
         29832.5,
         29822.5,
-        29860.0,
-        29813.25,
-        29797.25,
+        29860.75,
+        29813.75,
+        29797.75,
         29797.0,
         29784.25,
         29803.0,
         29806.25,
-        29827.5,
+        29829.25,
         29836.25,
-        29821.5
+        29820.0,
+        29815.5,
+        29835.5,
+        29857.25,
+        29853.0,
+        29839.25,
+        29815.25,
+        29832.25,
+        29860.25,
+        29826.5,
+        29864.0,
+        29880.0,
+        29871.25,
+        29856.25,
+        29849.75
       ],
       "sources": [
         {
@@ -84,25 +84,11 @@
     {
       "name": "S&P500 선물",
       "symbol": "ES=F",
-      "value": "7,759.75",
-      "change_pct": 0.59,
-      "change_text": "+0.59%",
-      "change_direction": 0.5866,
+      "value": "7,753.50",
+      "change_pct": 0.51,
+      "change_text": "+0.51%",
+      "change_direction": 0.5055,
       "spark": [
-        7754.5,
-        7757.0,
-        7765.0,
-        7768.0,
-        7763.25,
-        7762.75,
-        7754.75,
-        7755.0,
-        7757.75,
-        7755.75,
-        7760.25,
-        7756.5,
-        7756.0,
-        7752.5,
         7753.0,
         7755.25,
         7762.5,
@@ -116,7 +102,21 @@
         7756.5,
         7760.75,
         7761.25,
-        7759.75
+        7760.0,
+        7759.5,
+        7760.75,
+        7763.25,
+        7760.5,
+        7760.25,
+        7757.0,
+        7761.25,
+        7762.25,
+        7757.25,
+        7758.75,
+        7758.75,
+        7754.75,
+        7754.25,
+        7753.5
       ],
       "sources": [
         {
@@ -183,24 +183,11 @@
     {
       "name": "WTI 원유",
       "symbol": "CL=F",
-      "value": "99.91",
-      "change_pct": -1.82,
-      "change_text": "-1.82%",
-      "change_direction": -1.818,
+      "value": "101.20",
+      "change_pct": -0.55,
+      "change_text": "-0.55%",
+      "change_direction": -0.5503,
       "spark": [
-        100.040001,
-        99.949997,
-        99.889999,
-        100.25,
-        99.989998,
-        100.260002,
-        100.050003,
-        100.07,
-        100.0,
-        99.830002,
-        99.900002,
-        100.010002,
-        99.870003,
         99.970001,
         99.910004,
         99.599998,
@@ -215,7 +202,20 @@
         99.779999,
         99.889999,
         99.940002,
-        99.910004
+        99.870003,
+        99.989998,
+        100.07,
+        100.150002,
+        100.239998,
+        100.709999,
+        100.370003,
+        100.449997,
+        101.010002,
+        101.099998,
+        101.110001,
+        101.260002,
+        101.330002,
+        101.199997
       ],
       "sources": [
         {
@@ -282,22 +282,11 @@
     {
       "name": "DXY",
       "symbol": "DX-Y.NYB",
-      "value": "102.36",
-      "change_pct": 0.4,
-      "change_text": "+0.40%",
-      "change_direction": 0.3972,
+      "value": "102.40",
+      "change_pct": 0.43,
+      "change_text": "+0.43%",
+      "change_direction": 0.4306,
       "spark": [
-        102.231003,
-        102.237999,
-        102.244003,
-        102.277,
-        102.266998,
-        102.257004,
-        102.277,
-        102.279999,
-        102.278,
-        102.264999,
-        102.324997,
         102.307999,
         102.315002,
         102.313004,
@@ -314,7 +303,18 @@
         102.357002,
         102.362,
         102.352997,
-        102.364998
+        102.364998,
+        102.373001,
+        102.323997,
+        102.337997,
+        102.355003,
+        102.369003,
+        102.399002,
+        102.379997,
+        102.419998,
+        102.398003,
+        102.408997,
+        102.399002
       ],
       "sources": [
         {
@@ -332,39 +332,21 @@
     {
       "name": "비트코인",
       "symbol": "BTC-USD",
-      "value": "80,774",
-      "change_pct": 0.96,
-      "change_text": "+0.96%",
-      "change_direction": 0.9594,
+      "value": "80,813",
+      "change_pct": 1.01,
+      "change_text": "+1.01%",
+      "change_direction": 1.0077,
       "spark": [
-        80472.84375,
-        80467.648438,
-        80540.789062,
-        80514.007812,
-        80642.203125,
-        80579.796875,
-        80393.8125,
-        80532.21875,
-        80506.03125,
-        80570.679688,
-        80509.226562,
-        80560.398438,
-        80547.5,
-        80692.109375,
-        80708.8125,
-        80658.648438,
-        80580.84375,
-        80549.070312,
-        80670.976562,
-        80614.539062,
-        80630.648438,
-        80837.570312,
-        80787.976562,
-        80796.84375,
-        80809.523438,
-        80780.5625,
-        80792.367188,
-        80774.226562
+        80667.53125,
+        80669.140625,
+        80632.570312,
+        80633.867188,
+        80537.960938,
+        80667.539062,
+        80842.5,
+        80826.390625,
+        80917.570312,
+        80812.882812
       ],
       "sources": [
         {
@@ -382,39 +364,21 @@
     {
       "name": "달러/원",
       "symbol": "KRW=X",
-      "value": "1,326.6",
-      "change_pct": 0.37,
-      "change_text": "+0.37%",
-      "change_direction": 0.3684,
+      "value": "1,337.2",
+      "change_pct": 0.94,
+      "change_text": "+0.94%",
+      "change_direction": 0.9368,
       "spark": [
-        1326.339966,
-        1326.079956,
-        1326.579956,
-        1326.400024,
-        1325.780029,
-        1326.050049,
-        1326.189941,
-        1326.599976,
-        1326.5,
-        1326.040039,
-        1326.030029,
-        1326.130005,
-        1326.130005,
-        1325.97998,
-        1326.130005,
-        1326.130005,
-        1325.920044,
-        1326.23999,
-        1326.359985,
-        1326.410034,
-        1326.810059,
-        1326.810059,
-        1326.829956,
-        1326.709961,
-        1326.119995,
-        1326.27002,
-        1326.26001,
-        1326.630005
+        1326.97998,
+        1329.680054,
+        1330.439941,
+        1331.689941,
+        1332.180054,
+        1335.47998,
+        1335.77002,
+        1335.579956,
+        1335.280029,
+        1337.180054
       ],
       "sources": [
         {
@@ -442,10 +406,10 @@
       "score": 63,
       "guidance": "시장 방향성이 혼재합니다. 섹터별 추세·신뢰도를 함께 확인합니다.",
       "metrics": {
-        "spy_vs_ma50_pct": 0.4,
-        "spy_vs_ma200_pct": 6.21,
+        "spy_vs_ma50_pct": 0.42,
+        "spy_vs_ma200_pct": 6.23,
         "trend_score": 74,
-        "breadth_score": 59.3,
+        "breadth_score": 57.5,
         "environment_score": 46,
         "vix": 17.52,
         "vix_risk_on_score": 67,
@@ -546,7 +510,7 @@
     {
       "name": "유동성",
       "state": "부담",
-      "summary": "DXY 당일 +0.40%",
+      "summary": "DXY 당일 +0.43%",
       "investment_grade": "주의",
       "investment_score": 35,
       "investment_hint": "달러 강세는 글로벌 유동성과 원자재·신흥 위험자산에 부담.",
@@ -588,11 +552,11 @@
     "low_buy": {
       "score": 39,
       "label": "낮음",
-      "note": "SPY 고점 대비 -1.2% · RSI 51.4",
+      "note": "SPY 고점 대비 -1.2% · RSI 51.6",
       "components": {
         "fear_greed_inverse": 66.4,
-        "drawdown": 17.2,
-        "rsi": 42.2,
+        "drawdown": 17.1,
+        "rsi": 41.9,
         "vix": 25.1,
         "breadth_stress": 30.0
       }
@@ -602,11 +566,11 @@
       "label": "대기",
       "note": "SPY 5일 +0.1% · 20일선 대비 -0.1%",
       "components": {
-        "momentum_5d": 48.8,
-        "ma20_recovery": 54.3,
+        "momentum_5d": 49.0,
+        "ma20_recovery": 54.5,
         "vix_stabilization": 54.9,
-        "breadth_confirmation": 56.5,
-        "volume_confirmation": 52.4
+        "breadth_confirmation": 56.4,
+        "volume_confirmation": 52.6
       }
     },
     "fear_greed": {
@@ -617,7 +581,7 @@
       "previous_close": 27.3360341151386,
       "previous_1_week": 28.742857142857144,
       "previous_1_month": 36.91428571428571,
-      "timestamp": "2026-10-27T22:43:03+00:00",
+      "timestamp": "2026-10-27T23:59:39+00:00",
       "source": "CNN",
       "source_url": "https://production.dataviz.cnn.io/index/fearandgreed/graphdata/2026-10-27",
       "fallback": false,
@@ -625,18 +589,18 @@
       "note": "CNN 직접 수집 · 1주 전 28.742857142857144 · 낮을수록 공포"
     },
     "metrics": {
-      "spy_drawdown_pct": 1.19,
-      "spy_rsi14": 51.42,
-      "spy_5d_pct": 0.1,
-      "spy_vs_ma20_pct": -0.08,
+      "spy_drawdown_pct": 1.17,
+      "spy_rsi14": 51.55,
+      "spy_5d_pct": 0.12,
+      "spy_vs_ma20_pct": -0.06,
       "vix": 17.52,
       "vix_5d_pct": 1.21,
       "vix3m": 19.57,
       "vix_vix3m_ratio": 0.895,
       "vix_term_structure": "Contango · 정상",
       "vix_divergence": "혼조 · 추가 확인",
-      "rsp_vs_spy_20d_pctp": 3.15,
-      "rsp_vs_spy_5d_pctp": 0.72
+      "rsp_vs_spy_20d_pctp": 3.13,
+      "rsp_vs_spy_5d_pctp": 0.71
     },
     "summary": "공포·낙폭 기준 저점 매력은 크지 않습니다.",
     "action": "선별 관찰",
@@ -677,12 +641,12 @@
     "risk_on_score": 67
   },
   "breadth": {
-    "score": 59.3,
+    "score": 57.5,
     "metrics": {
-      "RSP_vs_SPY_5d": 0.72,
-      "RSP_vs_SPY_20d": 3.15,
-      "QQQE_vs_QQQ_5d": 0.1,
-      "QQQE_vs_QQQ_20d": 1.42
+      "RSP_vs_SPY_5d": 0.71,
+      "RSP_vs_SPY_20d": 3.13,
+      "QQQE_vs_QQQ_5d": -0.29,
+      "QQQE_vs_QQQ_20d": 1.03
     },
     "note": "RSP/SPY + QQQE/QQQ 동일가중 대비 시총가중 상대강도 프록시"
   },
@@ -739,7 +703,7 @@
   "event_risk": {
     "active": true,
     "penalty": 10,
-    "label": "FOMC 회의 (금리결정) 19.0시간 전",
+    "label": "FOMC 회의 (금리결정) 15.5시간 전",
     "event": {
       "name": "FOMC 회의 (금리결정)",
       "date_kst": "10/29 (목)",
@@ -784,14 +748,14 @@
       ],
       "status": "중립",
       "score": 51,
-      "base_score": 55,
+      "base_score": 54,
       "action": "관찰",
-      "reason": "애프터마켓 최신가 확인 · 5일 +2.1% · 20일 -8.1% · SPY 대비 5일 +2.0%p / 20일 -8.8%p · 상대강도 변화 +10.8%p · 거래량 1.27배 · 변동성조정 5일 z +0.40 · Breadth 59점 · 애프터마켓 -0.40% · SPY 대비 -0.42%p · 보정 -0.6점",
+      "reason": "장외 마지막 최신가 확인 · 5일 +2.1% · 20일 -8.1% · SPY 대비 5일 +2.0%p / 20일 -8.8%p · 상대강도 변화 +10.8%p · 거래량 1.27배 · 변동성조정 5일 z +0.40 · Breadth 58점",
       "factors": {
         "momentum": 48,
         "relative_strength": 47,
         "volume": 79,
-        "breadth": 59,
+        "breadth": 58,
         "macro": 55
       },
       "metrics": {
@@ -801,14 +765,14 @@
         "rs_vs_spy_20d_pctp": -8.78,
         "rs_acceleration_pctp": 10.82,
         "volume_expansion_ratio": 1.27,
-        "breadth_score": 59.3,
-        "session": "afterhours",
-        "extended_change_pct": -0.4,
-        "extended_vs_spy_pctp": -0.42,
-        "extended_score_adjustment": -0.6,
-        "regular_base_score": 55,
+        "breadth_score": 57.5,
+        "session": "closed",
+        "extended_change_pct": 0.0,
+        "extended_vs_spy_pctp": 0.0,
+        "extended_score_adjustment": 0.0,
+        "regular_base_score": 54,
         "regular_close": 557.97998,
-        "latest_price": 555.75,
+        "latest_price": 558.9,
         "daily_bar_date": "2026-10-27",
         "history_points": 127,
         "daily_volatility_pct": 2.361,
@@ -818,8 +782,8 @@
         "distance_20d_high_pct": -11.98,
         "overheat": false,
         "breakout_failure": false,
-        "gap_pct": 1.33,
-        "gap_hold_ratio": 2.28,
+        "gap_pct": 1.39,
+        "gap_hold_ratio": 2.17,
         "corr20_spy": 0.821,
         "corr60_spy": 0.693,
         "corr_change": 0.128,
@@ -835,7 +799,7 @@
         "sector_participation_positive_pct": 100.0,
         "sector_participation_outperform_pct": 100.0,
         "provisional": false,
-        "event_risk": "FOMC 회의 (금리결정) 19.0시간 전"
+        "event_risk": "FOMC 회의 (금리결정) 15.5시간 전"
       },
       "raw_score": 54,
       "trend": {
@@ -925,15 +889,15 @@
         }
       ],
       "status": "중립",
-      "score": 53,
-      "base_score": 52,
+      "score": 52,
+      "base_score": 51,
       "action": "관찰",
-      "reason": "애프터마켓 최신가 확인 · 5일 +1.0% · 20일 -1.3% · SPY 대비 5일 +1.0%p / 20일 -2.0%p · 상대강도 변화 +2.9%p · 거래량 0.77배 · 변동성조정 5일 z +0.22 · Breadth 59점 · 애프터마켓 -0.03% · SPY 대비 -0.04%p · 보정 -0.1점",
+      "reason": "장외 마지막 최신가 확인 · 5일 +1.0% · 20일 -1.3% · SPY 대비 5일 +1.0%p / 20일 -2.0%p · 상대강도 변화 +2.9%p · 거래량 0.77배 · 변동성조정 5일 z +0.22 · Breadth 58점",
       "factors": {
         "momentum": 52,
         "relative_strength": 51,
         "volume": 44,
-        "breadth": 59,
+        "breadth": 58,
         "macro": 55
       },
       "metrics": {
@@ -943,14 +907,14 @@
         "rs_vs_spy_20d_pctp": -1.97,
         "rs_acceleration_pctp": 2.94,
         "volume_expansion_ratio": 0.77,
-        "breadth_score": 59.3,
-        "session": "afterhours",
-        "extended_change_pct": -0.03,
-        "extended_vs_spy_pctp": -0.04,
-        "extended_score_adjustment": -0.1,
-        "regular_base_score": 52,
+        "breadth_score": 57.5,
+        "session": "closed",
+        "extended_change_pct": 0.0,
+        "extended_vs_spy_pctp": 0.0,
+        "extended_score_adjustment": 0.0,
+        "regular_base_score": 51,
         "regular_close": 154.839996,
-        "latest_price": 154.8,
+        "latest_price": 154.5,
         "daily_bar_date": "2026-10-27",
         "history_points": 127,
         "daily_volatility_pct": 2.133,
@@ -977,21 +941,21 @@
         "sector_participation_positive_pct": 66.7,
         "sector_participation_outperform_pct": 66.7,
         "provisional": false,
-        "event_risk": "FOMC 회의 (금리결정) 19.0시간 전"
+        "event_risk": "FOMC 회의 (금리결정) 15.5시간 전"
       },
-      "raw_score": 52,
+      "raw_score": 51,
       "trend": {
-        "avg3": 54.3,
-        "avg5": 56.0,
-        "delta_3d": -6.0,
-        "peak_drop_5d": -8.0,
+        "avg3": 54.0,
+        "avg5": 55.8,
+        "delta_3d": -7.0,
+        "peak_drop_5d": -9.0,
         "label": "↘ 약화",
         "series": [
           60.0,
           57.0,
           58.0,
           53.0,
-          52.0
+          51.0
         ]
       },
       "signal_days": 2,
@@ -1069,12 +1033,12 @@
       "score": 54,
       "base_score": 55,
       "action": "관찰",
-      "reason": "애프터마켓 최신가 확인 · 5일 +0.7% · 20일 -0.7% · SPY 대비 5일 +0.6%p / 20일 -1.4%p · 상대강도 변화 +2.0%p · 거래량 1.03배 · 변동성조정 5일 z +0.32 · Breadth 59점 · 애프터마켓 -0.24% · SPY 대비 -0.26%p · 보정 -0.4점",
+      "reason": "장외 마지막 최신가 확인 · 5일 +0.7% · 20일 -0.7% · SPY 대비 5일 +0.6%p / 20일 -1.4%p · 상대강도 변화 +2.0%p · 거래량 1.03배 · 변동성조정 5일 z +0.32 · Breadth 58점",
       "factors": {
         "momentum": 52,
         "relative_strength": 50,
         "volume": 62,
-        "breadth": 59,
+        "breadth": 58,
         "macro": 60
       },
       "metrics": {
@@ -1084,11 +1048,11 @@
         "rs_vs_spy_20d_pctp": -1.43,
         "rs_acceleration_pctp": 2.02,
         "volume_expansion_ratio": 1.03,
-        "breadth_score": 59.3,
-        "session": "afterhours",
-        "extended_change_pct": -0.24,
-        "extended_vs_spy_pctp": -0.26,
-        "extended_score_adjustment": -0.4,
+        "breadth_score": 57.5,
+        "session": "closed",
+        "extended_change_pct": 0.0,
+        "extended_vs_spy_pctp": 0.0,
+        "extended_score_adjustment": 0.0,
         "regular_base_score": 55,
         "regular_close": 167.919998,
         "latest_price": 167.52,
@@ -1118,7 +1082,7 @@
         "sector_participation_positive_pct": 100.0,
         "sector_participation_outperform_pct": 66.7,
         "provisional": false,
-        "event_risk": "FOMC 회의 (금리결정) 19.0시간 전"
+        "event_risk": "FOMC 회의 (금리결정) 15.5시간 전"
       },
       "raw_score": 55,
       "trend": {
@@ -1210,12 +1174,12 @@
       "score": 59,
       "base_score": 59,
       "action": "소액 진입 검토",
-      "reason": "애프터마켓 최신가 확인 · 5일 +1.1% · 20일 +5.5% · SPY 대비 5일 +1.0%p / 20일 +4.7%p · 상대강도 변화 -3.7%p · 거래량 0.80배 · 변동성조정 5일 z +0.65 · Breadth 59점 · 애프터마켓 +0.00% · SPY 대비 -0.02%p · 보정 -0.0점",
+      "reason": "장외 마지막 최신가 확인 · 5일 +1.1% · 20일 +5.5% · SPY 대비 5일 +1.0%p / 20일 +4.7%p · 상대강도 변화 -3.7%p · 거래량 0.80배 · 변동성조정 5일 z +0.65 · Breadth 58점",
       "factors": {
         "momentum": 66,
         "relative_strength": 58,
         "volume": 46,
-        "breadth": 59,
+        "breadth": 58,
         "macro": 60
       },
       "metrics": {
@@ -1225,14 +1189,14 @@
         "rs_vs_spy_20d_pctp": 4.74,
         "rs_acceleration_pctp": -3.75,
         "volume_expansion_ratio": 0.8,
-        "breadth_score": 59.3,
-        "session": "afterhours",
+        "breadth_score": 57.5,
+        "session": "closed",
         "extended_change_pct": 0.0,
-        "extended_vs_spy_pctp": -0.02,
-        "extended_score_adjustment": -0.0,
+        "extended_vs_spy_pctp": 0.0,
+        "extended_score_adjustment": 0.0,
         "regular_base_score": 59,
         "regular_close": 51.779999,
-        "latest_price": 51.78,
+        "latest_price": 51.95,
         "daily_bar_date": "2026-10-27",
         "history_points": 127,
         "daily_volatility_pct": 0.743,
@@ -1259,7 +1223,7 @@
         "sector_participation_positive_pct": 66.7,
         "sector_participation_outperform_pct": 66.7,
         "provisional": false,
-        "event_risk": "FOMC 회의 (금리결정) 19.0시간 전"
+        "event_risk": "FOMC 회의 (금리결정) 15.5시간 전"
       },
       "raw_score": 59,
       "trend": {
@@ -1317,8 +1281,8 @@
       "flags": [
         "주요 이벤트 임박"
       ],
-      "rank": 3,
-      "rank_change": 2
+      "rank": 2,
+      "rank_change": 3
     },
     {
       "name": "에너지",
@@ -1351,12 +1315,12 @@
       "score": 64,
       "base_score": 62,
       "action": "관찰 · 조정 대기",
-      "reason": "애프터마켓 최신가 확인 · 5일 +0.4% · 20일 +10.8% · SPY 대비 5일 +0.3%p / 20일 +10.1%p · 상대강도 변화 -9.9%p · 거래량 1.05배 · 변동성조정 5일 z +0.11 · Breadth 59점 · 애프터마켓 -0.09% · SPY 대비 -0.10%p · 보정 -0.1점",
+      "reason": "장외 마지막 최신가 확인 · 5일 +0.4% · 20일 +10.8% · SPY 대비 5일 +0.3%p / 20일 +10.1%p · 상대강도 변화 -9.9%p · 거래량 1.05배 · 변동성조정 5일 z +0.11 · Breadth 58점",
       "factors": {
         "momentum": 65,
         "relative_strength": 61,
         "volume": 64,
-        "breadth": 59,
+        "breadth": 58,
         "macro": 60
       },
       "metrics": {
@@ -1366,14 +1330,14 @@
         "rs_vs_spy_20d_pctp": 10.12,
         "rs_acceleration_pctp": -9.85,
         "volume_expansion_ratio": 1.05,
-        "breadth_score": 59.3,
-        "session": "afterhours",
-        "extended_change_pct": -0.09,
-        "extended_vs_spy_pctp": -0.1,
-        "extended_score_adjustment": -0.1,
+        "breadth_score": 57.5,
+        "session": "closed",
+        "extended_change_pct": 0.0,
+        "extended_vs_spy_pctp": 0.0,
+        "extended_score_adjustment": 0.0,
         "regular_base_score": 62,
         "regular_close": 68.209999,
-        "latest_price": 68.15,
+        "latest_price": 68.0586,
         "daily_bar_date": "2026-10-27",
         "history_points": 127,
         "daily_volatility_pct": 1.374,
@@ -1400,7 +1364,7 @@
         "sector_participation_positive_pct": 66.7,
         "sector_participation_outperform_pct": 66.7,
         "provisional": false,
-        "event_risk": "FOMC 회의 (금리결정) 19.0시간 전"
+        "event_risk": "FOMC 회의 (금리결정) 15.5시간 전"
       },
       "raw_score": 62,
       "trend": {
@@ -1492,12 +1456,12 @@
       "score": 55,
       "base_score": 54,
       "action": "관찰",
-      "reason": "애프터마켓 최신가 확인 · 5일 +0.3% · 20일 +3.5% · SPY 대비 5일 +0.2%p / 20일 +2.7%p · 상대강도 변화 -2.5%p · 거래량 0.74배 · 변동성조정 5일 z +0.16 · Breadth 59점 · 애프터마켓 -0.20% · SPY 대비 -0.21%p · 보정 -0.3점",
+      "reason": "장외 마지막 최신가 확인 · 5일 +0.3% · 20일 +3.5% · SPY 대비 5일 +0.2%p / 20일 +2.7%p · 상대강도 변화 -2.5%p · 거래량 0.76배 · 변동성조정 5일 z +0.16 · Breadth 58점",
       "factors": {
         "momentum": 57,
         "relative_strength": 53,
-        "volume": 42,
-        "breadth": 59,
+        "volume": 43,
+        "breadth": 58,
         "macro": 60
       },
       "metrics": {
@@ -1506,15 +1470,15 @@
         "rs_vs_spy_5d_pctp": 0.21,
         "rs_vs_spy_20d_pctp": 2.75,
         "rs_acceleration_pctp": -2.54,
-        "volume_expansion_ratio": 0.74,
-        "breadth_score": 59.3,
-        "session": "afterhours",
-        "extended_change_pct": -0.2,
-        "extended_vs_spy_pctp": -0.21,
-        "extended_score_adjustment": -0.3,
+        "volume_expansion_ratio": 0.76,
+        "breadth_score": 57.5,
+        "session": "closed",
+        "extended_change_pct": 0.0,
+        "extended_vs_spy_pctp": 0.0,
+        "extended_score_adjustment": 0.0,
         "regular_base_score": 54,
         "regular_close": 55.880001,
-        "latest_price": 55.7696,
+        "latest_price": 55.75,
         "daily_bar_date": "2026-10-27",
         "history_points": 127,
         "daily_volatility_pct": 0.78,
@@ -1541,7 +1505,7 @@
         "sector_participation_positive_pct": 100.0,
         "sector_participation_outperform_pct": 100.0,
         "provisional": false,
-        "event_risk": "FOMC 회의 (금리결정) 19.0시간 전"
+        "event_risk": "FOMC 회의 (금리결정) 15.5시간 전"
       },
       "raw_score": 54,
       "trend": {
@@ -1634,12 +1598,12 @@
       "score": 47,
       "base_score": 48,
       "action": "관찰",
-      "reason": "애프터마켓 최신가 확인 · 5일 -1.4% · 20일 -2.8% · SPY 대비 5일 -1.5%p / 20일 -3.5%p · 상대강도 변화 +2.0%p · 거래량 1.21배 · 변동성조정 5일 z -0.58 · Breadth 59점 · 애프터마켓 +0.02% · SPY 대비 -0.00%p · 보정 +0.0점",
+      "reason": "장외 마지막 최신가 확인 · 5일 -1.4% · 20일 -2.8% · SPY 대비 5일 -1.5%p / 20일 -3.5%p · 상대강도 변화 +2.0%p · 거래량 1.21배 · 변동성조정 5일 z -0.58 · Breadth 58점",
       "factors": {
         "momentum": 40,
         "relative_strength": 42,
-        "volume": 64,
-        "breadth": 59,
+        "volume": 65,
+        "breadth": 58,
         "macro": 55
       },
       "metrics": {
@@ -1649,14 +1613,14 @@
         "rs_vs_spy_20d_pctp": -3.49,
         "rs_acceleration_pctp": 1.98,
         "volume_expansion_ratio": 1.21,
-        "breadth_score": 59.3,
-        "session": "afterhours",
-        "extended_change_pct": 0.02,
-        "extended_vs_spy_pctp": -0.0,
+        "breadth_score": 57.5,
+        "session": "closed",
+        "extended_change_pct": 0.0,
+        "extended_vs_spy_pctp": 0.0,
         "extended_score_adjustment": 0.0,
         "regular_base_score": 48,
         "regular_close": 372.279999,
-        "latest_price": 372.34,
+        "latest_price": 372.261,
         "daily_bar_date": "2026-10-27",
         "history_points": 127,
         "daily_volatility_pct": 1.089,
@@ -1683,7 +1647,7 @@
         "sector_participation_positive_pct": 0.0,
         "sector_participation_outperform_pct": 0.0,
         "provisional": false,
-        "event_risk": "FOMC 회의 (금리결정) 19.0시간 전"
+        "event_risk": "FOMC 회의 (금리결정) 15.5시간 전"
       },
       "raw_score": 48,
       "trend": {
@@ -1775,12 +1739,12 @@
       "score": 52,
       "base_score": 53,
       "action": "관찰",
-      "reason": "애프터마켓 최신가 확인 · 5일 +0.5% · 20일 -2.3% · SPY 대비 5일 +0.4%p / 20일 -3.0%p · 상대강도 변화 +3.4%p · 거래량 1.10배 · 변동성조정 5일 z +0.17 · Breadth 59점 · 애프터마켓 +0.02% · SPY 대비 +0.00%p · 보정 +0.0점",
+      "reason": "장외 마지막 최신가 확인 · 5일 +0.5% · 20일 -2.3% · SPY 대비 5일 +0.4%p / 20일 -3.0%p · 상대강도 변화 +3.4%p · 거래량 1.10배 · 변동성조정 5일 z +0.17 · Breadth 58점",
       "factors": {
         "momentum": 49,
         "relative_strength": 48,
         "volume": 67,
-        "breadth": 59,
+        "breadth": 58,
         "macro": 55
       },
       "metrics": {
@@ -1790,14 +1754,14 @@
         "rs_vs_spy_20d_pctp": -2.98,
         "rs_acceleration_pctp": 3.36,
         "volume_expansion_ratio": 1.1,
-        "breadth_score": 59.3,
-        "session": "afterhours",
-        "extended_change_pct": 0.02,
+        "breadth_score": 57.5,
+        "session": "closed",
+        "extended_change_pct": 0.0,
         "extended_vs_spy_pctp": 0.0,
         "extended_score_adjustment": 0.0,
         "regular_base_score": 53,
         "regular_close": 296.959991,
-        "latest_price": 297.01,
+        "latest_price": 297.49,
         "daily_bar_date": "2026-10-27",
         "history_points": 127,
         "daily_volatility_pct": 1.219,
@@ -1807,7 +1771,7 @@
         "distance_20d_high_pct": -5.05,
         "overheat": false,
         "breakout_failure": false,
-        "gap_pct": 0.42,
+        "gap_pct": 0.43,
         "gap_hold_ratio": null,
         "corr20_spy": 0.923,
         "corr60_spy": 0.909,
@@ -1824,7 +1788,7 @@
         "sector_participation_positive_pct": 100.0,
         "sector_participation_outperform_pct": 100.0,
         "provisional": false,
-        "event_risk": "FOMC 회의 (금리결정) 19.0시간 전"
+        "event_risk": "FOMC 회의 (금리결정) 15.5시간 전"
       },
       "raw_score": 53,
       "trend": {
@@ -1913,15 +1877,15 @@
         }
       ],
       "status": "초기 관심",
-      "score": 60,
-      "base_score": 58,
+      "score": 59,
+      "base_score": 57,
       "action": "관찰 · 조정 대기",
-      "reason": "애프터마켓 최신가 확인 · 5일 -0.7% · 20일 +6.5% · SPY 대비 5일 -0.8%p / 20일 +5.8%p · 상대강도 변화 -6.5%p · 거래량 1.30배 · 변동성조정 5일 z -0.24 · Breadth 59점 · 애프터마켓 +0.17% · SPY 대비 +0.16%p · 보정 +0.2점",
+      "reason": "장외 마지막 최신가 확인 · 5일 -0.7% · 20일 +6.5% · SPY 대비 5일 -0.8%p / 20일 +5.8%p · 상대강도 변화 -6.5%p · 거래량 1.30배 · 변동성조정 5일 z -0.24 · Breadth 58점",
       "factors": {
         "momentum": 56,
         "relative_strength": 53,
         "volume": 71,
-        "breadth": 59,
+        "breadth": 58,
         "macro": 55
       },
       "metrics": {
@@ -1931,14 +1895,14 @@
         "rs_vs_spy_20d_pctp": 5.76,
         "rs_acceleration_pctp": -6.52,
         "volume_expansion_ratio": 1.3,
-        "breadth_score": 59.3,
-        "session": "afterhours",
-        "extended_change_pct": 0.17,
-        "extended_vs_spy_pctp": 0.16,
-        "extended_score_adjustment": 0.2,
-        "regular_base_score": 58,
+        "breadth_score": 57.5,
+        "session": "closed",
+        "extended_change_pct": 0.0,
+        "extended_vs_spy_pctp": 0.0,
+        "extended_score_adjustment": 0.0,
+        "regular_base_score": 57,
         "regular_close": 87.150002,
-        "latest_price": 87.3,
+        "latest_price": 87.43,
         "daily_bar_date": "2026-10-27",
         "history_points": 127,
         "daily_volatility_pct": 1.277,
@@ -1965,21 +1929,21 @@
         "sector_participation_positive_pct": 0.0,
         "sector_participation_outperform_pct": 0.0,
         "provisional": false,
-        "event_risk": "FOMC 회의 (금리결정) 19.0시간 전"
+        "event_risk": "FOMC 회의 (금리결정) 15.5시간 전"
       },
-      "raw_score": 58,
+      "raw_score": 57,
       "trend": {
-        "avg3": 63.0,
-        "avg5": 66.4,
-        "delta_3d": -8.0,
-        "peak_drop_5d": -19.0,
+        "avg3": 62.7,
+        "avg5": 66.2,
+        "delta_3d": -9.0,
+        "peak_drop_5d": -20.0,
         "label": "↓ 급격한 약화",
         "series": [
           66.0,
           77.0,
           66.0,
           65.0,
-          58.0
+          57.0
         ]
       },
       "signal_days": 2,
@@ -2023,8 +1987,8 @@
       "flags": [
         "주요 이벤트 임박"
       ],
-      "rank": 2,
-      "rank_change": 0
+      "rank": 3,
+      "rank_change": -1
     },
     {
       "name": "리츠",
@@ -2055,14 +2019,14 @@
       ],
       "status": "중립",
       "score": 54,
-      "base_score": 54,
+      "base_score": 53,
       "action": "관찰",
-      "reason": "애프터마켓 최신가 확인 · 5일 +0.1% · 20일 +2.1% · SPY 대비 5일 +0.0%p / 20일 +1.3%p · 상대강도 변화 -1.3%p · 거래량 0.89배 · 변동성조정 5일 z +0.06 · Breadth 59점 · 애프터마켓 -0.04% · SPY 대비 -0.06%p · 보정 -0.1점",
+      "reason": "장외 마지막 최신가 확인 · 5일 +0.1% · 20일 +2.1% · SPY 대비 5일 +0.0%p / 20일 +1.3%p · 상대강도 변화 -1.3%p · 거래량 0.89배 · 변동성조정 5일 z +0.06 · Breadth 58점",
       "factors": {
         "momentum": 54,
         "relative_strength": 51,
         "volume": 52,
-        "breadth": 59,
+        "breadth": 58,
         "macro": 55
       },
       "metrics": {
@@ -2072,12 +2036,12 @@
         "rs_vs_spy_20d_pctp": 1.34,
         "rs_acceleration_pctp": -1.3,
         "volume_expansion_ratio": 0.89,
-        "breadth_score": 59.3,
-        "session": "afterhours",
-        "extended_change_pct": -0.04,
-        "extended_vs_spy_pctp": -0.06,
-        "extended_score_adjustment": -0.1,
-        "regular_base_score": 54,
+        "breadth_score": 57.5,
+        "session": "closed",
+        "extended_change_pct": 0.0,
+        "extended_vs_spy_pctp": 0.0,
+        "extended_score_adjustment": 0.0,
+        "regular_base_score": 53,
         "regular_close": 92.389999,
         "latest_price": 92.3519,
         "daily_bar_date": "2026-10-27",
@@ -2106,7 +2070,7 @@
         "sector_participation_positive_pct": 100.0,
         "sector_participation_outperform_pct": 100.0,
         "provisional": false,
-        "event_risk": "FOMC 회의 (금리결정) 19.0시간 전"
+        "event_risk": "FOMC 회의 (금리결정) 15.5시간 전"
       },
       "raw_score": 53,
       "trend": {
@@ -2128,8 +2092,8 @@
       "stage_days": 13,
       "signal_story": "현재 판단 13일째 유지",
       "confidence": {
-        "score": 79,
-        "grade": "B"
+        "score": 80,
+        "grade": "A"
       },
       "data_quality": {
         "score": 100,
@@ -2177,16 +2141,16 @@
         "label": "Broadcom 2X",
         "sector": "반도체/AI 하드웨어",
         "reference": false,
-        "score": 56,
+        "score": 57,
         "action": "반전 확인 대기",
         "status": "주의",
         "reason": "기초 AVGO 5일 +2.4% / 20일 -3.6% · SPY 대비 5일 +2.3%p · 섹터 51점 · 시장 레짐 63점 · VIX 환경 67점 · 기초 20일 변동성 42% · 레버리지 20일 추적차 -2.0%p",
         "flags": [
           "20일 고점 대비 큰 낙폭"
         ],
-        "price": 34.8,
-        "day_change_pct": 7.08,
-        "extended_change_pct": -0.77,
+        "price": 34.87,
+        "day_change_pct": 7.29,
+        "extended_change_pct": 0.0,
         "metrics": {
           "etf_5d_pct": 4.13,
           "etf_20d_pct": -9.15,
@@ -2204,7 +2168,7 @@
           "vix_risk_on_score": 67,
           "reversal_score": 53,
           "risk_control_score": 81,
-          "session": "afterhours"
+          "session": "closed"
         },
         "sources": [
           {
@@ -2248,9 +2212,9 @@
         "flags": [
           "20일 고점 대비 큰 낙폭"
         ],
-        "price": 50.4001,
-        "day_change_pct": 4.28,
-        "extended_change_pct": -0.24,
+        "price": 50.9596,
+        "day_change_pct": 5.44,
+        "extended_change_pct": 0.0,
         "metrics": {
           "etf_5d_pct": 5.87,
           "etf_20d_pct": -17.57,
@@ -2268,7 +2232,7 @@
           "vix_risk_on_score": 67,
           "reversal_score": 53,
           "risk_control_score": 74,
-          "session": "afterhours"
+          "session": "closed"
         },
         "sources": [
           {
@@ -2308,9 +2272,9 @@
           "레버리지 변동성 매우 높음",
           "20일 고점 대비 큰 낙폭"
         ],
-        "price": 28.82,
-        "day_change_pct": 7.54,
-        "extended_change_pct": -0.45,
+        "price": 29.18,
+        "day_change_pct": 8.88,
+        "extended_change_pct": 0.0,
         "metrics": {
           "etf_5d_pct": 0.84,
           "etf_20d_pct": -18.5,
@@ -2328,7 +2292,7 @@
           "vix_risk_on_score": 67,
           "reversal_score": 53,
           "risk_control_score": 61,
-          "session": "afterhours"
+          "session": "closed"
         },
         "sources": [
           {
@@ -2365,7 +2329,7 @@
         "label": "Sandisk 2X",
         "sector": "반도체/AI 하드웨어",
         "reference": false,
-        "score": 36,
+        "score": 37,
         "action": "레버리지 보류",
         "status": "위험",
         "reason": "기초 SNDK 5일 -4.4% / 20일 -24.6% · SPY 대비 5일 -4.5%p · 섹터 51점 · 시장 레짐 63점 · VIX 환경 67점 · 기초 20일 변동성 59% · 레버리지 20일 추적차 +3.7%p",
@@ -2373,9 +2337,9 @@
           "레버리지 변동성 매우 높음",
           "20일 고점 대비 큰 낙폭"
         ],
-        "price": 8.9,
-        "day_change_pct": 6.21,
-        "extended_change_pct": -1.55,
+        "price": 9.0997,
+        "day_change_pct": 8.59,
+        "extended_change_pct": 0.0,
         "metrics": {
           "etf_5d_pct": -9.78,
           "etf_20d_pct": -45.44,
@@ -2393,7 +2357,7 @@
           "vix_risk_on_score": 67,
           "reversal_score": 53,
           "risk_control_score": 65,
-          "session": "afterhours"
+          "session": "closed"
         },
         "sources": [
           {
@@ -2437,9 +2401,9 @@
         "flags": [
           "20일 고점 대비 큰 낙폭"
         ],
-        "price": 81.1648,
-        "day_change_pct": 5.67,
-        "extended_change_pct": -0.1,
+        "price": 81.88,
+        "day_change_pct": 6.6,
+        "extended_change_pct": 0.0,
         "metrics": {
           "etf_5d_pct": 4.84,
           "etf_20d_pct": -10.35,
@@ -2457,7 +2421,7 @@
           "vix_risk_on_score": 67,
           "reversal_score": 53,
           "risk_control_score": 86,
-          "session": "afterhours"
+          "session": "closed"
         },
         "sources": [
           {
@@ -2501,9 +2465,9 @@
         "flags": [
           "20일 고점 대비 큰 낙폭"
         ],
-        "price": 18.35,
-        "day_change_pct": 6.93,
-        "extended_change_pct": -0.11,
+        "price": 18.52,
+        "day_change_pct": 7.93,
+        "extended_change_pct": 0.0,
         "metrics": {
           "etf_5d_pct": 3.26,
           "etf_20d_pct": -37.09,
@@ -2521,7 +2485,7 @@
           "vix_risk_on_score": 67,
           "reversal_score": 53,
           "risk_control_score": 69,
-          "session": "afterhours"
+          "session": "closed"
         },
         "sources": [
           {
@@ -2566,9 +2530,9 @@
           "레버리지 변동성 매우 높음",
           "20일 고점 대비 큰 낙폭"
         ],
-        "price": 9.23,
-        "day_change_pct": 9.23,
-        "extended_change_pct": 0.33,
+        "price": 9.4,
+        "day_change_pct": 11.24,
+        "extended_change_pct": 0.0,
         "metrics": {
           "etf_5d_pct": 10.18,
           "etf_20d_pct": -35.12,
@@ -2586,7 +2550,7 @@
           "vix_risk_on_score": 67,
           "reversal_score": 53,
           "risk_control_score": 68,
-          "session": "afterhours"
+          "session": "closed"
         },
         "sources": [
           {
@@ -2623,8 +2587,8 @@
         "label": "SpaceX 2X",
         "sector": "우주/성장",
         "reference": false,
-        "score": 55,
-        "action": "반전 확인 대기",
+        "score": 54,
+        "action": "관찰",
         "status": "주의",
         "reason": "기초 SPCX 5일 +0.5% / 20일 -0.4% · SPY 대비 5일 +0.5%p · 섹터 55점 · 시장 레짐 63점 · VIX 환경 67점 · 기초 20일 변동성 66% · 레버리지 20일 추적차 -4.2%p",
         "flags": [
@@ -2634,7 +2598,7 @@
         ],
         "price": 9.38,
         "day_change_pct": 2.74,
-        "extended_change_pct": 0.54,
+        "extended_change_pct": 0.0,
         "metrics": {
           "etf_5d_pct": -0.85,
           "etf_20d_pct": -5.09,
@@ -2652,7 +2616,7 @@
           "vix_risk_on_score": 67,
           "reversal_score": 53,
           "risk_control_score": 57,
-          "session": "afterhours"
+          "session": "closed"
         },
         "sources": [
           {
@@ -2696,9 +2660,9 @@
         "flags": [
           "20일 고점 대비 큰 낙폭"
         ],
-        "price": 26.7795,
-        "day_change_pct": 5.31,
-        "extended_change_pct": -0.34,
+        "price": 27.55,
+        "day_change_pct": 8.34,
+        "extended_change_pct": 0.0,
         "metrics": {
           "etf_5d_pct": 6.42,
           "etf_20d_pct": -26.64,
@@ -2716,7 +2680,7 @@
           "vix_risk_on_score": 67,
           "reversal_score": 53,
           "risk_control_score": 71,
-          "session": "afterhours"
+          "session": "closed"
         },
         "sources": [
           {
@@ -2758,9 +2722,9 @@
         "status": "주의",
         "reason": "기초 QQQ 5일 +0.5% / 20일 -2.3% · SPY 대비 5일 +0.4%p · 섹터 52점 · 시장 레짐 63점 · VIX 환경 67점 · 기초 20일 변동성 19% · 레버리지 20일 추적차 -0.7%p",
         "flags": [],
-        "price": 90.3243,
-        "day_change_pct": 2.61,
-        "extended_change_pct": 0.04,
+        "price": 90.54,
+        "day_change_pct": 2.85,
+        "extended_change_pct": 0.0,
         "metrics": {
           "etf_5d_pct": 0.84,
           "etf_20d_pct": -5.18,
@@ -2778,7 +2742,7 @@
           "vix_risk_on_score": 67,
           "reversal_score": 53,
           "risk_control_score": 86,
-          "session": "afterhours"
+          "session": "closed"
         },
         "sources": [
           {
@@ -2841,10 +2805,10 @@
         "symbol": "XLP",
         "from_status": "초기 관심",
         "to_status": "초기 관심",
-        "delta": -7,
+        "delta": -8,
         "trend": "↓ 급격한 약화",
-        "rank": 2,
-        "rank_change": 0
+        "rank": 3,
+        "rank_change": -1
       },
       {
         "name": "리츠",
