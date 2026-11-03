@@ -8,6 +8,7 @@ from pathlib import Path
 from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
 from urllib.parse import quote
+from intersection_alert import timestamp
 
 import pandas as pd
 import requests
@@ -86,258 +87,6 @@ VALIDATION_ETFS = {
 }
 
 HEADERS = {"User-Agent": "Mozilla/5.0 (compatible; cycle-radar/1.14; +https://github.com/)"}
-
-
-def load_previous_dashboard():
-    if not OUT.exists():
-        return {}
-    try:
-        return json.loads(OUT.read_text(encoding="utf-8"))
-    except Exception as e:
-        print(f"previous dashboard warning: {e}")
-        return {}
-
-
-def telegram_send(text):
-    token = os.getenv("TELEGRAM_BOT_TOKEN", "").strip()
-    chat_id = os.getenv("TELEGRAM_CHAT_ID", "").strip()
-    if not token or not chat_id:
-        print("telegram: secrets not configured; skip")
-        return False
-    url = f"https://api.telegram.org/bot{token}/sendMessage"
-    payload = {
-        "chat_id": chat_id,
-        "text": text,
-        "disable_web_page_preview": True,
-    }
-    try:
-        r = requests.post(url, json=payload, timeout=20)
-        r.raise_for_status()
-        data = r.json()
-        if not data.get("ok"):
-            raise RuntimeError(data)
-        print("telegram: message sent")
-        return True
-    except Exception as e:
-        print(f"telegram warning: {e}")
-        return False
-
-
-def telegram_test_message(now_kst):
-    if os.getenv("TELEGRAM_TEST", "false").lower() not in {"1", "true", "yes", "on"}:
-        return False
-    dashboard_url = os.getenv("DASHBOARD_URL", "").strip()
-    lines = [
-        "✅ 미국 산업 사이클 레이더 알림 설정 완료",
-        "",
-        "🔔 현재 알림 조건",
-        "1) 산업별 판단이 새로 ‘소액 진입 검토’로 변경될 때",
-        "2) 산업별 판단이 새로 ‘분할 접근’으로 변경될 때",
-        "3) 시장 타이밍 판단이 새로 ‘분할 접근 검토’로 변경될 때",
-        "4) 시장 타이밍 판단이 새로 ‘1차 분할매수 후보’로 변경될 때",
-        "",
-        "• 동일 상태 유지 시 중복 알림 없음",
-        "• 동일 유형 재알림은 18시간 쿨다운",
-        "• 신뢰도 80점 상향 돌파 / 급격한 약화도 품질 알림",
-        "• 관찰 / 조정 대기 / 추가매수 보류 자체는 매수 알림 대상 아님",
-        "",
-        f"확인 시각: {now_kst.strftime('%Y-%m-%d %H:%M')} KST",
-    ]
-    if dashboard_url:
-        lines += ["", f"대시보드: {dashboard_url}"]
-    return telegram_send("\n".join(lines))
-
-
-def alert_allowed(history, key, now_kst, cooldown_hours=18):
-    state = history.setdefault("alert_state", {}) if isinstance(history, dict) else {}
-    last = state.get(key)
-    if last:
-        try:
-            dt = datetime.fromisoformat(last)
-            if dt.tzinfo is None:
-                dt = dt.replace(tzinfo=KST)
-            if (now_kst - dt.astimezone(KST)).total_seconds() < cooldown_hours * 3600:
-                return False
-        except Exception:
-            pass
-    return True
-
-
-def mark_alert(history, key, now_kst):
-    if isinstance(history, dict):
-        history.setdefault("alert_state", {})[key] = now_kst.isoformat(timespec="seconds")
-
-
-def notify_new_signals(previous, sectors, timing, now_kst, history=None):
-    """Send meaningful signal transitions with cooldown, not every scheduled run."""
-    if os.getenv("TELEGRAM_TEST", "false").lower() in {"1", "true", "yes", "on"}:
-        return
-
-    prev_sectors = {
-        s.get("name"): s for s in (previous.get("sectors") or []) if isinstance(s, dict)
-    }
-    alerts = []
-    signal_names = set()
-
-    for s in sectors:
-        name = s.get("name", "산업")
-        current_action = s.get("action")
-        prev_obj = prev_sectors.get(name) or {}
-        prev_action = prev_obj.get("action")
-        sector_targets = {"소액 진입 검토", "분할 접근"}
-        if current_action in sector_targets and current_action != prev_action:
-            alerts.append({
-                "kind": "sector", "key": f"sector:{name}:{current_action}",
-                "name": name, "etfs": " / ".join(s.get("etfs") or []),
-                "action": current_action, "score": s.get("score"),
-                "raw_score": s.get("raw_score"), "status": s.get("status"),
-                "previous": prev_action or "이전 기록 없음", "reason": s.get("reason", ""),
-                "metrics": s.get("metrics") or {}, "trend": s.get("trend") or {},
-                "confidence": s.get("confidence") or {}, "rank": s.get("rank"),
-                "rank_change": s.get("rank_change"), "flags": s.get("flags") or [],
-                "buy_signal_days": s.get("buy_signal_days", 0), "stage_days": s.get("stage_days", 0),
-                "signal_story": s.get("signal_story", ""),
-            })
-            signal_names.add(name)
-        elif prev_action in sector_targets and current_action not in sector_targets:
-            alerts.append({
-                "kind": "sector_exit", "key": f"sector_exit:{name}",
-                "name": name, "etfs": " / ".join(s.get("etfs") or []),
-                "action": current_action or "관찰", "score": s.get("score"),
-                "raw_score": s.get("raw_score"), "status": s.get("status"),
-                "previous": prev_action, "reason": s.get("reason", ""),
-                "metrics": s.get("metrics") or {}, "trend": s.get("trend") or {},
-                "confidence": s.get("confidence") or {}, "rank": s.get("rank"),
-                "rank_change": s.get("rank_change"), "flags": s.get("flags") or [],
-                "buy_signal_days": s.get("buy_signal_days", 0), "stage_days": s.get("stage_days", 0),
-                "signal_story": s.get("signal_story", ""),
-            })
-
-        confidence = float((s.get("confidence") or {}).get("score") or 0)
-        prev_confidence = float((prev_obj.get("confidence") or {}).get("score") or 0)
-        if name not in signal_names and current_action in sector_targets and confidence >= 80 > prev_confidence:
-            alerts.append({
-                "kind": "quality", "key": f"quality:{name}", "name": name,
-                "etfs": " / ".join(s.get("etfs") or []), "action": current_action,
-                "score": s.get("score"), "confidence": s.get("confidence") or {},
-                "trend": s.get("trend") or {}, "flags": s.get("flags") or [],
-                "buy_signal_days": s.get("buy_signal_days", 0), "stage_days": s.get("stage_days", 0),
-                "signal_story": s.get("signal_story", ""),
-            })
-
-        trend_label = (s.get("trend") or {}).get("label")
-        prev_trend = (prev_obj.get("trend") or {}).get("label")
-        if trend_label == "↓ 급격한 약화" and prev_trend != trend_label and float(s.get("score") or 0) >= 55:
-            alerts.append({
-                "kind": "weakening", "key": f"weakening:{name}", "name": name,
-                "etfs": " / ".join(s.get("etfs") or []), "action": current_action,
-                "score": s.get("score"), "raw_score": s.get("raw_score"),
-                "trend": s.get("trend") or {}, "confidence": s.get("confidence") or {},
-                "flags": s.get("flags") or [],
-                "buy_signal_days": s.get("buy_signal_days", 0), "stage_days": s.get("stage_days", 0),
-                "signal_story": s.get("signal_story", ""),
-            })
-
-    current_timing = timing.get("action") if isinstance(timing, dict) else None
-    prev_timing = ((previous.get("timing") or {}).get("action") if isinstance(previous, dict) else None)
-    timing_targets = {"분할 접근 검토", "1차 분할매수 후보"}
-    if current_timing in timing_targets and current_timing != prev_timing:
-        alerts.append({
-            "kind": "timing", "key": f"timing:{current_timing}",
-            "action": current_timing, "previous": prev_timing or "이전 기록 없음",
-            "low_buy": (timing.get("low_buy") or {}).get("score"),
-            "reversal": (timing.get("reversal") or {}).get("score"),
-            "summary": timing.get("summary", ""),
-        })
-    elif prev_timing in timing_targets and current_timing not in timing_targets:
-        alerts.append({
-            "kind": "timing_exit", "key": "timing_exit",
-            "action": current_timing or "신호 확인 대기", "previous": prev_timing,
-            "low_buy": (timing.get("low_buy") or {}).get("score"),
-            "reversal": (timing.get("reversal") or {}).get("score"),
-            "summary": timing.get("summary", ""),
-        })
-
-    if not alerts:
-        print("telegram: no new meaningful signal")
-        return
-
-    dashboard_url = os.getenv("DASHBOARD_URL", "").strip()
-    for a in alerts:
-        key = a.get("key", a.get("kind", "alert"))
-        if not alert_allowed(history or {}, key, now_kst):
-            print(f"telegram: cooldown skip {key}")
-            continue
-
-        if a["kind"] == "sector":
-            conf = a.get("confidence") or {}
-            tr = a.get("trend") or {}
-            lines = [
-                "🚨 미국 산업 사이클 레이더", "",
-                f"{'🟡' if a['action'] == '소액 진입 검토' else '🟢'} {a['name']}  {a['etfs']}",
-                f"오늘의 판단: {a['action']}",
-                f"안정화 레이더: {a['score']}점 · 원점수 {a.get('raw_score', '-')}점",
-                f"추세: {tr.get('label', '-')} · 3일 {tr.get('delta_3d', 0):+}점",
-                f"신뢰도: {conf.get('score', '-')}점 ({conf.get('grade', '-')}) · 순위 #{a.get('rank') or '-'}",
-                f"신호 흐름: {a.get('signal_story') or '오늘 판단 변경'}",
-                f"이전 판단: {a['previous']}",
-            ]
-            m = a.get("metrics") or {}
-            if m.get("session") in {"premarket", "afterhours"}:
-                label = "프리마켓" if m.get("session") == "premarket" else "애프터마켓"
-                lines += ["", f"🌙 {label}: {float(m.get('extended_change_pct') or 0):+.2f}%",
-                          f"SPY 대비: {float(m.get('extended_vs_spy_pctp') or 0):+.2f}%p · 보정 {float(m.get('extended_score_adjustment') or 0):+.1f}점"]
-            if a.get("flags"):
-                lines += ["", "주의: " + " · ".join(a["flags"][:3])]
-        elif a["kind"] == "sector_exit":
-            tr = a.get("trend") or {}; conf = a.get("confidence") or {}
-            score = a.get('score', '-')
-            reasons = []
-            if tr.get('label'): reasons.append(f"추세 {tr.get('label')}")
-            delta3 = tr.get('delta_3d')
-            if delta3 is not None: reasons.append(f"3일 {delta3:+}점")
-            peak = tr.get('peak_drop_5d')
-            if peak is not None: reasons.append(f"고점 대비 {peak:+}점")
-            if a.get('flags'): reasons.append(" / ".join((a.get('flags') or [])[:2]))
-            if not reasons and a.get('reason'): reasons.append(a['reason'])
-            lines = [
-                "⚪ 매수형 신호 종료", "",
-                f"{a['name']}  {a['etfs']}",
-                f"이전 판단: {a['previous']} → 현재 {a['action']}",
-                f"신호 흐름: {a.get('signal_story') or ('⚪ 오늘 매수 신호 종료 · ' + str(a['action']) + ' 전환')}",
-                f"안정화 레이더: {score}점 · 신뢰도 {conf.get('score', '-')}점 ({conf.get('grade', '-')})",
-                f"종료 사유: {' · '.join(reasons) if reasons else '추세 약화 또는 상태 이탈'}",
-            ]
-        elif a["kind"] == "quality":
-            conf = a.get("confidence") or {}; tr = a.get("trend") or {}
-            lines = ["🔵 신호 신뢰도 강화", "", f"{a['name']}  {a['etfs']}",
-                     f"판단: {a['action']} · 레이더 {a['score']}점",
-                     f"신뢰도 {conf.get('score', '-')}점 ({conf.get('grade', '-')})",
-                     f"추세: {tr.get('label', '-')}"]
-        elif a["kind"] == "weakening":
-            tr = a.get("trend") or {}; conf = a.get("confidence") or {}
-            lines = ["🔴 레이더 급격한 약화", "", f"{a['name']}  {a['etfs']}",
-                     f"현재 판단: {a['action']} · 안정화 {a['score']}점 / 원점수 {a.get('raw_score', '-')}점",
-                     f"최근 3일 변화: {tr.get('delta_3d', 0):+}점 · 고점 대비 {tr.get('peak_drop_5d', 0):+}점",
-                     f"신뢰도: {conf.get('score', '-')}점 ({conf.get('grade', '-')})"]
-        elif a["kind"] == "timing_exit":
-            lines = ["⚪ 시장 타이밍 신호 종료", "", f"이전 판단: {a['previous']} → 현재 {a['action']}",
-                     f"저점매수 매력도: {a['low_buy']}점", f"반전 확인도: {a['reversal']}점"]
-            if a.get("summary"):
-                lines += ["", "종료 사유: " + a["summary"]]
-        else:
-            lines = ["🚨 미국 시장 타이밍 신호", "", f"판단: {a['action']}",
-                     f"저점매수 매력도: {a['low_buy']}점", f"반전 확인도: {a['reversal']}점",
-                     f"이전 판단: {a['previous']}"]
-            if a.get("summary"):
-                lines += ["", a["summary"]]
-
-        lines += ["", f"{now_kst.strftime('%Y-%m-%d %H:%M')} KST",
-                  "알림: 신규 진입 / 신호 종료 / 신뢰도 강화 / 급격한 약화 · 동일 유형 18시간 쿨다운"]
-        if dashboard_url:
-            lines += [f"대시보드: {dashboard_url}"]
-        if telegram_send("\n".join(lines)):
-            mark_alert(history or {}, key, now_kst)
 
 
 def sanitize_json_value(value):
@@ -427,14 +176,29 @@ def intraday_history(symbol):
         return pd.DataFrame()
 
 
+QUOTE_AS_OF = {}
+
+
+def oldest_source_time(daily_time, quote_time=None):
+    daily = timestamp(daily_time)
+    quote_dt = timestamp(quote_time) if quote_time is not None else daily
+    return min(daily, quote_dt).isoformat() if daily is not None and quote_dt is not None else None
+
+
 def latest_extended(symbol):
+    QUOTE_AS_OF.pop(symbol, None)
     t = yf.Ticker(symbol)
     intr = t.history(period="1d", interval="5m", prepost=True, auto_adjust=True)
     daily = t.history(period="5d", interval="1d", auto_adjust=True)
     if daily is None or daily.empty:
         return None, None, 0.0
     prev = float(daily["Close"].iloc[-2] if len(daily) >= 2 else daily["Close"].iloc[-1])
-    latest = float(intr["Close"].dropna().iloc[-1]) if intr is not None and not intr.empty else float(daily["Close"].iloc[-1])
+    intr_close = intr["Close"].dropna() if intr is not None and not intr.empty else pd.Series(dtype=float)
+    close = intr_close if not intr_close.empty else daily["Close"].dropna()
+    if close.empty:
+        return None, None, 0.0
+    latest = float(close.iloc[-1])
+    QUOTE_AS_OF[symbol] = close.index[-1].isoformat()
     chg = (latest / prev - 1) * 100 if prev else 0.0
     return latest, prev, chg
 
@@ -969,14 +733,14 @@ def fetch_fear_greed():
         if score is None:
             score = as_float(hist.get("score"))
             rating = rating or str(hist.get("rating") or "").strip().lower()
-            timestamp = timestamp or hist.get("timestamp")
+            timestamp = hist.get("timestamp")
         if score is None:
             data = hist.get("data") or []
             if data:
                 latest = data[-1]
                 score = as_float(latest.get("y"))
                 rating = rating or str(latest.get("rating") or "").strip().lower()
-                timestamp = timestamp or latest.get("x")
+                timestamp = latest.get("x")
         if score is None:
             raise ValueError("CNN response missing Fear & Greed score")
 
@@ -1902,7 +1666,6 @@ def save_history(history, today, sectors, regime=None):
     write_json_atomic(HISTORY, history)
 
 def main():
-    previous_dashboard = load_previous_dashboard()
     now_utc = datetime.now(UTC)
     now_kst = now_utc.astimezone(KST)
     now_et = now_utc.astimezone(ET)
@@ -1997,7 +1760,14 @@ def main():
             break
 
     env = investment_environment(macro)
-    timing = market_timing_signals(spy, spy_ext, vix, env.get("score", 55), vix_ctx=vix_ctx)
+    timing = market_timing_signals(spy, spy_ext, quotes.get("VIX", (None, None, 0))[0], env.get("score", 55), vix_ctx=vix_ctx)
+    spy_close = spy["Close"].dropna()
+    timing["source_as_of"] = {
+        "vix": QUOTE_AS_OF.get("^VIX"),
+        # RSI depends on both the daily history and the optional extended quote.
+        # Use the oldest input so a fresh quote cannot conceal stale daily bars.
+        "spy_rsi14": oldest_source_time(spy_close.index[-1].isoformat(), QUOTE_AS_OF.get(BASE) if spy_ext is not None else None) if len(spy_close) else None,
+    }
     breadth_score, breadth_metrics = market_breadth_score(spy, spy_ext)
     market_regime = market_regime_profile(spy, spy_ext, vix, breadth_score, env.get("score",55), vix_ctx=vix_ctx)
     events = official_calendar(now_et)
@@ -2073,11 +1843,6 @@ def main():
         "changes": changes,
         "events": events,
     }
-    if telegram_test_message(now_kst):
-        print("telegram: test completed")
-    else:
-        notify_new_signals(previous_dashboard, sectors, timing, now_kst, history)
-
     save_history(history, today, sectors, market_regime)
     write_json_atomic(OUT, out)
     print(f"Wrote {OUT}")
