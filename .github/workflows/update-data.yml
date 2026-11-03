@@ -2,12 +2,6 @@ name: Update market data
 
 on:
   workflow_dispatch:
-    inputs:
-      telegram_test:
-        description: "Telegram 테스트 메시지 보내기"
-        required: false
-        default: false
-        type: boolean
   schedule:
     # 미국 거래일 기준 KST 17:00~익일 08:30, 30분 간격
     # UTC 08:00~23:30 월~금. 미국 서머타임 기준 04:00 ET 프리마켓부터 포함.
@@ -24,10 +18,13 @@ concurrency:
 
 jobs:
   update:
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          ref: main
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -37,12 +34,12 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
+      - name: Test intersection rules and delivery state
+        run: |
+          python -m unittest discover -s tests -v
+          node tests/test_web_intersection.cjs
+
       - name: Fetch market, macro and calendar data
-        env:
-          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
-          DASHBOARD_URL: ${{ vars.DASHBOARD_URL }}
-          TELEGRAM_TEST: ${{ github.event_name == 'workflow_dispatch' && inputs.telegram_test || false }}
         run: python scripts/update_data.py
 
       - name: Validate dashboard JSON
@@ -59,10 +56,35 @@ jobs:
               print(f"valid JSON: {name}")
           PY
 
-      - name: Commit updated data
+      - name: Evaluate intersection and reserve notification
+        id: alert
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          ALERT_ATTEMPT: ${{ github.run_id }}-${{ github.run_attempt }}
+        run: python scripts/intersection_alert.py prepare
+
+      # The reservation MUST reach main before any Telegram network request.
+      # A failed push therefore blocks delivery, and reruns cannot duplicate it.
+      - name: Commit updated data and notification reservation
         run: |
           git config user.name "cycle-radar-bot"
           git config user.email "actions@users.noreply.github.com"
-          git add data/dashboard.json data/history.json
+          git add data/dashboard.json data/history.json data/telegram_state.json
           git diff --cached --quiet || git commit -m "Update market radar data"
-          git push
+          git push origin HEAD:main
+
+      - name: Send reserved intersection notification
+        if: steps.alert.outputs.should_send == 'true'
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          ALERT_ATTEMPT: ${{ github.run_id }}-${{ github.run_attempt }}
+        run: python scripts/intersection_alert.py deliver
+
+      - name: Record confirmed delivery
+        if: steps.alert.outputs.should_send == 'true'
+        run: |
+          git add data/telegram_state.json
+          git diff --cached --quiet || git commit -m "Record Telegram intersection delivery"
+          git push origin HEAD:main
