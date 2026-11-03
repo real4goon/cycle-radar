@@ -23748,7 +23748,12 @@
         "breadth": 84,
         "macro": 60
       },
-      "results": {}
+      "results": {
+        "return_5d_pct": null,
+        "return_10d_pct": null,
+        "return_20d_pct": null,
+        "max_drawdown_20d_pct": null
+      }
     },
     {
       "id": "2026-11-03|필수소비재|분할 접근",
@@ -23769,7 +23774,12 @@
         "breadth": 84,
         "macro": 55
       },
-      "results": {}
+      "results": {
+        "return_5d_pct": null,
+        "return_10d_pct": null,
+        "return_20d_pct": null,
+        "max_drawdown_20d_pct": null
+      }
     }
   ],
   "alert_state": {
