@@ -137,9 +137,27 @@ function renderIntersection(d,now=Date.now()){
   };
   const valid=validValues&&fg.available===true&&fresh(d.meta?.updated_at_utc_iso,2)&&[fg.timestamp,a.vix,a.spy_rsi14].every(x=>fresh(x,36));
   const count=validValues?Number(values[0]<=9)+Number(values[1]>=28)+Number(values[2]<=30):null;
-  const label=!valid?'신호 보류 · 결측 또는 오래된 데이터':count===3?'극단적 공포 3/3 · Telegram 알림 대상':count===2?'관심 신호 2/3 · 웹 표시만':'교집합 '+count+'/3';
-  const detail=['Fear & Greed ≤9','VIX ≥28','SPY RSI(14) ≤30'].map((x,i)=>x+': '+(typeof values[i]==='number'&&Number.isFinite(values[i])?values[i]:'확인 필요')).join(' · ');
-  $('#intersectionSignal').textContent=label+' | '+detail+' | 원자료 36시간·수집 2시간 이내만 판정';
+  const card=$('#intersectionSignal');
+  if(!card)return;
+  const checks=validValues?[values[0]<=9,values[1]>=28,values[2]<=30]:[false,false,false];
+  const tone=!valid?'held':count===3?'alert':count===2?'watch':'quiet';
+  const state=!valid?'데이터 확인 필요':count===3?'극단적 공포 · 3개 조건 충족':count===2?'관심 신호 · 웹 표시만':'교집합 대기';
+  const note=!valid?'최신 데이터가 확인될 때까지 신호와 알림을 보류합니다.':count===3?'세 조건이 모두 겹쳤습니다. Telegram 알림 대상입니다.':count===2?'세 조건 중 두 개가 겹쳤습니다. 나머지 한 지표를 관찰하세요.':'세 조건이 함께 충족되는지 관찰하고 있습니다.';
+  const labels=['공포·탐욕','VIX','SPY RSI(14)'];
+  const thresholds=['9 이하','28 이상','30 이하'];
+  const format=(x,i)=>typeof x==='number'&&Number.isFinite(x)?new Intl.NumberFormat('ko-KR',{maximumFractionDigits:i===0?1:2}).format(x):'—';
+  const metrics=values.map((x,i)=>{
+    const status=!valid?'판정 보류':checks[i]?'✓ 충족':'— 미충족';
+    return `<div class="intersection-metric ${valid&&checks[i]?'is-hit':''}"><div class="intersection-metric-name">${labels[i]}</div><strong>${format(x,i)}</strong><div class="intersection-threshold">기준 <b>${thresholds[i]}</b></div><div class="intersection-check">${status}</div></div>`;
+  }).join('');
+  const stamp=Date.parse(d.meta?.updated_at_utc_iso||'');
+  const updated=Number.isFinite(stamp)?'수집 '+new Intl.DateTimeFormat('ko-KR',{timeZone:'Asia/Seoul',hour:'2-digit',minute:'2-digit',hour12:false}).format(stamp)+' KST':'수집 시각 확인 필요';
+  card.className='intersection-card is-'+tone;
+  card.innerHTML=`<div class="intersection-top"><div><div class="intersection-eyebrow">EXTREME FEAR WATCH</div><h4>극단적 공포 교집합</h4></div><span class="intersection-live"><i></i>${valid?'판정 정상':'판정 보류'}</span></div>
+    <div class="intersection-overview"><div class="intersection-count" aria-label="${valid?count+'개 충족, 전체 3개':'데이터 확인 중'}"><strong>${valid?count:'—'}</strong><span>/3</span></div><div class="intersection-state"><b>${state}</b><div class="intersection-progress" aria-hidden="true">${checks.map(hit=>'<span class="'+(valid&&hit?'is-hit':'')+'"></span>').join('')}</div></div></div>
+    <div class="intersection-metrics">${metrics}</div><p class="intersection-note">${note}</p>
+    <div class="intersection-footer"><span><b>2/3</b> 웹 관심 표시 <span class="intersection-footer-dot">·</span> <b>3/3</b> Telegram 대상</span><span>${escapeHtml(updated)}</span></div>`;
+
 }
 function renderTiming(d){
   renderIntersection(d);
