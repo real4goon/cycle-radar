@@ -5,8 +5,9 @@ const path = require('node:path');
 const source = fs.readFileSync(path.join(__dirname,'../app.js'),'utf8');
 const start = source.indexOf('function renderIntersection(');
 const end = source.indexOf('function renderTiming(', start);
-const element = {textContent:''};
+const element = {innerHTML:'', className:'', get textContent(){ return this.innerHTML.replace(/<[^>]*>/g,''); }};
 const context = vm.createContext({$:()=>element});
+vm.runInContext(source.slice(source.indexOf('function escapeHtml('),source.indexOf('function applyUiSettings(')),context);
 vm.runInContext(source.slice(start,end),context);
 const now = Date.parse('2026-11-03T15:00:00Z');
 const iso = new Date(now).toISOString();
@@ -22,13 +23,13 @@ for(let mask=0;mask<8;mask++){
 for(const value of [null,undefined,'',true,'9',NaN,Infinity]){
   const data=fixture();data.timing.fear_greed.score=value;
   context.renderIntersection(data,now);
-  assert.match(element.textContent,/신호 보류/);
+  assert.match(element.textContent,/판정 보류/);
 }
 for(const key of ['vix','spy_rsi14']){
   const data=fixture();data.timing.source_as_of[key]='2026-10-01T00:00:00Z';
-  context.renderIntersection(data,now);assert.match(element.textContent,/신호 보류/);
+  context.renderIntersection(data,now);assert.match(element.textContent,/판정 보류/);
 }
 context.renderIntersection(fixture(),now+2*3600000+1);
-assert.match(element.textContent,/신호 보류/);
+assert.match(element.textContent,/판정 보류/);
 new vm.Script(source); // Syntax-check the complete production app.
 console.log('Web intersection tests passed: 8 combinations, missing values, stale data, full app syntax');
