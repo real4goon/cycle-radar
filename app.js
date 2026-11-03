@@ -124,7 +124,25 @@ function timingCard(title,obj,kind){
   const width=score===null?0:Math.max(0,Math.min(100,score));
   return `<div class="timing-card ${tone}"><div class="timing-card-top"><span>${escapeHtml(title)}</span><span class="timing-label">${escapeHtml(label)}</span></div><div class="timing-score-row"><b>${score===null?'-':score}</b><span>/100</span></div><div class="timing-meter"><span style="width:${width}%"></span></div><small>${escapeHtml(note)}</small></div>`;
 }
+function renderIntersection(d,now=Date.now()){
+  const t=d.timing||{}, fg=t.fear_greed||{}, m=t.metrics||{}, a=t.source_as_of||{};
+  const values=[fg.score,m.vix,m.spy_rsi14];
+  const numeric=values.every(x=>typeof x==='number'&&Number.isFinite(x));
+  const validValues=numeric&&values[0]>=0&&values[0]<=100&&values[1]>0&&values[1]<=1000&&values[2]>=0&&values[2]<=100;
+  const fresh=(value,hours)=>{
+    if(value===null||value===undefined||value===''||typeof value==='boolean')return false;
+    if(typeof value==='string'&&!/(Z|[+-]\d{2}:\d{2})$/.test(value))return false;
+    const stamp=typeof value==='number'?(value>1e11?value:value*1000):Date.parse(value);
+    return Number.isFinite(stamp)&&now-stamp>=-300000&&now-stamp<=hours*3600000;
+  };
+  const valid=validValues&&fg.available===true&&fresh(d.meta?.updated_at_utc_iso,2)&&[fg.timestamp,a.vix,a.spy_rsi14].every(x=>fresh(x,36));
+  const count=validValues?Number(values[0]<=9)+Number(values[1]>=28)+Number(values[2]<=30):null;
+  const label=!valid?'신호 보류 · 결측 또는 오래된 데이터':count===3?'극단적 공포 3/3 · Telegram 알림 대상':count===2?'관심 신호 2/3 · 웹 표시만':'교집합 '+count+'/3';
+  const detail=['Fear & Greed ≤9','VIX ≥28','SPY RSI(14) ≤30'].map((x,i)=>x+': '+(typeof values[i]==='number'&&Number.isFinite(values[i])?values[i]:'확인 필요')).join(' · ');
+  $('#intersectionSignal').textContent=label+' | '+detail+' | 원자료 36시간·수집 2시간 이내만 판정';
+}
 function renderTiming(d){
+  renderIntersection(d);
   const t=d.timing||{};
   const low=t.low_buy||{};
   const rev=t.reversal||{};
@@ -256,3 +274,6 @@ $$('[data-close-modal]').forEach(x=>x.onclick=closeSourceModal);$$('[data-close-
 $$('.radar-view-tab').forEach(b=>b.onclick=()=>setRadarView(b.dataset.radarView));
 document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeSourceModal();closeSectorModal();}});
 applyUiSettings();loadData();setInterval(updateCountdown,1000);
+
+
+setInterval(()=>{if(lastData)renderIntersection(lastData);},60000);
