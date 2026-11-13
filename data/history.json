@@ -25229,10 +25229,10 @@
         "score": 61,
         "guidance": "시장 방향성이 혼재합니다. 섹터별 추세·신뢰도를 함께 확인합니다.",
         "metrics": {
-          "spy_vs_ma50_pct": -0.94,
-          "spy_vs_ma200_pct": 3.88,
-          "trend_score": 64,
-          "breadth_score": 51.7,
+          "spy_vs_ma50_pct": -0.71,
+          "spy_vs_ma200_pct": 4.12,
+          "trend_score": 65,
+          "breadth_score": 49.2,
           "environment_score": 50,
           "vix": 18.7,
           "vix_risk_on_score": 80,
@@ -25254,7 +25254,7 @@
           ],
           "rank": 1,
           "confidence": {
-            "score": 67,
+            "score": 77,
             "grade": "B"
           },
           "trend": {
@@ -25278,7 +25278,7 @@
             "momentum": 70,
             "relative_strength": 68,
             "volume": 76,
-            "breadth": 52,
+            "breadth": 49,
             "macro": 45
           }
         },
@@ -25318,7 +25318,7 @@
             "momentum": 56,
             "relative_strength": 49,
             "volume": 50,
-            "breadth": 52,
+            "breadth": 49,
             "macro": 45
           }
         },
@@ -25357,7 +25357,7 @@
             "momentum": 67,
             "relative_strength": 56,
             "volume": 47,
-            "breadth": 52,
+            "breadth": 49,
             "macro": 60
           }
         },
@@ -25396,7 +25396,7 @@
             "momentum": 55,
             "relative_strength": 46,
             "volume": 50,
-            "breadth": 52,
+            "breadth": 49,
             "macro": 60
           }
         },
@@ -25411,7 +25411,7 @@
           ],
           "rank": 7,
           "confidence": {
-            "score": 83,
+            "score": 82,
             "grade": "A"
           },
           "trend": {
@@ -25435,7 +25435,7 @@
             "momentum": 60,
             "relative_strength": 52,
             "volume": 55,
-            "breadth": 52,
+            "breadth": 49,
             "macro": 60
           }
         },
@@ -25474,7 +25474,7 @@
             "momentum": 62,
             "relative_strength": 51,
             "volume": 48,
-            "breadth": 52,
+            "breadth": 49,
             "macro": 60
           }
         },
@@ -25513,8 +25513,8 @@
           "factors": {
             "momentum": 23,
             "relative_strength": 18,
-            "volume": 37,
-            "breadth": 52,
+            "volume": 38,
+            "breadth": 49,
             "macro": 55
           }
         },
@@ -25553,7 +25553,7 @@
             "momentum": 63,
             "relative_strength": 55,
             "volume": 63,
-            "breadth": 52,
+            "breadth": 49,
             "macro": 45
           }
         },
@@ -25592,7 +25592,7 @@
             "momentum": 56,
             "relative_strength": 46,
             "volume": 45,
-            "breadth": 52,
+            "breadth": 49,
             "macro": 55
           }
         },
@@ -25631,7 +25631,7 @@
             "momentum": 58,
             "relative_strength": 48,
             "volume": 51,
-            "breadth": 52,
+            "breadth": 49,
             "macro": 45
           }
         }
