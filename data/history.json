@@ -28955,12 +28955,12 @@
         "score": 47,
         "guidance": "시장 방향성이 혼재합니다. 섹터별 추세·신뢰도를 함께 확인합니다.",
         "metrics": {
-          "spy_vs_ma50_pct": -5.25,
-          "spy_vs_ma200_pct": -1.63,
-          "trend_score": 36,
-          "breadth_score": 68.6,
+          "spy_vs_ma50_pct": -5.56,
+          "spy_vs_ma200_pct": -1.95,
+          "trend_score": 34,
+          "breadth_score": 70.6,
           "environment_score": 48,
-          "vix": 26.89,
+          "vix": 26.36,
           "vix_risk_on_score": 38,
           "vix_trend": "보합 →",
           "vix_term_structure": "Backwardation · 단기 공포 우위",
@@ -29002,17 +29002,17 @@
           "signal_story": "현재 판단 7일째 유지",
           "factors": {
             "momentum": 14,
-            "relative_strength": 20,
-            "volume": 52,
-            "breadth": 69,
+            "relative_strength": 17,
+            "volume": 57,
+            "breadth": 71,
             "macro": 55
           }
         },
         {
           "name": "바이오/헬스케어",
           "status": "초기 관심",
-          "score": 67,
-          "raw_score": 73,
+          "score": 68,
+          "raw_score": 74,
           "action": "소액 진입 검토",
           "etfs": [
             "XBI",
@@ -29024,9 +29024,9 @@
             "grade": "A"
           },
           "trend": {
-            "avg3": 59.0,
-            "avg5": 54.0,
-            "delta_3d": 26.0,
+            "avg3": 59.3,
+            "avg5": 54.2,
+            "delta_3d": 27.0,
             "peak_drop_5d": 0.0,
             "label": "↑ 빠른 개선",
             "series": [
@@ -29034,7 +29034,7 @@
               47.0,
               47.0,
               57.0,
-              73.0
+              74.0
             ]
           },
           "buy_signal_days": 1,
@@ -29043,8 +29043,8 @@
           "factors": {
             "momentum": 73,
             "relative_strength": 87,
-            "volume": 64,
-            "breadth": 69,
+            "volume": 74,
+            "breadth": 71,
             "macro": 55
           }
         },
@@ -29057,9 +29057,9 @@
           "etfs": [
             "XLI"
           ],
-          "rank": 5,
+          "rank": 6,
           "confidence": {
-            "score": 73,
+            "score": 66,
             "grade": "B"
           },
           "trend": {
@@ -29082,29 +29082,29 @@
           "factors": {
             "momentum": 40,
             "relative_strength": 53,
-            "volume": 60,
-            "breadth": 69,
+            "volume": 63,
+            "breadth": 71,
             "macro": 55
           }
         },
         {
           "name": "소재/원자재",
           "status": "중립",
-          "score": 50,
-          "raw_score": 52,
+          "score": 51,
+          "raw_score": 53,
           "action": "관찰",
           "etfs": [
             "XLB"
           ],
           "rank": 7,
           "confidence": {
-            "score": 66,
-            "grade": "B"
+            "score": 62,
+            "grade": "C"
           },
           "trend": {
-            "avg3": 47.7,
-            "avg5": 45.8,
-            "delta_3d": 8.0,
+            "avg3": 48.0,
+            "avg5": 46.0,
+            "delta_3d": 9.0,
             "peak_drop_5d": 0.0,
             "label": "↑ 빠른 개선",
             "series": [
@@ -29112,7 +29112,7 @@
               44.0,
               44.0,
               47.0,
-              52.0
+              53.0
             ]
           },
           "buy_signal_days": 0,
@@ -29120,9 +29120,9 @@
           "signal_story": "현재 판단 2일째 유지",
           "factors": {
             "momentum": 42,
-            "relative_strength": 56,
-            "volume": 52,
-            "breadth": 69,
+            "relative_strength": 55,
+            "volume": 55,
+            "breadth": 71,
             "macro": 55
           }
         },
@@ -29137,7 +29137,7 @@
           ],
           "rank": 9,
           "confidence": {
-            "score": 63,
+            "score": 59,
             "grade": "C"
           },
           "trend": {
@@ -29158,18 +29158,18 @@
           "stage_days": 5,
           "signal_story": "현재 판단 5일째 유지",
           "factors": {
-            "momentum": 23,
-            "relative_strength": 38,
-            "volume": 43,
-            "breadth": 69,
+            "momentum": 22,
+            "relative_strength": 37,
+            "volume": 48,
+            "breadth": 71,
             "macro": 55
           }
         },
         {
           "name": "금융",
           "status": "중립",
-          "score": 57,
-          "raw_score": 58,
+          "score": 58,
+          "raw_score": 60,
           "action": "관찰",
           "etfs": [
             "XLF"
@@ -29180,9 +29180,9 @@
             "grade": "B"
           },
           "trend": {
-            "avg3": 54.7,
-            "avg5": 53.6,
-            "delta_3d": 5.0,
+            "avg3": 55.3,
+            "avg5": 54.0,
+            "delta_3d": 7.0,
             "peak_drop_5d": 0.0,
             "label": "↗ 완만한 개선",
             "series": [
@@ -29190,7 +29190,7 @@
               53.0,
               53.0,
               53.0,
-              58.0
+              60.0
             ]
           },
           "buy_signal_days": 0,
@@ -29198,9 +29198,9 @@
           "signal_story": "현재 판단 7일째 유지",
           "factors": {
             "momentum": 44,
-            "relative_strength": 57,
-            "volume": 85,
-            "breadth": 69,
+            "relative_strength": 58,
+            "volume": 91,
+            "breadth": 71,
             "macro": 55
           }
         },
@@ -29237,57 +29237,57 @@
           "stage_days": 10,
           "signal_story": "현재 판단 10일째 유지",
           "factors": {
-            "momentum": 13,
-            "relative_strength": 28,
-            "volume": 67,
-            "breadth": 69,
+            "momentum": 12,
+            "relative_strength": 27,
+            "volume": 72,
+            "breadth": 71,
             "macro": 65
           }
         },
         {
           "name": "빅테크",
           "status": "중립",
-          "score": 50,
-          "raw_score": 51,
+          "score": 51,
+          "raw_score": 52,
           "action": "관찰",
           "etfs": [
             "QQQM"
           ],
-          "rank": 6,
+          "rank": 5,
           "confidence": {
-            "score": 60,
+            "score": 59,
             "grade": "C"
           },
           "trend": {
-            "avg3": 49.3,
-            "avg5": 46.4,
-            "delta_3d": 9.0,
-            "peak_drop_5d": -4.0,
+            "avg3": 49.7,
+            "avg5": 46.6,
+            "delta_3d": 10.0,
+            "peak_drop_5d": -3.0,
             "label": "↑ 빠른 개선",
             "series": [
               42.0,
               42.0,
               42.0,
               55.0,
-              51.0
+              52.0
             ]
           },
           "buy_signal_days": 0,
           "stage_days": 2,
           "signal_story": "현재 판단 2일째 유지",
           "factors": {
-            "momentum": 31,
-            "relative_strength": 43,
-            "volume": 93,
-            "breadth": 69,
+            "momentum": 30,
+            "relative_strength": 42,
+            "volume": 99,
+            "breadth": 71,
             "macro": 55
           }
         },
         {
           "name": "필수소비재",
           "status": "초기 관심",
-          "score": 65,
-          "raw_score": 67,
+          "score": 66,
+          "raw_score": 68,
           "action": "소액 진입 검토",
           "etfs": [
             "XLP"
@@ -29298,9 +29298,9 @@
             "grade": "A"
           },
           "trend": {
-            "avg3": 62.3,
-            "avg5": 62.0,
-            "delta_3d": 3.0,
+            "avg3": 62.7,
+            "avg5": 62.2,
+            "delta_3d": 4.0,
             "peak_drop_5d": 0.0,
             "label": "↗ 완만한 개선",
             "series": [
@@ -29308,7 +29308,7 @@
               64.0,
               64.0,
               56.0,
-              67.0
+              68.0
             ]
           },
           "buy_signal_days": 1,
@@ -29317,29 +29317,29 @@
           "factors": {
             "momentum": 59,
             "relative_strength": 69,
-            "volume": 82,
-            "breadth": 69,
+            "volume": 87,
+            "breadth": 71,
             "macro": 65
           }
         },
         {
           "name": "리츠",
           "status": "중립",
-          "score": 54,
-          "raw_score": 56,
+          "score": 56,
+          "raw_score": 58,
           "action": "관찰",
           "etfs": [
             "VNQ"
           ],
           "rank": 4,
           "confidence": {
-            "score": 74,
+            "score": 75,
             "grade": "B"
           },
           "trend": {
-            "avg3": 52.0,
-            "avg5": 51.4,
-            "delta_3d": 4.0,
+            "avg3": 52.7,
+            "avg5": 51.8,
+            "delta_3d": 6.0,
             "peak_drop_5d": 0.0,
             "label": "↗ 완만한 개선",
             "series": [
@@ -29347,17 +29347,17 @@
               52.0,
               52.0,
               48.0,
-              56.0
+              58.0
             ]
           },
           "buy_signal_days": 0,
           "stage_days": 10,
           "signal_story": "현재 판단 10일째 유지",
           "factors": {
-            "momentum": 51,
-            "relative_strength": 63,
-            "volume": 41,
-            "breadth": 69,
+            "momentum": 53,
+            "relative_strength": 64,
+            "volume": 53,
+            "breadth": 71,
             "macro": 55
           }
         }
@@ -30530,7 +30530,7 @@
       },
       "results": {
         "return_5d_pct": -7.45,
-        "return_10d_pct": -0.11,
+        "return_10d_pct": -0.1,
         "return_20d_pct": null,
         "max_drawdown_20d_pct": null
       }
@@ -30556,7 +30556,7 @@
       },
       "results": {
         "return_5d_pct": -4.13,
-        "return_10d_pct": -5.29,
+        "return_10d_pct": -5.39,
         "return_20d_pct": null,
         "max_drawdown_20d_pct": null
       }
@@ -30582,7 +30582,7 @@
       },
       "results": {
         "return_5d_pct": -2.48,
-        "return_10d_pct": -2.92,
+        "return_10d_pct": -2.59,
         "return_20d_pct": null,
         "max_drawdown_20d_pct": null
       }
@@ -30608,7 +30608,7 @@
       },
       "results": {
         "return_5d_pct": -2.13,
-        "return_10d_pct": -3.86,
+        "return_10d_pct": -3.78,
         "return_20d_pct": null,
         "max_drawdown_20d_pct": null
       }
@@ -30788,7 +30788,12 @@
         "breadth": 69,
         "macro": 55
       },
-      "results": {}
+      "results": {
+        "return_5d_pct": null,
+        "return_10d_pct": null,
+        "return_20d_pct": null,
+        "max_drawdown_20d_pct": null
+      }
     },
     {
       "id": "2026-11-24|필수소비재|소액 진입 검토",
@@ -30809,7 +30814,12 @@
         "breadth": 69,
         "macro": 65
       },
-      "results": {}
+      "results": {
+        "return_5d_pct": null,
+        "return_10d_pct": null,
+        "return_20d_pct": null,
+        "max_drawdown_20d_pct": null
+      }
     }
   ],
   "alert_state": {
